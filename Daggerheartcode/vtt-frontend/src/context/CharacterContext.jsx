@@ -22,28 +22,21 @@ export function useCharacter() {
 // =============================================================================
 
 /**
- * Gestiona la carga del personaje del jugador desde la API REST.
- *
- * Expone:
- *   - character: El objeto PlayerCharacter completo (null mientras carga)
- *   - loading:   true mientras la petición está en curso
- *   - error:     mensaje de error si la carga falló
- *
- * En sprints futuros este provider también manejará la actualización
- * de stats (HP, Estrés, Esperanza) enviando los cambios al backend.
- *
- * @param {number} characterId - ID del personaje a cargar (default: 1)
+ * Gestiona el personaje activo del jugador, permitiendo cambiar de personaje,
+ * crearlos y sincronizar actualizaciones con la API REST.
  */
-export function CharacterProvider({ children, characterId = 1 }) {
+export function CharacterProvider({ children, initialCharacterId = 1 }) {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  // Carga inicial o recarga por ID
+  function loadCharacterById(id) {
+    if (!id) return;
     setLoading(true);
     setError(null);
 
-    fetch(`http://localhost:8080/api/characters/${characterId}`)
+    fetch(`http://localhost:8080/api/characters/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Personaje no encontrado (HTTP ${res.status})`);
@@ -59,10 +52,56 @@ export function CharacterProvider({ children, characterId = 1 }) {
         setError(err.message);
         setLoading(false);
       });
-  }, [characterId]);
+  }
+
+  useEffect(() => {
+    loadCharacterById(initialCharacterId);
+  }, [initialCharacterId]);
+
+  /**
+   * Cambia el personaje activo, ya sea pasando el objeto completo o su ID.
+   */
+  function selectCharacter(charOrId) {
+    if (typeof charOrId === 'object' && charOrId !== null) {
+      setCharacter(charOrId);
+      setLoading(false);
+      setError(null);
+    } else {
+      loadCharacterById(charOrId);
+    }
+  }
+
+  /**
+   * Actualiza el personaje tanto en el estado local como en la base de datos vía PUT.
+   */
+  function updateActiveCharacter(updatedData) {
+    if (!character?.id) return Promise.resolve(null);
+
+    const merged = { ...character, ...updatedData };
+    setCharacter(merged);
+
+    return fetch(`http://localhost:8080/api/characters/${character.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(merged),
+    })
+      .then((res) => (res.ok ? res.json() : merged))
+      .then((saved) => {
+        setCharacter(saved);
+        return saved;
+      })
+      .catch((err) => {
+        console.error('[VTT] Error actualizando personaje:', err);
+        return merged;
+      });
+  }
 
   const contextValue = {
     character,
+    setCharacter,
+    selectCharacter,
+    updateActiveCharacter,
+    reloadCharacter: () => loadCharacterById(character?.id),
     loading,
     error,
   };

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
 import { useCharacter } from '../context/CharacterContext';
 import MarkdownText from './MarkdownText';
+import DomainSelector from './DomainSelector';
 
 // Mapa de colores por tipo de carta
+
 const TYPE_COLORS = {
   Clase:     { border: '#8b2626', badge: '#5c1d1d', badgeText: '#ffd1d1' },
   Subclase:  { border: '#7a3e1d', badge: '#4a2511', badgeText: '#ffe0cc' },
@@ -33,6 +35,7 @@ export default function CardVault() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playedCardId, setPlayedCardId] = useState(null); // Feedback visual
+  const [isDomainSelectorOpen, setIsDomainSelectorOpen] = useState(false);
 
   // -------------------------------------------------------------------------
   // Cargar cartas desde el backend
@@ -103,31 +106,57 @@ export default function CardVault() {
     );
   }
 
+  const activeIds = character?.cartasActivasIds || [];
+  const displayedCards = activeIds.length > 0
+    ? cards.filter((c) => activeIds.includes(c.id))
+    : cards;
+
   // -------------------------------------------------------------------------
   // Render: cuadrícula de cartas
   // -------------------------------------------------------------------------
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>🃏 Bóveda de Cartas</h3>
+      <div style={styles.vaultHeaderRow}>
+        <div style={styles.titleGroup}>
+          <h3 style={styles.title}>🃏 Bóveda y Mano Activa</h3>
+          <span style={styles.activeCountBadge}>
+            {activeIds.length > 0 ? `${displayedCards.length} en mano` : 'Catálogo General'}
+          </span>
+        </div>
+        <button
+          onClick={() => setIsDomainSelectorOpen(true)}
+          style={styles.btnOpenSelector}
+        >
+          + Gestionar Dominios / Homebrew
+        </button>
+      </div>
 
-      <div style={styles.grid}>
-        {cards.map((card) => {
-          const colors = TYPE_COLORS[card.tipo] ?? TYPE_COLORS.default;
-          const isBeingPlayed = playedCardId === card.id;
+      {displayedCards.length === 0 ? (
+        <div style={styles.emptyNotice}>
+          <p style={styles.emptyNoticeText}>
+            No tienes cartas activas en tu mano. Pulsa en "+ Gestionar Dominios" para elegir tus habilidades.
+          </p>
+        </div>
+      ) : (
+        <div style={styles.grid}>
+          {displayedCards.map((card) => {
+            const colors = TYPE_COLORS[card.tipo] ?? TYPE_COLORS.default;
+            const isBeingPlayed = playedCardId === card.id;
 
-          return (
-            <div
-              key={card.id}
-              style={{
-                ...styles.card,
-                borderColor: colors.border,
-                transform: isBeingPlayed ? 'scale(0.97)' : 'scale(1)',
-                boxShadow: isBeingPlayed
-                  ? `0 0 12px ${colors.border}80`
-                  : 'none',
-                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-              }}
-            >
+            return (
+              <div
+                key={card.id}
+                style={{
+                  ...styles.card,
+                  borderColor: colors.border,
+                  transform: isBeingPlayed ? 'scale(0.97)' : 'scale(1)',
+                  boxShadow: isBeingPlayed
+                    ? `0 0 12px ${colors.border}80`
+                    : 'none',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                }}
+              >
+
               {/* Cabecera de la carta */}
               <div style={styles.cardHeader}>
                 <span style={styles.cardTitle}>{card.titulo}</span>
@@ -163,6 +192,13 @@ export default function CardVault() {
           );
         })}
       </div>
+      )}
+
+      {/* Modal para gestionar selección restringida de dominios y material Homebrew */}
+      <DomainSelector
+        isOpen={isDomainSelectorOpen}
+        onClose={() => setIsDomainSelectorOpen(false)}
+      />
     </div>
   );
 }
@@ -176,14 +212,63 @@ const styles = {
     borderRadius: '8px',
     backgroundColor: '#1a1208',
     padding: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+  },
+  vaultHeaderRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid #4a3728',
+    paddingBottom: '10px',
+    flexWrap: 'wrap',
+    gap: '10px',
+  },
+  titleGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
   },
   title: {
     color: '#d4af37',
-    margin: '0 0 14px 0',
-    fontSize: '1rem',
-    borderBottom: '1px solid #4a3728',
-    paddingBottom: '8px',
+    margin: 0,
+    fontSize: '1.05rem',
   },
+  activeCountBadge: {
+    backgroundColor: '#241a0e',
+    color: '#a0906a',
+    border: '1px solid #4a3728',
+    padding: '2px 8px',
+    borderRadius: '12px',
+    fontSize: '0.75rem',
+  },
+  btnOpenSelector: {
+    backgroundColor: '#8b1a1a',
+    color: '#f5e6d3',
+    border: '1px solid #d4af37',
+    borderRadius: '5px',
+    padding: '6px 14px',
+    fontSize: '0.82rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'background-color 0.15s ease',
+  },
+  emptyNotice: {
+    padding: '30px 20px',
+    textAlign: 'center',
+    backgroundColor: '#140c06',
+    border: '1px dashed #3a2a1a',
+    borderRadius: '6px',
+  },
+  emptyNoticeText: {
+    margin: 0,
+    color: '#a0906a',
+    fontSize: '0.88rem',
+    fontStyle: 'italic',
+  },
+
   statusText: {
     color: '#7a6a5a',
     fontStyle: 'italic',

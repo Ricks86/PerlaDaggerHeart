@@ -44,16 +44,63 @@ public class GameController {
     // Personajes
     // -------------------------------------------------------------------------
 
-    /**
-     * Obtiene un personaje por su ID.
-     * Devuelve 404 si no existe.
-     */
+    /** Lista todos los personajes creados. */
+    @GetMapping("/characters")
+    public List<PlayerCharacter> getAllCharacters() {
+        return characterRepo.findAll();
+    }
+
+    /** Obtiene un personaje por su ID. Devuelve 404 si no existe. */
     @GetMapping("/characters/{id}")
     public ResponseEntity<PlayerCharacter> getCharacter(@PathVariable Long id) {
         return characterRepo.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    /** Crea un nuevo personaje. */
+    @PostMapping("/characters")
+    public ResponseEntity<PlayerCharacter> createCharacter(@RequestBody PlayerCharacter character) {
+        PlayerCharacter saved = characterRepo.save(character);
+        return ResponseEntity.ok(saved);
+    }
+
+    /** Actualiza un personaje existente (atributos, cartas activas, etc.). */
+    @PutMapping("/characters/{id}")
+    public ResponseEntity<PlayerCharacter> updateCharacter(@PathVariable Long id, @RequestBody PlayerCharacter details) {
+        return characterRepo.findById(id).map(pc -> {
+            pc.setNombre(details.getNombre());
+            pc.setNivel(details.getNivel());
+            pc.setClase(details.getClase());
+            pc.setSubclase(details.getSubclase());
+            pc.setAncestro(details.getAncestro());
+            pc.setComunidad(details.getComunidad());
+            pc.setCompetencia(details.getCompetencia());
+            pc.setHpActual(details.getHpActual());
+            pc.setHpMax(details.getHpMax());
+            pc.setEstresActual(details.getEstresActual());
+            pc.setEstresMax(details.getEstresMax());
+            pc.setEsperanzaActual(details.getEsperanzaActual());
+            pc.setEsperanzaMax(details.getEsperanzaMax());
+            pc.setEvasion(details.getEvasion());
+            if (details.getAtributos() != null) pc.setAtributos(details.getAtributos());
+            if (details.getOro() != null) pc.setOro(details.getOro());
+            if (details.getExperiencias() != null) {
+                pc.getExperiencias().clear();
+                pc.getExperiencias().addAll(details.getExperiencias());
+            }
+            if (details.getInventarioIds() != null) {
+                pc.getInventarioIds().clear();
+                pc.getInventarioIds().addAll(details.getInventarioIds());
+            }
+            if (details.getCartasActivasIds() != null) {
+                pc.getCartasActivasIds().clear();
+                pc.getCartasActivasIds().addAll(details.getCartasActivasIds());
+            }
+            return ResponseEntity.ok(characterRepo.save(pc));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
 
     // -------------------------------------------------------------------------
     // Cartas

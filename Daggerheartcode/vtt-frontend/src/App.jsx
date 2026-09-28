@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { WebSocketProvider } from './context/WebSocketContext';
-import { CharacterProvider } from './context/CharacterContext';
+import { CharacterProvider, useCharacter } from './context/CharacterContext';
 import { DiceProvider } from './context/DiceContext';
 import { DmProvider } from './context/DmContext';
 
@@ -10,125 +10,167 @@ import DiceRoller from './components/DiceRoller';
 import ResourceTracker from './components/ResourceTracker';
 import CardVault from './components/CardVault';
 import SharedRollLog from './components/SharedRollLog';
+import PlayerDashboard from './components/PlayerDashboard';
+import CharacterCreator from './components/CharacterCreator';
 
 // Componentes del Dungeon Master
 import DmPanel from './components/DmPanel';
 import DmLogin from './components/DmLogin';
 
 /**
- * App: Componente raíz con enrutamiento de vistas (Jugador / Dungeon Master).
- *
- * Mantiene la asimetría total del sistema Daggerheart:
- *  - Vista Jugador: Gestión de personaje, rastreadores manuales, Duality Roll, bóveda de cartas.
- *  - Vista Dungeon Master: Gestor de adversarios en escena, d20 de ataque, daño con regex, chat de mesa.
+ * AppContent: Maneja la navegación global entre el Lobby del Jugador,
+ * el Creador de Personajes, la Mesa de Juego y la Pantalla del DJ.
  */
-function App() {
+function AppContent() {
   const [viewMode, setViewMode] = useState('PLAYER'); // 'PLAYER' | 'DM'
+  const [playerSubView, setPlayerSubView] = useState('DASHBOARD'); // 'DASHBOARD' | 'GAME' | 'CREATOR'
   const [isAuthenticatedAsDm, setIsAuthenticatedAsDm] = useState(false);
+  const { character, selectCharacter } = useCharacter();
 
+  return (
+    <div style={styles.appContainer}>
+      {/* ------------------------------------------------------------ */}
+      {/* Header Principal con Selector de Rol y Vistas               */}
+      {/* ------------------------------------------------------------ */}
+      <header style={styles.appHeader}>
+        <div style={styles.brandRow}>
+          <h1 style={styles.logo}>⚔️ Daggerheart VTT</h1>
+          <p style={styles.subtitle}>Mesa Virtual Ligera</p>
+        </div>
 
+        {/* Enrutador de Vistas */}
+        <nav style={styles.viewSwitcher}>
+          {viewMode === 'PLAYER' && (
+            <>
+              <button
+                onClick={() => setPlayerSubView('DASHBOARD')}
+                style={playerSubView === 'DASHBOARD' ? styles.tabBtnActive : styles.tabBtn}
+              >
+                👥 Mis Héroes
+              </button>
+              <button
+                onClick={() => setPlayerSubView('GAME')}
+                style={playerSubView === 'GAME' ? styles.tabBtnActive : styles.tabBtn}
+              >
+                ⚔️ Mesa de Juego {character ? `(${character.nombre})` : ''}
+              </button>
+            </>
+          )}
+
+          <button
+            onClick={() => setViewMode(viewMode === 'DM' ? 'PLAYER' : 'DM')}
+            style={viewMode === 'DM' ? styles.tabBtnDmActive : styles.tabBtn}
+          >
+            👑 {viewMode === 'DM' ? 'Volver a Jugador' : 'Vista DJ'}
+          </button>
+
+          {isAuthenticatedAsDm && viewMode === 'DM' && (
+            <button
+              onClick={() => {
+                setIsAuthenticatedAsDm(false);
+                setViewMode('PLAYER');
+              }}
+              style={styles.lockBtn}
+              title="Cerrar sesión de Dungeon Master y bloquear"
+            >
+              🔒 Bloquear
+            </button>
+          )}
+        </nav>
+      </header>
+
+      {/* ------------------------------------------------------------ */}
+      {/* VISTA DEL JUGADOR: DASHBOARD vs GAME vs CREATOR             */}
+      {/* ------------------------------------------------------------ */}
+      {viewMode === 'PLAYER' && (
+        <main style={styles.playerMain}>
+          {/* Subvista 1: Lobby de Personajes */}
+          {playerSubView === 'DASHBOARD' && (
+            <PlayerDashboard
+              onSelectHero={() => setPlayerSubView('GAME')}
+              onCreateHero={() => setPlayerSubView('CREATOR')}
+            />
+          )}
+
+          {/* Subvista 2: Forja de Héroes (Wizard) */}
+          {playerSubView === 'CREATOR' && (
+            <CharacterCreator
+              onComplete={(newHero) => {
+                selectCharacter(newHero);
+                setPlayerSubView('GAME');
+              }}
+              onCancel={() => setPlayerSubView('DASHBOARD')}
+            />
+          )}
+
+          {/* Subvista 3: Mesa de Juego Principal */}
+          {playerSubView === 'GAME' && (
+            <>
+              {/* Ficha del personaje + atributos clickeables */}
+              <section style={styles.characterSection}>
+                <CharacterHeader />
+              </section>
+
+              {/* Área de juego: Recursos | Dados | Historial */}
+              <div style={styles.gameArea}>
+                <aside style={styles.leftColumn}>
+                  <ResourceTracker />
+                </aside>
+
+                <div style={styles.centerColumn}>
+                  <DiceRoller />
+                </div>
+
+                <aside style={styles.rightColumn}>
+                  <SharedRollLog />
+                </aside>
+              </div>
+
+              {/* Bóveda y Mano Activa de cartas */}
+              <section style={styles.cardSection}>
+                <CardVault />
+              </section>
+            </>
+          )}
+        </main>
+      )}
+
+      {/* ------------------------------------------------------------ */}
+      {/* VISTA DEL DUNGEON MASTER (Protegida por PIN)                 */}
+      {/* ------------------------------------------------------------ */}
+      {viewMode === 'DM' && (
+        <main style={styles.dmMain}>
+          {isAuthenticatedAsDm ? (
+            <DmPanel />
+          ) : (
+            <DmLogin
+              onLoginSuccess={() => setIsAuthenticatedAsDm(true)}
+              onCancel={() => setViewMode('PLAYER')}
+            />
+          )}
+        </main>
+      )}
+
+      {/* ------------------------------------------------------------ */}
+      {/* Footer                                                         */}
+      {/* ------------------------------------------------------------ */}
+      <footer style={styles.footer}>
+        Sprint 7 · Lobby de Jugador · Wizard de Creación · Selección Restringida de Dominios · Homebrew
+      </footer>
+    </div>
+  );
+}
+
+/**
+ * App: Contenedor con todos los Providers de contexto requeridos.
+ */
+export default function App() {
   return (
     <DmProvider>
       <DiceProvider>
-        <CharacterProvider characterId={1}>
+        <CharacterProvider initialCharacterId={1}>
           <WebSocketProvider>
-            <div style={styles.appContainer}>
-
-              {/* ------------------------------------------------------------ */}
-              {/* Header Principal con Selector de Rol (Jugador / DM)          */}
-              {/* ------------------------------------------------------------ */}
-              <header style={styles.appHeader}>
-                <div style={styles.brandRow}>
-                  <h1 style={styles.logo}>⚔️ Daggerheart VTT</h1>
-                  <p style={styles.subtitle}>Mesa Virtual Ligera</p>
-                </div>
-
-                {/* Enrutador de Vista */}
-                <nav style={styles.viewSwitcher}>
-                  <button
-                    onClick={() => setViewMode('PLAYER')}
-                    style={viewMode === 'PLAYER' ? styles.tabBtnActive : styles.tabBtn}
-                  >
-                    🛡️ Vista Jugador
-                  </button>
-                  <button
-                    onClick={() => setViewMode('DM')}
-                    style={viewMode === 'DM' ? styles.tabBtnDmActive : styles.tabBtn}
-                  >
-                    👑 Vista Dungeon Master (DJ)
-                  </button>
-                  {isAuthenticatedAsDm && (
-                    <button
-                      onClick={() => {
-                        setIsAuthenticatedAsDm(false);
-                        setViewMode('PLAYER');
-                      }}
-                      style={styles.lockBtn}
-                      title="Cerrar sesión de Dungeon Master y bloquear"
-                    >
-                      🔒 Bloquear
-                    </button>
-                  )}
-                </nav>
-              </header>
-
-              {/* ------------------------------------------------------------ */}
-              {/* VISTA DEL JUGADOR (Sprints 1 - 4)                            */}
-              {/* ------------------------------------------------------------ */}
-              {viewMode === 'PLAYER' && (
-                <>
-                  {/* Ficha del personaje + atributos clickeables */}
-                  <section style={styles.characterSection}>
-                    <CharacterHeader />
-                  </section>
-
-                  {/* Área de juego: Recursos | Dados | Historial */}
-                  <div style={styles.gameArea}>
-                    <aside style={styles.leftColumn}>
-                      <ResourceTracker />
-                    </aside>
-
-                    <div style={styles.centerColumn}>
-                      <DiceRoller />
-                    </div>
-
-                    <aside style={styles.rightColumn}>
-                      <SharedRollLog />
-                    </aside>
-                  </div>
-
-                  {/* Bóveda de cartas */}
-                  <section style={styles.cardSection}>
-                    <CardVault />
-                  </section>
-                </>
-              )}
-
-              {/* ------------------------------------------------------------ */}
-              {/* VISTA DEL DUNGEON MASTER (Sprint 5 + PIN Security)           */}
-              {/* ------------------------------------------------------------ */}
-              {viewMode === 'DM' && (
-                <main style={styles.dmMain}>
-                  {isAuthenticatedAsDm ? (
-                    <DmPanel />
-                  ) : (
-                    <DmLogin
-                      onLoginSuccess={() => setIsAuthenticatedAsDm(true)}
-                      onCancel={() => setViewMode('PLAYER')}
-                    />
-                  )}
-                </main>
-              )}
-
-
-              {/* ------------------------------------------------------------ */}
-              {/* Footer                                                         */}
-              {/* ------------------------------------------------------------ */}
-              <footer style={styles.footer}>
-                Sprint 5 · Vista Asimétrica · Dungeon Master Panel · NpcManager · d20 + Daño Regex
-              </footer>
-
-            </div>
+            <AppContent />
           </WebSocketProvider>
         </CharacterProvider>
       </DiceProvider>
@@ -186,6 +228,7 @@ const styles = {
     padding: '4px',
     borderRadius: '6px',
     border: '1px solid #3a2a1a',
+    flexWrap: 'wrap',
   },
   tabBtn: {
     backgroundColor: 'transparent',
@@ -234,6 +277,11 @@ const styles = {
     transition: 'all 0.15s ease',
   },
 
+  playerMain: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
 
   // Ficha personaje
   characterSection: {
@@ -291,5 +339,3 @@ const styles = {
     fontSize: '0.72rem',
   },
 };
-
-export default App;
