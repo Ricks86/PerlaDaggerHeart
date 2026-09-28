@@ -3,17 +3,19 @@ import NpcManager from './NpcManager';
 import DmRoller from './DmRoller';
 import SharedRollLog from './SharedRollLog';
 import SystemCompendium from './SystemCompendium';
+import DataImporter from './DataImporter';
 
 /**
  * DmPanel: Vista central y exclusiva del Dungeon Master (DJ).
  *
  * Pestañas:
  *  - 'ENCOUNTER': Gestión de monstruos en combate (NpcManager + DmRoller)
- *  - 'COMPENDIUM': Creación y mantenimiento de cartas fundacionales (Clases, Subclases, Linajes, Comunidades, Dominios)
- * Ambas vistas mantienen acceso al SharedRollLog para seguir la mesa.
+ *  - 'COMPENDIUM': Creación y mantenimiento de cartas fundacionales
+ *  - 'IMPORTER': Motor de importación masiva mediante archivo .json o texto
+ * Mantiene acceso al SharedRollLog para seguir la mesa.
  */
 export default function DmPanel() {
-  const [activeTab, setActiveTab] = useState('ENCOUNTER'); // 'ENCOUNTER' | 'COMPENDIUM'
+  const [activeTab, setActiveTab] = useState('ENCOUNTER'); // 'ENCOUNTER' | 'COMPENDIUM' | 'IMPORTER'
 
   return (
     <div style={styles.container}>
@@ -24,7 +26,7 @@ export default function DmPanel() {
           <div>
             <h2 style={styles.bannerTitle}>Pantalla del Dungeon Master</h2>
             <p style={styles.bannerSubtitle}>
-              Control asimétrico de adversarios, tiradas de ataque d20, daño y compendio maestro.
+              Control asimétrico de adversarios, tiradas de ataque d20, daño, compendio e ingesta masiva.
             </p>
           </div>
         </div>
@@ -45,6 +47,12 @@ export default function DmPanel() {
         >
           📚 Compendio del Sistema
         </button>
+        <button
+          onClick={() => setActiveTab('IMPORTER')}
+          style={activeTab === 'IMPORTER' ? styles.tabBtnActive : styles.tabBtn}
+        >
+          📥 Ingesta Masiva (JSON)
+        </button>
       </div>
 
       {/* Grid Principal del DJ */}
@@ -53,11 +61,15 @@ export default function DmPanel() {
         <section style={styles.leftColumn}>
           {activeTab === 'ENCOUNTER' && <NpcManager />}
           {activeTab === 'COMPENDIUM' && <SystemCompendium />}
+          {activeTab === 'IMPORTER' && (
+            <DataImporter onImportSuccess={() => setActiveTab('COMPENDIUM')} />
+          )}
         </section>
 
         {/* Columna Derecha: Dados del DJ (en modo combate) + Chat en tiempo real */}
         <section style={styles.rightColumn}>
           {activeTab === 'ENCOUNTER' && <DmRoller />}
+
           <SharedRollLog />
         </section>
       </div>

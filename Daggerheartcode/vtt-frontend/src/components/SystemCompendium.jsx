@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MarkdownText from './MarkdownText';
+import DataImporter from './DataImporter';
 
 // Lista oficial de dominios de Daggerheart
 const DAGGERHEART_DOMAINS = [
@@ -44,6 +45,7 @@ export default function SystemCompendium() {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState(null);
+  const [compendiumView, setCompendiumView] = useState('FORM'); // 'FORM' | 'BULK_IMPORT'
 
   // Estado del formulario maestro
   const [formData, setFormData] = useState({
@@ -178,9 +180,30 @@ export default function SystemCompendium() {
         </div>
       )}
 
-      {/* Formulario Maestro de Creación */}
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h4 style={styles.formTitle}>✨ Crear Nueva Carta</h4>
+      {/* Selector de Modo: Crear Carta Manual vs Ingesta Masiva */}
+      <div style={styles.viewModeNav}>
+        <button
+          type="button"
+          onClick={() => setCompendiumView('FORM')}
+          style={compendiumView === 'FORM' ? styles.subTabActive : styles.subTab}
+        >
+          ✨ Crear Carta Individual
+        </button>
+        <button
+          type="button"
+          onClick={() => setCompendiumView('BULK_IMPORT')}
+          style={compendiumView === 'BULK_IMPORT' ? styles.subTabActive : styles.subTab}
+        >
+          📥 Ingesta Masiva (JSON)
+        </button>
+      </div>
+
+      {compendiumView === 'BULK_IMPORT' ? (
+        <DataImporter onImportSuccess={loadCards} />
+      ) : (
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <h4 style={styles.formTitle}>✨ Crear Nueva Carta</h4>
+
 
         <div style={styles.formGrid}>
           {/* Título */}
@@ -316,6 +339,8 @@ export default function SystemCompendium() {
           {isSubmitting ? 'Guardando en Base de Datos...' : '💾 Guardar Carta en el Compendio'}
         </button>
       </form>
+      )}
+
 
       {/* Tabla del Compendio */}
       <div style={styles.tableSection}>
@@ -474,7 +499,37 @@ const styles = {
     borderRadius: '6px',
     fontSize: '0.88rem',
   },
+  viewModeNav: {
+    display: 'flex',
+    gap: '8px',
+    borderBottom: '1px solid #3a2a1a',
+    paddingBottom: '2px',
+  },
+  subTab: {
+    backgroundColor: 'transparent',
+    color: '#a0906a',
+    border: 'none',
+    borderBottom: '2px solid transparent',
+    padding: '7px 14px',
+    fontSize: '0.85rem',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  subTabActive: {
+    backgroundColor: '#1c1108',
+    color: '#d4af37',
+    border: '1px solid #4a3728',
+    borderBottom: '2px solid #d4af37',
+    padding: '7px 14px',
+    fontSize: '0.85rem',
+    fontWeight: 'bold',
+    cursor: 'default',
+    fontFamily: 'inherit',
+    borderRadius: '4px 4px 0 0',
+  },
   form: {
+
     backgroundColor: '#1b1208',
     border: '1px solid #6b4e28',
     borderRadius: '8px',

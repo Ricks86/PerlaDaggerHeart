@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * GameController: expone la capa de datos del juego como API REST.
@@ -118,6 +120,20 @@ public class GameController {
         Card saved = cardRepo.save(card);
         return ResponseEntity.ok(saved);
     }
+
+    /**
+     * Ingesta masiva (Bulk Import) de cartas.
+     * Inserta una lista completa de entidades Card mediante saveAll.
+     */
+    @PostMapping("/cards/bulk")
+    public ResponseEntity<Map<String, Object>> bulkImportCards(@RequestBody List<Card> cards) {
+        List<Card> saved = cardRepo.saveAll(cards);
+        Map<String, Object> response = new HashMap<>();
+        response.put("count", saved.size());
+        response.put("message", "Se han insertado " + saved.size() + " cartas con éxito.");
+        return ResponseEntity.ok(response);
+    }
+
 
     /** Elimina una carta del compendio por su ID. */
     @DeleteMapping("/cards/{id}")
