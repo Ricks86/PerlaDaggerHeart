@@ -1,15 +1,31 @@
 package com.daggerheart.vtt.model;
 
 import jakarta.persistence.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Entidad Card: representa una carta de dominio, ancestro u otro tipo.
- * La descripcion es un texto largo que soporta Markdown para renderizar
- * visualmente los costes (ej: **Gasta 1 Esperanza**).
+ * Entidad Card: representa una carta en el compendio de Daggerheart.
+ *
+ * Puede ser de tipos:
+ *   - 'Dominio'
+ *   - 'Clase'
+ *   - 'Subclase'
+ *   - 'Linaje'
+ *   - 'Comunidad'
+ *   - 'Homebrew'
+ *
+ * El campo metadata guarda configuración adicional en formato JSON (String).
+ * Ejemplo para 'Clase':
+ *   {"evasion_base": 10, "hp_inicial": 6, "dominios": ["Gracia", "Medianoche"]}
  */
 @Entity
 @Table(name = "card")
 public class Card {
+
+    public static final List<String> VALID_TYPES = Arrays.asList(
+        "Dominio", "Clase", "Subclase", "Linaje", "Comunidad", "Homebrew"
+    );
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,18 +34,27 @@ public class Card {
     @Column(nullable = false)
     private String titulo;
 
-    /** Dominio, Ancestro, Comunidad, etc. */
+    /** Tipo de carta: Dominio, Clase, Subclase, Linaje, Comunidad, Homebrew */
+    @Column(nullable = false)
     private String tipo;
 
     private int nivel;
 
     /**
-     * Descripción en Markdown. Usamos @Lob para columnas de texto largo.
-     * Ejemplo: "**Acción:** Gasta **1 Esperanza** para..."
+     * Descripción en Markdown para renderizar visualmente costes y habilidades.
      */
     @Lob
     @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    /**
+     * Metadatos específicos en formato JSON.
+     * Crucial para Clases (ej: evasión base, hp inicial, dominios permitidos)
+     * u otras configuraciones especiales.
+     */
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String metadata;
 
     // -------------------------------------------------------------------------
     // Constructores
@@ -41,6 +66,14 @@ public class Card {
         this.tipo = tipo;
         this.nivel = nivel;
         this.descripcion = descripcion;
+    }
+
+    public Card(String titulo, String tipo, int nivel, String descripcion, String metadata) {
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.nivel = nivel;
+        this.descripcion = descripcion;
+        this.metadata = metadata;
     }
 
     // -------------------------------------------------------------------------
@@ -59,4 +92,7 @@ public class Card {
 
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public String getMetadata() { return metadata; }
+    public void setMetadata(String metadata) { this.metadata = metadata; }
 }

@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NpcManager from './NpcManager';
 import DmRoller from './DmRoller';
 import SharedRollLog from './SharedRollLog';
+import SystemCompendium from './SystemCompendium';
 
 /**
  * DmPanel: Vista central y exclusiva del Dungeon Master (DJ).
  *
- * Agrupa:
- *  1. NpcManager: Creador y gestor del encuentro (HP, Estrés, Adversarios)
- *  2. DmRoller: Motor asimétrico de dados (1d20 para ataque, daño con regex)
- *  3. SharedRollLog: Historial en tiempo real de la mesa (sincronizado con jugadores)
+ * Pestañas:
+ *  - 'ENCOUNTER': Gestión de monstruos en combate (NpcManager + DmRoller)
+ *  - 'COMPENDIUM': Creación y mantenimiento de cartas fundacionales (Clases, Subclases, Linajes, Comunidades, Dominios)
+ * Ambas vistas mantienen acceso al SharedRollLog para seguir la mesa.
  */
 export default function DmPanel() {
+  const [activeTab, setActiveTab] = useState('ENCOUNTER'); // 'ENCOUNTER' | 'COMPENDIUM'
+
   return (
     <div style={styles.container}>
       {/* Banner de Estado del DJ */}
@@ -21,23 +24,40 @@ export default function DmPanel() {
           <div>
             <h2 style={styles.bannerTitle}>Pantalla del Dungeon Master</h2>
             <p style={styles.bannerSubtitle}>
-              Control asimétrico de adversarios, tiradas de ataque d20 y cálculo de daño.
+              Control asimétrico de adversarios, tiradas de ataque d20, daño y compendio maestro.
             </p>
           </div>
         </div>
         <div style={styles.bannerTag}>VISTA ASIMÉTRICA ACTIVA</div>
       </div>
 
+      {/* Selector de Herramientas del DJ */}
+      <div style={styles.tabsNav}>
+        <button
+          onClick={() => setActiveTab('ENCOUNTER')}
+          style={activeTab === 'ENCOUNTER' ? styles.tabBtnActive : styles.tabBtn}
+        >
+          💀 Encuentro y Combate
+        </button>
+        <button
+          onClick={() => setActiveTab('COMPENDIUM')}
+          style={activeTab === 'COMPENDIUM' ? styles.tabBtnActive : styles.tabBtn}
+        >
+          📚 Compendio del Sistema
+        </button>
+      </div>
+
       {/* Grid Principal del DJ */}
       <div style={styles.mainGrid}>
-        {/* Columna Izquierda: Gestor de Adversarios y Encuentro */}
+        {/* Contenido Principal según la pestaña seleccionada */}
         <section style={styles.leftColumn}>
-          <NpcManager />
+          {activeTab === 'ENCOUNTER' && <NpcManager />}
+          {activeTab === 'COMPENDIUM' && <SystemCompendium />}
         </section>
 
-        {/* Columna Derecha: Dados del DJ + Chat/Historial de Mesa */}
+        {/* Columna Derecha: Dados del DJ (en modo combate) + Chat en tiempo real */}
         <section style={styles.rightColumn}>
-          <DmRoller />
+          {activeTab === 'ENCOUNTER' && <DmRoller />}
           <SharedRollLog />
         </section>
       </div>
@@ -95,6 +115,35 @@ const styles = {
     fontSize: '0.72rem',
     fontWeight: 'bold',
     letterSpacing: '1px',
+  },
+  tabsNav: {
+    display: 'flex',
+    gap: '10px',
+    borderBottom: '2px solid #3a2a1a',
+    paddingBottom: '2px',
+  },
+  tabBtn: {
+    backgroundColor: 'transparent',
+    color: '#a0906a',
+    border: 'none',
+    borderBottom: '2px solid transparent',
+    padding: '8px 16px',
+    fontSize: '0.9rem',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  tabBtnActive: {
+    backgroundColor: '#1c1108',
+    color: '#d4af37',
+    border: '1px solid #4a3728',
+    borderBottom: '2px solid #d4af37',
+    padding: '8px 16px',
+    fontSize: '0.9rem',
+    fontWeight: 'bold',
+    cursor: 'default',
+    fontFamily: 'inherit',
+    borderRadius: '4px 4px 0 0',
   },
   mainGrid: {
     display: 'grid',

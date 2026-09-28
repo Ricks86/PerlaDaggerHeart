@@ -129,11 +129,16 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         List<Card> cards = new ArrayList<>();
         for (JsonNode node : nodes) {
+            String metadata = node.has("metadata") && !node.get("metadata").isNull()
+                ? (node.get("metadata").isTextual() ? node.get("metadata").asText() : node.get("metadata").toString())
+                : null;
+
             Card card = new Card(
                 node.get("titulo").asText(),
                 node.get("tipo").asText(),
                 node.get("nivel").asInt(),
-                node.get("descripcion").asText()
+                node.get("descripcion").asText(),
+                metadata
             );
             cards.add(card);
         }

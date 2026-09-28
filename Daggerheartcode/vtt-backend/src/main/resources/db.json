@@ -41,13 +41,43 @@
       "titulo": "Flecha de Tormenta",
       "tipo": "Dominio",
       "nivel": 1,
-      "descripcion": "**Acción:** Gasta **1 Esperanza** para disparar una flecha cargada de electricidad. Inflige **daño mágico** y deja al objetivo **Marcado** hasta tu próximo turno."
+      "descripcion": "**Acción:** Gasta **1 Esperanza** para disparar una flecha cargada de electricidad. Inflige **daño mágico** y deja al objetivo **Marcado** hasta tu próximo turno.",
+      "metadata": null
     },
     {
       "titulo": "Paso del Viento",
-      "tipo": "Ancestro",
+      "tipo": "Linaje",
       "nivel": 2,
-      "descripcion": "**Reacción:** Gasta **1 Esperanza**. Cuando un aliado adyacente recibe daño, puedes moverte hasta él e interponer tu cuerpo, reduciendo el daño en tu **Agilidad**."
+      "descripcion": "**Reacción:** Gasta **1 Esperanza**. Cuando un aliado adyacente recibe daño, puedes moverte hasta él e interponer tu cuerpo, reduciendo el daño en tu **Agilidad**.",
+      "metadata": null
+    },
+    {
+      "titulo": "Pícaro",
+      "tipo": "Clase",
+      "nivel": 1,
+      "descripcion": "**Habilidad de Clase:** Puedes moverte entre las sombras sin ser detectado. Cuando ataques a un objetivo desprevenido o flanqueado, añade **+1d6 de daño** a tu tirada.",
+      "metadata": "{\"evasion_base\": 10, \"hp_inicial\": 6, \"dominios\": [\"Gracia\", \"Medianoche\"]}"
+    },
+    {
+      "titulo": "Sindicato",
+      "tipo": "Subclase",
+      "nivel": 1,
+      "descripcion": "**Contactos del Bajomundo:** Puedes gastar **1 Esperanza** para conseguir información secreta, un escondite seguro o equipamiento del mercado negro en cualquier asentamiento civilizado.",
+      "metadata": null
+    },
+    {
+      "titulo": "Ribbet",
+      "tipo": "Linaje",
+      "nivel": 1,
+      "descripcion": "**Salto Anfibio:** Puedes gastar **1 Esperanza** para realizar un salto prodigioso a distancia lejana sin realizar tirada de Agilidad. Además, puedes respirar bajo el agua.",
+      "metadata": null
+    },
+    {
+      "titulo": "Astuto",
+      "tipo": "Comunidad",
+      "nivel": 1,
+      "descripcion": "**Sentido de la Calle:** Una vez por descanso corto, cuando realices una tirada de conocimiento o instinto relacionada con engaños, trampas o intrigas urbanas, tira con **Ventaja**.",
+      "metadata": null
     }
   ],
   "items": [

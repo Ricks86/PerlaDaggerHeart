@@ -65,6 +65,24 @@ public class GameController {
         return cardRepo.findAll();
     }
 
+    /** Crea una nueva carta en el compendio. */
+    @PostMapping("/cards")
+    public ResponseEntity<Card> createCard(@RequestBody Card card) {
+        Card saved = cardRepo.save(card);
+        return ResponseEntity.ok(saved);
+    }
+
+    /** Elimina una carta del compendio por su ID. */
+    @DeleteMapping("/cards/{id}")
+    public ResponseEntity<Void> deleteCard(@PathVariable Long id) {
+        if (!cardRepo.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        cardRepo.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
     // -------------------------------------------------------------------------
     // Ítems
     // -------------------------------------------------------------------------

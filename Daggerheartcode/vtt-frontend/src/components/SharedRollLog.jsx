@@ -17,11 +17,16 @@ const ACTION_ICONS = {
 
 // Colores de borde por tipo de carta (sincronizado con CardVault)
 const CARD_TYPE_COLORS = {
-  Dominio:   '#8b1a1a',
+  Clase:     '#8b2626',
+  Subclase:  '#7a3e1d',
+  Linaje:    '#2b528f',
   Ancestro:  '#1a4a8b',
-  Comunidad: '#1a6b3a',
+  Comunidad: '#2b7546',
+  Dominio:   '#61337d',
+  Homebrew:  '#635e23',
   default:   '#4a3728',
 };
+
 
 // =============================================================================
 // Subcomponente: entrada de tipo ROLL (texto simple)
