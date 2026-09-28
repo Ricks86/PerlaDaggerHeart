@@ -1,0 +1,90 @@
+{
+  "characters": [
+    {
+      "nombre": "Eryndor Ashveil",
+      "nivel": 1,
+      "clase": "Guardabosques",
+      "subclase": "Cazador de Sombras",
+      "ancestro": "Elfo",
+      "comunidad": "Errante",
+      "competencia": 1,
+      "hpActual": 6,
+      "hpMax": 6,
+      "estresActual": 0,
+      "estresMax": 6,
+      "esperanzaActual": 2,
+      "esperanzaMax": 5,
+      "evasion": 12,
+      "atributos": {
+        "agilidad": 2,
+        "fuerza": 0,
+        "sutileza": 1,
+        "instinto": 2,
+        "presencia": 0,
+        "conocimiento": 0
+      },
+      "oro": {
+        "punados": 3,
+        "sacos": 1,
+        "cofres": 0
+      },
+      "experiencias": [
+        { "nombre": "Rastreador del bosque", "valor": 2 },
+        { "nombre": "Superviviente", "valor": 1 }
+      ],
+      "inventarioIds": [],
+      "cartasActivasIds": []
+    }
+  ],
+  "cards": [
+    {
+      "titulo": "Flecha de Tormenta",
+      "tipo": "Dominio",
+      "nivel": 1,
+      "descripcion": "**Acción:** Gasta **1 Esperanza** para disparar una flecha cargada de electricidad. Inflige **daño mágico** y deja al objetivo **Marcado** hasta tu próximo turno."
+    },
+    {
+      "titulo": "Paso del Viento",
+      "tipo": "Ancestro",
+      "nivel": 2,
+      "descripcion": "**Reacción:** Gasta **1 Esperanza**. Cuando un aliado adyacente recibe daño, puedes moverte hasta él e interponer tu cuerpo, reduciendo el daño en tu **Agilidad**."
+    }
+  ],
+  "items": [
+    {
+      "nombre": "Arco Largo Élfico",
+      "tipo": "Arma",
+      "rasgo": "Preciso",
+      "dadoBase": "d8",
+      "modificadorDano": 1,
+      "tipoDano": "físico",
+      "carga": 1,
+      "alcance": "Lejano",
+      "rasgoEspecial": "Ignorar cobertura parcial al disparar"
+    },
+    {
+      "nombre": "Armadura de Cuero Endurecido",
+      "tipo": "Armadura",
+      "rasgo": "Ligera",
+      "dadoBase": null,
+      "modificadorDano": 0,
+      "tipoDano": null,
+      "carga": 2,
+      "alcance": null,
+      "rasgoEspecial": "+2 a Evasión cuando no llevas escudo"
+    }
+  ],
+  "adversaries": [
+    {
+      "nombre": "Orco Saqueador",
+      "rango": "Estándar",
+      "dificultad": "Moderado",
+      "umbralMayor": 8,
+      "umbralGrave": 15,
+      "hp": 3,
+      "estres": 0,
+      "modificadorAtaque": 2,
+      "danoEstandar": "1d8+2"
+    }
+  ]
+}

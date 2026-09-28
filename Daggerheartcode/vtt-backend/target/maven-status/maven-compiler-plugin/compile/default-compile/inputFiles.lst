@@ -1,0 +1,17 @@
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/VttBackendApplication.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/config/WebSocketConfig.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/GameController.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/TableController.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/dto/TableAction.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Adversary.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Atributos.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Card.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Experiencia.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Item.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/Oro.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/model/PlayerCharacter.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/AdversaryRepository.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/CardRepository.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/ItemRepository.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/PlayerCharacterRepository.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/seeder/DatabaseSeeder.java
