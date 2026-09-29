@@ -19,8 +19,31 @@ const ATTRIBUTES = [
  *  2. Rasgos: Asignación de la matriz estándar (+2, +1, +1, +0, +0, -1).
  *  3. Experiencias Iniciales: 2 experiencias con valor fijo +2.
  *  4. Equipamiento Inicial: Selección estricta de 1 armadura, 2 armas y hasta 10 consumibles/ítems.
- *     Auto-equipado inteligente evaluando la carga (burdens).
+/**
+ * Parsea **negrita** e *itálica* para textos inline de rasgos y habilidades
  */
+function formatInlineMarkdown(text) {
+  if (!text) return null;
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} style={{ color: '#f0dfbe', fontWeight: 'bold' }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return (
+        <em key={i} style={{ color: '#d4c29d', fontStyle: 'italic' }}>
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+    return part;
+  });
+}
+
 export default function CharacterCreator({ onComplete, onCancel }) {
   const [step, setStep] = useState(1); // 1, 2, 3, 4
   const [cards, setCards] = useState([]);
@@ -62,6 +85,8 @@ export default function CharacterCreator({ onComplete, onCancel }) {
   const [selectedArmor, setSelectedArmor] = useState(null);
   const [selectedWeapons, setSelectedWeapons] = useState([]); // Array de exactamente 2 armas
   const [selectedItems, setSelectedItems] = useState([]); // Array de hasta 10 consumibles/objetos
+  const [filterCategory, setFilterCategory] = useState('all'); // 'all' | 'Principal' | 'Secundaria'
+  const [filterTrait, setFilterTrait] = useState('all'); // 'all' | 'Agilidad' | 'Fuerza' | ...
 
   // Carga de catálogo de cartas e ítems para el wizard
   useEffect(() => {
@@ -309,10 +334,29 @@ export default function CharacterCreator({ onComplete, onCancel }) {
     }
   });
 
-  // Filtrado de ítems para el Paso 4 (Sprint 12)
-  const armasTier1 = items.filter((it) => it.tipo === 'Arma' && it.tier === 1);
-  const armadurasTier1 = items.filter((it) => it.tipo === 'Armadura' && it.tier === 1);
-  const consumiblesDisponibles = items.filter((it) => it.tipo === 'Consumible' || it.tier === 1);
+  // Filtrado de ítems para el Paso 4 (Sprint 17: Filtros de Armas y Aislamiento de Consumibles)
+  const initialWeapons = items.filter(
+    (it) => (it.tipo === 'Arma' || it.dadoBase || it.categoria) && (it.tier === 1 || !it.tier)
+  );
+  const armadurasTier1 = items.filter(
+    (it) => (it.tipo === 'Armadura' || it.puntuacionBase) && (it.tier === 1 || !it.tier)
+  );
+  const availableConsumables = items.filter(
+    (item) => !item.dadoBase && !item.puntuacionBase && !item.categoria && item.tipo !== 'Arma' && item.tipo !== 'Armadura'
+  );
+
+  const filteredWeapons = initialWeapons.filter((w) => {
+    const matchCat =
+      filterCategory === 'all' ||
+      (w.categoria && (
+        w.categoria.toLowerCase().includes(filterCategory.toLowerCase()) ||
+        filterCategory.toLowerCase().includes(w.categoria.toLowerCase())
+      ));
+    const matchTrait =
+      filterTrait === 'all' ||
+      (w.rasgo && w.rasgo.toLowerCase().includes(filterTrait.toLowerCase()));
+    return matchCat && matchTrait;
+  });
 
   return (
     <div style={styles.container}>
@@ -654,7 +698,12 @@ export default function CharacterCreator({ onComplete, onCancel }) {
                         <span>Umbrales: <strong>{arm.umbralMayorBase}/{arm.umbralGraveBase}</strong></span>
                       </div>
                       {arm.rasgoEspecial && (
-                        <span style={styles.pickerItemSpecial}>📜 {arm.rasgoEspecial}</span>
+                        <div style={styles.pickerWeaponRasgoEspecial} title={arm.rasgoEspecial}>
+                          <span style={styles.rasgoEspecialIcon}>📜</span>
+                          <span style={styles.rasgoEspecialText}>
+                            {formatInlineMarkdown(arm.rasgoEspecial)}
+                          </span>
+                        </div>
                       )}
                       <div style={styles.pickerCardBottom}>
                         <span style={isSelected ? styles.selectedRadioActive : styles.selectedRadio}>
@@ -677,13 +726,99 @@ export default function CharacterCreator({ onComplete, onCancel }) {
               </span>
             </div>
 
+            {/* Barra de Filtros para Armas (Sprint 17) */}
+            <div style={styles.weaponsFilterBar}>
+              <div style={styles.filterControl}>
+                <label style={styles.filterLabel}>Categoría:</label>
+                <select
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  style={styles.filterSelect}
+                >
+                  <option value="all">Todas las Categorías</option>
+                  <option value="Principal">Armas Principales</option>
+                  <option value="Secundaria">Armas Secundarias</option>
+                </select>
+              </div>
+
+              <div style={styles.filterControl}>
+                <label style={styles.filterLabel}>Rasgo:</label>
+                <select
+                  value={filterTrait}
+                  onChange={(e) => setFilterTrait(e.target.value)}
+                  style={styles.filterSelect}
+                >
+                  <option value="all">Todos los Rasgos</option>
+                  <option value="Agilidad">Agilidad</option>
+                  <option value="Fuerza">Fuerza</option>
+                  <option value="Sutileza">Sutileza</option>
+                  <option value="Instinto">Instinto</option>
+                  <option value="Presencia">Presencia</option>
+                  <option value="Conocimiento">Conocimiento</option>
+                </select>
+              </div>
+
+              {(filterCategory !== 'all' || filterTrait !== 'all') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilterCategory('all');
+                    setFilterTrait('all');
+                  }}
+                  style={styles.btnResetFilters}
+                  title="Restablecer filtros"
+                >
+                  ✕ Limpiar Filtros
+                </button>
+              )}
+            </div>
+
+            {/* Barra de Armas Seleccionadas para persistencia visual constante */}
+            {selectedWeapons.length > 0 && (
+              <div style={styles.selectedWeaponsBar}>
+                <span style={styles.selectedWeaponsLabel}>Armas seleccionadas ({selectedWeapons.length}/2):</span>
+                <div style={styles.selectedWeaponsPills}>
+                  {selectedWeapons.map((w) => (
+                    <span key={w.id} style={styles.weaponPill}>
+                      ⚔️ {w.nombre} {w.categoria ? `• ${w.categoria}` : ''} {w.rasgo ? `[${w.rasgo}]` : ''}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleWeaponSelection(w);
+                        }}
+                        style={styles.btnRemovePill}
+                        title="Quitar arma seleccionada"
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {loadingItems ? (
               <p style={styles.loadingItemsText}>Cargando armas...</p>
-            ) : armasTier1.length === 0 ? (
+            ) : initialWeapons.length === 0 ? (
               <p style={styles.emptyItemsText}>No hay armas de Tier 1 disponibles en la base de datos.</p>
+            ) : filteredWeapons.length === 0 ? (
+              <div style={styles.emptyFilterBox}>
+                <p style={styles.emptyItemsText}>No se encontraron armas que coincidan con los filtros seleccionados.</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilterCategory('all');
+                    setFilterTrait('all');
+                  }}
+                  style={styles.btnResetFilters}
+                >
+                  Mostrar todas las armas
+                </button>
+              </div>
             ) : (
               <div style={styles.cardsPickerGrid}>
-                {armasTier1.map((wep) => {
+                {filteredWeapons.map((wep) => {
                   const isSelected = selectedWeapons.some((w) => w.id === wep.id);
                   const isMaxReached = selectedWeapons.length >= 2 && !isSelected;
 
@@ -714,6 +849,14 @@ export default function CharacterCreator({ onComplete, onCancel }) {
                       {wep.rasgo && (
                         <span style={styles.pickerItemSpecial}>⚡ {wep.rasgo}</span>
                       )}
+                      {wep.rasgoEspecial && (
+                        <div style={styles.pickerWeaponRasgoEspecial} title={wep.rasgoEspecial}>
+                          <span style={styles.rasgoEspecialIcon}>📜</span>
+                          <span style={styles.rasgoEspecialText}>
+                            {formatInlineMarkdown(wep.rasgoEspecial)}
+                          </span>
+                        </div>
+                      )}
                       <div style={styles.pickerCardBottom}>
                         <span style={isSelected ? styles.selectedRadioActive : styles.selectedRadio}>
                           {isSelected ? '✓ Seleccionada' : isMaxReached ? 'Límite alcanzado' : '+ Elegir'}
@@ -740,31 +883,33 @@ export default function CharacterCreator({ onComplete, onCancel }) {
               <div style={styles.inventoryPickerCatalog}>
                 <span style={styles.invSubTitle}>Objetos Disponibles:</span>
                 <div style={styles.invScrollList}>
-                  {consumiblesDisponibles.map((it) => {
-                    const atLimit = selectedItems.length >= 10;
-                    return (
-                      <div key={it.id} style={styles.invCatalogRow}>
-                        <div style={styles.invRowMeta}>
-                          <span style={styles.invRowIcon}>
-                            {it.tipo === 'Arma' ? '⚔️' : it.tipo === 'Armadura' ? '🛡️' : '🧪'}
-                          </span>
-                          <span style={styles.invRowName}>{it.nombre}</span>
-                          <span style={styles.invRowDesc}>
-                            {it.tipo === 'Consumible' ? it.descripcion : `T${it.tier}`}
-                          </span>
+                  {availableConsumables.length === 0 ? (
+                    <p style={styles.emptyInvText}>No hay consumibles disponibles en el catálogo.</p>
+                  ) : (
+                    availableConsumables.map((it) => {
+                      const atLimit = selectedItems.length >= 10;
+                      return (
+                        <div key={it.id} style={styles.invCatalogRow}>
+                          <div style={styles.invRowMeta}>
+                            <span style={styles.invRowIcon}>🧪</span>
+                            <span style={styles.invRowName}>{it.nombre}</span>
+                            <span style={styles.invRowDesc}>
+                              {it.descripcion || `Tier ${it.tier || 1}`}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => addInventoryItem(it)}
+                            disabled={atLimit}
+                            style={atLimit ? styles.btnAddInvDisabled : styles.btnAddInv}
+                            title={atLimit ? 'Mochila llena (máximo 10)' : 'Añadir a la mochila'}
+                          >
+                            + Añadir
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => addInventoryItem(it)}
-                          disabled={atLimit}
-                          style={atLimit ? styles.btnAddInvDisabled : styles.btnAddInv}
-                          title={atLimit ? 'Mochila llena (máximo 10)' : 'Añadir a la mochila'}
-                        >
-                          + Añadir
-                        </button>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
 
@@ -1458,5 +1603,120 @@ const styles = {
     cursor: 'pointer',
     fontFamily: 'inherit',
     boxShadow: '0 4px 14px rgba(139, 26, 26, 0.4)',
+  },
+  weaponsFilterBar: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    backgroundColor: '#120b05',
+    border: '1px solid #3a2a1a',
+    borderRadius: '6px',
+    padding: '10px 14px',
+    flexWrap: 'wrap',
+  },
+  filterControl: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  filterLabel: {
+    color: '#d4af37',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+  },
+  filterSelect: {
+    backgroundColor: '#0d0905',
+    color: '#e8dcc8',
+    border: '1px solid #4a3728',
+    borderRadius: '4px',
+    padding: '6px 10px',
+    fontSize: '0.8rem',
+    fontFamily: 'inherit',
+    cursor: 'pointer',
+    outline: 'none',
+  },
+  btnResetFilters: {
+    backgroundColor: '#2e1f0e',
+    color: '#d4af37',
+    border: '1px solid #4a3728',
+    borderRadius: '4px',
+    padding: '5px 10px',
+    fontSize: '0.75rem',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    marginLeft: 'auto',
+    transition: 'background-color 0.15s ease',
+  },
+  emptyFilterBox: {
+    textAlign: 'center',
+    padding: '24px',
+    backgroundColor: '#100a04',
+    border: '1px dashed #4a3728',
+    borderRadius: '6px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  selectedWeaponsBar: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    backgroundColor: '#1f1309',
+    border: '1px solid #8b1a1a',
+    borderRadius: '6px',
+    padding: '8px 12px',
+    flexWrap: 'wrap',
+  },
+  selectedWeaponsLabel: {
+    color: '#d4af37',
+    fontSize: '0.78rem',
+    fontWeight: 'bold',
+  },
+  selectedWeaponsPills: {
+    display: 'flex',
+    gap: '8px',
+    flexWrap: 'wrap',
+  },
+  weaponPill: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    backgroundColor: '#3d1212',
+    color: '#ffd1d1',
+    border: '1px solid #8b2626',
+    borderRadius: '4px',
+    padding: '3px 8px',
+    fontSize: '0.75rem',
+    fontWeight: 'bold',
+  },
+  btnRemovePill: {
+    backgroundColor: 'transparent',
+    color: '#ff8a80',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '0.8rem',
+    lineHeight: 1,
+    padding: '0 2px',
+  },
+  pickerWeaponRasgoEspecial: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '4px',
+    backgroundColor: '#120b06',
+    border: '1px solid #3d2a1b',
+    borderRadius: '4px',
+    padding: '3px 6px',
+    fontSize: '0.75rem',
+    color: '#d4c29d',
+    lineHeight: '1.25',
+    marginTop: '2px',
+  },
+  rasgoEspecialIcon: {
+    fontSize: '0.78rem',
+    flexShrink: 0,
+  },
+  rasgoEspecialText: {
+    flex: 1,
   },
 };

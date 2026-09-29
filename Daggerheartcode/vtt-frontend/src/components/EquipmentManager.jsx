@@ -6,7 +6,24 @@ import { useWebSocket } from '../context/WebSocketContext';
  * EquipmentManager: Versión compacta para la cabecera superior (Sprint 11.5).
  * Organiza en una fila las tarjetas de Armadura Activa, Arma Principal y Arma Secundaria,
  * junto a una columna de Inventario Rápido no equipado con scroll interno.
+/**
+ * Parsea e interpola negritas básicas (**texto**) para atributos especiales.
  */
+function formatTraitText(text) {
+  if (!text) return null;
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} style={{ color: '#f0dfbe', fontWeight: 'bold' }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
+
 export default function EquipmentManager() {
   const { character, setCharacter } = useCharacter();
   const { sendTableAction, connected } = useWebSocket();
@@ -79,6 +96,51 @@ export default function EquipmentManager() {
     } catch (err) {
       console.error('[EquipmentManager] Error al desequipar:', err);
       setFeedbackMsg(`⚠️ ${err.message}`);
+    } finally {
+      setIsPatching(false);
+    }
+  }
+
+  // Descartar o consumir un objeto del inventario (Sprint 18 - Fase 3)
+  async function handleDiscard(item, isConsumable) {
+    const actionLabel = isConsumable ? 'consumir' : 'descartar';
+    const confirmMessage = isConsumable
+      ? `¿Deseas consumir o usar "${item.nombre}"?`
+      : `¿Deseas descartar "${item.nombre}" de tu inventario?`;
+
+    if (!window.confirm(confirmMessage)) return;
+
+    setIsPatching(true);
+    setFeedbackMsg(null);
+
+    try {
+      const res = await fetch(`/api/characters/${character.id}/inventory/${item.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP ${res.status}`);
+      }
+
+      const updated = await res.json();
+      if (updated && updated.id) {
+        setCharacter(updated);
+      } else {
+        setCharacter((prev) => {
+          if (!prev) return prev;
+          const currentInv = Array.isArray(prev.inventario) ? [...prev.inventario] : [];
+          const idx = currentInv.findIndex((i) => i.id === item.id);
+          if (idx !== -1) currentInv.splice(idx, 1);
+          return { ...prev, inventario: currentInv };
+        });
+      }
+
+      setFeedbackMsg(isConsumable ? `✓ "${item.nombre}" consumido` : `✓ "${item.nombre}" descartado`);
+      setTimeout(() => setFeedbackMsg(null), 2500);
+    } catch (err) {
+      console.error(`[EquipmentManager] Error al ${actionLabel}:`, err);
+      setFeedbackMsg(`⚠️ Error al ${actionLabel}: ${err.message}`);
     } finally {
       setIsPatching(false);
     }
@@ -168,8 +230,9 @@ export default function EquipmentManager() {
                 </div>
 
                 {armaduraActiva.rasgoEspecial && (
-                  <div style={styles.miniTrait} title={armaduraActiva.rasgoEspecial}>
-                    📜 {armaduraActiva.rasgoEspecial}
+                  <div style={styles.specialTraitBox} title={armaduraActiva.rasgoEspecial}>
+                    <span style={styles.specialTraitIcon}>📜</span>
+                    <span style={styles.specialTraitText}>{formatTraitText(armaduraActiva.rasgoEspecial)}</span>
                   </div>
                 )}
 
@@ -220,6 +283,13 @@ export default function EquipmentManager() {
                   {armaPrincipal.modificadorDano >= 0 ? `+${armaPrincipal.modificadorDano}` : armaPrincipal.modificadorDano}{' '}
                   <span style={styles.damageType}>{armaPrincipal.tipoDano}</span>
                 </div>
+
+                {armaPrincipal.rasgoEspecial && (
+                  <div style={styles.specialTraitBox} title={armaPrincipal.rasgoEspecial}>
+                    <span style={styles.specialTraitIcon}>📜</span>
+                    <span style={styles.specialTraitText}>{formatTraitText(armaPrincipal.rasgoEspecial)}</span>
+                  </div>
+                )}
 
                 {/* Botón de Tirada de Daño */}
                 <button
@@ -284,6 +354,13 @@ export default function EquipmentManager() {
                   <span style={styles.damageType}>{armaSecundaria.tipoDano}</span>
                 </div>
 
+                {armaSecundaria.rasgoEspecial && (
+                  <div style={styles.specialTraitBox} title={armaSecundaria.rasgoEspecial}>
+                    <span style={styles.specialTraitIcon}>📜</span>
+                    <span style={styles.specialTraitText}>{formatTraitText(armaSecundaria.rasgoEspecial)}</span>
+                  </div>
+                )}
+
                 {/* Botón de Tirada de Daño */}
                 <button
                   onClick={() => handleDamageRoll(armaSecundaria)}
@@ -334,14 +411,14 @@ export default function EquipmentManager() {
                 <span style={styles.emptyInventoryText}>Inventario vacío</span>
               </div>
             ) : (
-              inventario.map((item) => {
+              inventario.map((item, index) => {
                 const isArma = item.tipo === 'Arma';
                 const isArmadura = item.tipo === 'Armadura';
                 const isConsumible = item.tipo === 'Consumible';
                 const isSecundariaBlocked = isArma && item.categoria === 'Secundaria' && isTwoHanded;
 
                 return (
-                  <div key={item.id} style={styles.inventoryItemRow}>
+                  <div key={`${item.id}-${index}`} style={styles.inventoryItemRow}>
                     <div style={styles.itemMeta}>
                       <div style={styles.itemNameLine}>
                         <span style={styles.itemIcon}>
@@ -407,10 +484,24 @@ export default function EquipmentManager() {
                       )}
 
                       {isConsumible && (
-                        <span style={styles.consumableTag} title="Objeto consumible">
-                          Listo
-                        </span>
+                        <button
+                          onClick={() => handleDiscard(item, true)}
+                          disabled={isPatching}
+                          style={styles.btnConsumeAction}
+                          title="Consumir / Usar este objeto"
+                        >
+                          🧪 Usar
+                        </button>
                       )}
+
+                      <button
+                        onClick={() => handleDiscard(item, isConsumible)}
+                        disabled={isPatching}
+                        style={styles.btnDiscardAction}
+                        title={isConsumible ? 'Descartar sin consumir' : 'Descartar del inventario'}
+                      >
+                        🗑️
+                      </button>
                     </div>
                   </div>
                 );
@@ -566,6 +657,26 @@ const styles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     fontStyle: 'italic',
+  },
+  specialTraitBox: {
+    backgroundColor: '#120b06',
+    border: '1px solid #3d2a1b',
+    borderRadius: '4px',
+    padding: '3px 6px',
+    fontSize: '0.64rem',
+    color: '#d4c29d',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '4px',
+    lineHeight: '1.25',
+    margin: '2px 0',
+  },
+  specialTraitIcon: {
+    fontSize: '0.72rem',
+    flexShrink: 0,
+  },
+  specialTraitText: {
+    flex: 1,
   },
   weaponFormula: {
     fontSize: '0.74rem',
@@ -801,5 +912,28 @@ const styles = {
     borderRadius: '3px',
     padding: '2px 4px',
     fontSize: '0.6rem',
+  },
+  btnDiscardAction: {
+    backgroundColor: 'transparent',
+    color: '#a08575',
+    border: '1px solid #3d2a1b',
+    borderRadius: '3px',
+    padding: '2px 4px',
+    fontSize: '0.62rem',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  btnConsumeAction: {
+    backgroundColor: '#1b2a1a',
+    color: '#7cd37c',
+    border: '1px solid #3d6a3d',
+    borderRadius: '3px',
+    padding: '2px 6px',
+    fontSize: '0.62rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
   },
 };

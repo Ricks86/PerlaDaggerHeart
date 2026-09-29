@@ -1,5 +1,6 @@
 package com.daggerheart.vtt.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -28,6 +29,10 @@ public class Arma extends Item {
 
     /** "Cuerpo a cuerpo", "Cercano", "Lejano" */
     private String alcance;
+
+    /** Rasgo o habilidad especial del arma */
+    @Column(columnDefinition = "TEXT")
+    private String rasgoEspecial;
 
     public Arma() {
         super();
@@ -70,4 +75,7 @@ public class Arma extends Item {
 
     public String getAlcance() { return alcance; }
     public void setAlcance(String alcance) { this.alcance = alcance; }
+
+    public String getRasgoEspecial() { return rasgoEspecial; }
+    public void setRasgoEspecial(String rasgoEspecial) { this.rasgoEspecial = rasgoEspecial; }
 }

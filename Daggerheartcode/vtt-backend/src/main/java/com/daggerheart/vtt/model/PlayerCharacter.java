@@ -100,7 +100,8 @@ public class PlayerCharacter {
         joinColumns = @JoinColumn(name = "character_id"),
         inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private Set<Item> inventario = new LinkedHashSet<>();
+    @OrderColumn(name = "inv_order")
+    private List<Item> inventario = new ArrayList<>();
 
     // -------------------------------------------------------------------------
     // Constructores
@@ -176,8 +177,8 @@ public class PlayerCharacter {
     public Armadura getArmaduraActiva() { return armaduraActiva; }
     public void setArmaduraActiva(Armadura armaduraActiva) { this.armaduraActiva = armaduraActiva; }
 
-    public Set<Item> getInventario() { return inventario; }
-    public void setInventario(Set<Item> inventario) { this.inventario = inventario; }
+    public List<Item> getInventario() { return inventario; }
+    public void setInventario(List<Item> inventario) { this.inventario = inventario; }
 
     public int getRanurasArmaduraMarcadas() { return ranurasArmaduraMarcadas; }
     public void setRanurasArmaduraMarcadas(int ranurasArmaduraMarcadas) { this.ranurasArmaduraMarcadas = ranurasArmaduraMarcadas; }

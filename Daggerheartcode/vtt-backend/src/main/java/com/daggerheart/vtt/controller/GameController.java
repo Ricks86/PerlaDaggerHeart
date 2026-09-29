@@ -2,6 +2,7 @@ package com.daggerheart.vtt.controller;
 
 import com.daggerheart.vtt.model.*;
 import com.daggerheart.vtt.repository.*;
+import com.daggerheart.vtt.service.CharacterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,8 @@ import java.util.*;
  *   POST /api/characters      → Crear personaje
  *   PUT /api/characters/{id}   → Actualizar personaje completo
  *   PATCH /api/characters/{id}/equipment → Equipar / Desequipar items
+ *   POST /api/characters/{characterId}/inventory/{itemId} → Dar botín
+ *   DELETE /api/characters/{characterId}/inventory/{itemId} → Descartar/consumir item
  *   GET /api/cards            → Todas las cartas
  *   POST /api/cards           → Crear carta
  *   POST /api/cards/bulk      → Ingesta masiva de cartas
@@ -32,16 +35,19 @@ public class GameController {
     private final CardRepository cardRepo;
     private final ItemRepository itemRepo;
     private final AdversaryRepository adversaryRepo;
+    private final CharacterService characterService;
 
     public GameController(
             PlayerCharacterRepository characterRepo,
             CardRepository cardRepo,
             ItemRepository itemRepo,
-            AdversaryRepository adversaryRepo) {
+            AdversaryRepository adversaryRepo,
+            CharacterService characterService) {
         this.characterRepo = characterRepo;
         this.cardRepo = cardRepo;
         this.itemRepo = itemRepo;
         this.adversaryRepo = adversaryRepo;
+        this.characterService = characterService;
     }
 
     // -------------------------------------------------------------------------
@@ -81,7 +87,7 @@ public class GameController {
                     .ifPresent(character::setArmaduraActiva);
         }
         if (character.getInventario() != null && !character.getInventario().isEmpty()) {
-            Set<Item> resolvedInv = new LinkedHashSet<>();
+            List<Item> resolvedInv = new ArrayList<>();
             for (Item invItem : character.getInventario()) {
                 if (invItem != null && invItem.getId() != null) {
                     itemRepo.findById(invItem.getId()).ifPresent(resolvedInv::add);
@@ -240,6 +246,46 @@ public class GameController {
         }
         characterRepo.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * POST /api/characters/{characterId}/inventory/{itemId}
+     * Otorga un objeto al personaje (acción exclusiva del DJ).
+     * Valida que item.tier <= tier permitido según el nivel del personaje.
+     */
+    @PostMapping("/characters/{characterId}/inventory/{itemId}")
+    public ResponseEntity<?> addInventoryItem(
+            @PathVariable Long characterId,
+            @PathVariable Long itemId) {
+        try {
+            PlayerCharacter updated = characterService.addItemToInventory(characterId, itemId);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
+     * DELETE /api/characters/{characterId}/inventory/{itemId}
+     * Remueve la primera coincidencia del objeto dentro del inventario del personaje
+     * (permite eliminar consumibles duplicados uno por uno).
+     */
+    @DeleteMapping("/characters/{characterId}/inventory/{itemId}")
+    public ResponseEntity<?> removeInventoryItem(
+            @PathVariable Long characterId,
+            @PathVariable Long itemId) {
+        try {
+            PlayerCharacter updated = characterService.removeItemFromInventory(characterId, itemId);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
     }
 
     // -------------------------------------------------------------------------

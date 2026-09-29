@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useWebSocket } from './WebSocketContext';
 
 // =============================================================================
@@ -30,7 +30,28 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { sendTableAction } = useWebSocket();
+  const { sendTableAction, tableLog } = useWebSocket();
+  const prevLogRef = useRef(tableLog?.length || 0);
+
+  // Sincronización en tiempo real vía WebSocket ante eventos CHARACTER_UPDATE
+  useEffect(() => {
+    if (!tableLog) return;
+    if (tableLog.length > prevLogRef.current) {
+      const newItems = tableLog.slice(prevLogRef.current);
+      prevLogRef.current = tableLog.length;
+
+      newItems.forEach((action) => {
+        if (action.type === 'CHARACTER_UPDATE' && action.payload?.characterId === character?.id) {
+          if (action.payload?.character) {
+            setCharacter(action.payload.character);
+          } else {
+            const { characterId, ...updates } = action.payload;
+            setCharacter((prev) => (prev && prev.id === characterId ? { ...prev, ...updates } : prev));
+          }
+        }
+      });
+    }
+  }, [tableLog, character?.id]);
 
   // Carga inicial o recarga por ID
   function loadCharacterById(id) {

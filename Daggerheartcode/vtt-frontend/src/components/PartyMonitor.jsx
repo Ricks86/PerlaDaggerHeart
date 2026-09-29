@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
 import MiniCharacterSheet from './MiniCharacterSheet';
+import GiftItemModal from './GiftItemModal';
 
 const STORAGE_KEY = 'daggerheart_dm_monitored_party_ids';
 const MAX_MONITORED = 5;
@@ -26,6 +27,8 @@ export default function PartyMonitor() {
   const [selectedToPin, setSelectedToPin] = useState('');
   const [loading, setLoading] = useState(true);
   const [lastSync, setLastSync] = useState(null);
+  const [giftingHero, setGiftingHero] = useState(null);
+  const [feedbackToast, setFeedbackToast] = useState(null);
   const prevLogLengthRef = useRef(tableLog.length);
 
   // Guardar en localStorage ante cualquier cambio en selectedIds
@@ -181,6 +184,13 @@ export default function PartyMonitor() {
         </div>
       </div>
 
+      {/* Banner de feedback al entregar botín */}
+      {feedbackToast && (
+        <div style={styles.feedbackToast}>
+          <span>🎁 {feedbackToast}</span>
+        </div>
+      )}
+
       {/* ------------------------------------------------------------- */}
       {/* CUADRÍCULA DE HÉROES MONITOREADOS (Mini-Hojas)                */}
       {/* ------------------------------------------------------------- */}
@@ -215,9 +225,23 @@ export default function PartyMonitor() {
               key={hero.id}
               character={hero}
               onRemove={handleUnpin}
+              onGift={(heroToGift) => setGiftingHero(heroToGift)}
             />
           ))}
         </div>
+      )}
+
+      {/* Modal para otorgar botín */}
+      {giftingHero && (
+        <GiftItemModal
+          character={giftingHero}
+          onClose={() => setGiftingHero(null)}
+          onSuccess={(item, char) => {
+            setFeedbackToast(`Se entregó "${item.nombre}" (T${item.tier || 1}) a ${char.nombre}`);
+            fetchCharacters(true);
+            setTimeout(() => setFeedbackToast(null), 3500);
+          }}
+        />
       )}
     </div>
   );
@@ -228,6 +252,17 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+  },
+  feedbackToast: {
+    backgroundColor: '#1b2a1a',
+    border: '1px solid #3d6a3d',
+    color: '#7cd37c',
+    borderRadius: '6px',
+    padding: '8px 16px',
+    fontSize: '0.82rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
   },
   topBar: {
     backgroundColor: '#150f07',

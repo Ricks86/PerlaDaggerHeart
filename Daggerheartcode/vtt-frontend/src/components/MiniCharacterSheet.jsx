@@ -4,7 +4,7 @@ import React from 'react';
  * MiniCharacterSheet: Tarjeta de resumen compacta y de alta legibilidad
  * para el Monitor de Grupo del Dungeon Master (Sprint 13).
  */
-export default function MiniCharacterSheet({ character, onRemove }) {
+export default function MiniCharacterSheet({ character, onRemove, onGift }) {
   if (!character) return null;
 
   const nivel = character.nivel || 1;
@@ -43,15 +43,27 @@ export default function MiniCharacterSheet({ character, onRemove }) {
           </div>
         </div>
 
-        {onRemove && (
-          <button
-            onClick={() => onRemove(character.id)}
-            style={styles.btnRemove}
-            title="Desanclar héroe del monitor"
-          >
-            ✕
-          </button>
-        )}
+        <div style={styles.headerRightActions}>
+          {onGift && (
+            <button
+              onClick={() => onGift(character)}
+              style={styles.btnGift}
+              title={`Entregar botín a ${character.nombre}`}
+            >
+              🎁 Dar Objeto
+            </button>
+          )}
+
+          {onRemove && (
+            <button
+              onClick={() => onRemove(character.id)}
+              style={styles.btnRemove}
+              title="Desanclar héroe del monitor"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ------------------------------------------------------------- */}
@@ -280,6 +292,28 @@ const styles = {
     padding: '1px 6px',
     fontSize: '0.65rem',
     fontStyle: 'italic',
+  },
+  headerRightActions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    flexShrink: 0,
+  },
+  btnGift: {
+    backgroundColor: '#2e1f0e',
+    color: '#d4af37',
+    border: '1px solid #5a3d24',
+    borderRadius: '4px',
+    padding: '3px 8px',
+    fontSize: '0.68rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '3px',
   },
   btnRemove: {
     backgroundColor: 'transparent',

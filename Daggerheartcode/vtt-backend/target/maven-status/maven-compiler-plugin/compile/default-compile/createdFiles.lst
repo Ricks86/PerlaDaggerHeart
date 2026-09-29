@@ -24,6 +24,7 @@ com/daggerheart/vtt/model/Oro.class
 com/daggerheart/vtt/seeder/JsonFolderSeeder$4.class
 com/daggerheart/vtt/seeder/JsonFolderSeeder.class
 com/daggerheart/vtt/model/Arma.class
+com/daggerheart/vtt/service/CharacterService.class
 com/daggerheart/vtt/repository/CardRepository.class
 com/daggerheart/vtt/repository/AdversaryRepository.class
 com/daggerheart/vtt/controller/SpaRedirectController.class
