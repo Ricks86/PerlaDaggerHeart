@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * DatabaseSeeder: se ejecuta al iniciar la aplicación.
@@ -18,11 +20,11 @@ import java.util.List;
  * Lee src/main/resources/db.json e inserta los datos en H2
  * SOLO si las tablas están vacías (idempotente: no duplica en reinicios).
  *
- * Flujo:
- *  1. Leer db.json desde el classpath
- *  2. Parsear con Jackson ObjectMapper
- *  3. Comprobar si la tabla correspondiente está vacía
- *  4. Si vacía → deserializar y persistir cada entidad
+ * Orden de siembra:
+ *  1. Cartas
+ *  2. Ítems polimórficos (Arma, Armadura, Consumible)
+ *  3. Personajes (con armas y armaduras equipadas)
+ *  4. Adversarios
  */
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
@@ -48,77 +50,15 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Cargar el JSON desde el classpath
         ClassPathResource resource = new ClassPathResource("db.json");
         try (InputStream is = resource.getInputStream()) {
             JsonNode root = objectMapper.readTree(is);
-            seedCharacters(root.get("characters"));
             seedCards(root.get("cards"));
             seedItems(root.get("items"));
+            seedCharacters(root.get("characters"));
             seedAdversaries(root.get("adversaries"));
         }
         System.out.println("[VTT Seeder] ✓ Base de datos inicializada correctamente");
-    }
-
-    // -------------------------------------------------------------------------
-    // Seed: Personajes
-    // -------------------------------------------------------------------------
-    private void seedCharacters(JsonNode nodes) {
-        if (characterRepo.count() > 0 || nodes == null) return;
-
-        List<PlayerCharacter> characters = new ArrayList<>();
-        for (JsonNode node : nodes) {
-            PlayerCharacter pc = new PlayerCharacter();
-            pc.setNombre(node.get("nombre").asText());
-            pc.setNivel(node.get("nivel").asInt());
-            pc.setClase(node.get("clase").asText());
-            pc.setSubclase(node.get("subclase").asText());
-            pc.setAncestro(node.get("ancestro").asText());
-            pc.setComunidad(node.get("comunidad").asText());
-            pc.setCompetencia(node.get("competencia").asInt());
-            pc.setHpActual(node.get("hpActual").asInt());
-            pc.setHpMax(node.get("hpMax").asInt());
-            pc.setEstresActual(node.get("estresActual").asInt());
-            pc.setEstresMax(node.get("estresMax").asInt());
-            pc.setEsperanzaActual(node.get("esperanzaActual").asInt());
-            pc.setEsperanzaMax(node.get("esperanzaMax").asInt());
-            pc.setEvasion(node.get("evasion").asInt());
-
-            // Atributos embebidos
-            JsonNode attrNode = node.get("atributos");
-            Atributos atributos = new Atributos(
-                attrNode.get("agilidad").asInt(),
-                attrNode.get("fuerza").asInt(),
-                attrNode.get("sutileza").asInt(),
-                attrNode.get("instinto").asInt(),
-                attrNode.get("presencia").asInt(),
-                attrNode.get("conocimiento").asInt()
-            );
-            pc.setAtributos(atributos);
-
-            // Oro embebido
-            JsonNode oroNode = node.get("oro");
-            Oro oro = new Oro(
-                oroNode.get("punados").asInt(),
-                oroNode.get("sacos").asInt(),
-                oroNode.get("cofres").asInt()
-            );
-            pc.setOro(oro);
-
-            // Experiencias (colección embebida)
-            List<Experiencia> experiencias = new ArrayList<>();
-            for (JsonNode expNode : node.get("experiencias")) {
-                experiencias.add(new Experiencia(
-                    expNode.get("nombre").asText(),
-                    expNode.get("valor").asInt()
-                ));
-            }
-            pc.setExperiencias(experiencias);
-
-            characters.add(pc);
-        }
-        characterRepo.saveAll(characters);
-        System.out.printf("[VTT Seeder] ✓ %d personaje(s) insertado(s)%n", characters.size());
     }
 
     // -------------------------------------------------------------------------
@@ -147,27 +87,144 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
     // -------------------------------------------------------------------------
-    // Seed: Ítems
+    // Seed: Ítems (Polimórficos: Arma, Armadura, Consumible)
     // -------------------------------------------------------------------------
     private void seedItems(JsonNode nodes) {
         if (itemRepo.count() > 0 || nodes == null) return;
 
         List<Item> items = new ArrayList<>();
         for (JsonNode node : nodes) {
-            Item item = new Item();
-            item.setNombre(node.get("nombre").asText());
-            item.setTipo(node.get("tipo").asText());
-            item.setRasgo(node.get("rasgo").asText());
-            item.setDadoBase(node.path("dadoBase").isNull() ? null : node.path("dadoBase").asText());
-            item.setModificadorDano(node.get("modificadorDano").asInt());
-            item.setTipoDano(node.path("tipoDano").isNull() ? null : node.path("tipoDano").asText());
-            item.setCarga(node.get("carga").asInt());
-            item.setAlcance(node.path("alcance").isNull() ? null : node.path("alcance").asText());
-            item.setRasgoEspecial(node.path("rasgoEspecial").asText(null));
-            items.add(item);
+            String tipo = node.path("tipo").asText();
+            String nombre = node.path("nombre").asText();
+            int tier = node.path("tier").asInt(1);
+
+            if ("Arma".equalsIgnoreCase(tipo)) {
+                Arma arma = new Arma(
+                    nombre,
+                    tier,
+                    node.path("categoria").asText("Principal"),
+                    node.path("rasgo").asText(""),
+                    node.path("dadoBase").asText("d8"),
+                    node.path("modificadorDano").asInt(0),
+                    node.path("tipoDano").asText("físico"),
+                    node.path("carga").asInt(1),
+                    node.path("alcance").asText("Cuerpo a cuerpo")
+                );
+                items.add(arma);
+            } else if ("Armadura".equalsIgnoreCase(tipo)) {
+                Armadura armadura = new Armadura(
+                    nombre,
+                    tier,
+                    node.path("puntuacionBase").asInt(4),
+                    node.path("umbralMayorBase").asInt(7),
+                    node.path("umbralGraveBase").asInt(14),
+                    node.path("rasgoEspecial").isMissingNode() || node.path("rasgoEspecial").isNull() ? null : node.path("rasgoEspecial").asText()
+                );
+                items.add(armadura);
+            } else if ("Consumible".equalsIgnoreCase(tipo)) {
+                Consumible consumible = new Consumible(
+                    nombre,
+                    tier,
+                    node.path("descripcion").asText("")
+                );
+                items.add(consumible);
+            }
         }
         itemRepo.saveAll(items);
         System.out.printf("[VTT Seeder] ✓ %d ítem(s) insertado(s)%n", items.size());
+    }
+
+    // -------------------------------------------------------------------------
+    // Seed: Personajes
+    // -------------------------------------------------------------------------
+    private void seedCharacters(JsonNode nodes) {
+        if (characterRepo.count() > 0 || nodes == null) return;
+
+        List<Item> allItems = itemRepo.findAll();
+        Map<String, Item> itemMap = allItems.stream()
+            .collect(Collectors.toMap(Item::getNombre, i -> i, (a, b) -> a));
+
+        List<PlayerCharacter> characters = new ArrayList<>();
+        for (JsonNode node : nodes) {
+            PlayerCharacter pc = new PlayerCharacter();
+            pc.setNombre(node.get("nombre").asText());
+            pc.setNivel(node.get("nivel").asInt());
+            pc.setClase(node.get("clase").asText());
+            pc.setSubclase(node.get("subclase").asText());
+            pc.setAncestro(node.get("ancestro").asText());
+            pc.setComunidad(node.get("comunidad").asText());
+            pc.setCompetencia(node.get("competencia").asInt());
+            pc.setHpActual(node.get("hpActual").asInt());
+            pc.setHpMax(node.get("hpMax").asInt());
+            pc.setEstresActual(node.get("estresActual").asInt());
+            pc.setEstresMax(node.get("estresMax").asInt());
+            pc.setEsperanzaActual(node.get("esperanzaActual").asInt());
+            pc.setEsperanzaMax(node.get("esperanzaMax").asInt());
+            pc.setEvasion(node.get("evasion").asInt());
+
+            // Atributos embebidos
+            JsonNode attrNode = node.get("atributos");
+            if (attrNode != null) {
+                Atributos atributos = new Atributos(
+                    attrNode.get("agilidad").asInt(),
+                    attrNode.get("fuerza").asInt(),
+                    attrNode.get("sutileza").asInt(),
+                    attrNode.get("instinto").asInt(),
+                    attrNode.get("presencia").asInt(),
+                    attrNode.get("conocimiento").asInt()
+                );
+                pc.setAtributos(atributos);
+            }
+
+            // Oro embebido
+            JsonNode oroNode = node.get("oro");
+            if (oroNode != null) {
+                Oro oro = new Oro(
+                    oroNode.get("punados").asInt(),
+                    oroNode.get("sacos").asInt(),
+                    oroNode.get("cofres").asInt()
+                );
+                pc.setOro(oro);
+            }
+
+            // Experiencias (colección embebida)
+            if (node.has("experiencias")) {
+                List<Experiencia> experiencias = new ArrayList<>();
+                for (JsonNode expNode : node.get("experiencias")) {
+                    experiencias.add(new Experiencia(
+                        expNode.get("nombre").asText(),
+                        expNode.get("valor").asInt()
+                    ));
+                }
+                pc.setExperiencias(experiencias);
+            }
+
+            // Equipamiento e Inventario (Sprint 11)
+            if (node.has("armaPrincipal")) {
+                Item item = itemMap.get(node.get("armaPrincipal").asText());
+                if (item instanceof Arma arma) pc.setArmaPrincipal(arma);
+            }
+            if (node.has("armaSecundaria")) {
+                Item item = itemMap.get(node.get("armaSecundaria").asText());
+                if (item instanceof Arma arma) pc.setArmaSecundaria(arma);
+            }
+            if (node.has("armaduraActiva")) {
+                Item item = itemMap.get(node.get("armaduraActiva").asText());
+                if (item instanceof Armadura armadura) pc.setArmaduraActiva(armadura);
+            }
+            if (node.has("inventario")) {
+                for (JsonNode invNode : node.get("inventario")) {
+                    Item item = itemMap.get(invNode.asText());
+                    if (item != null) {
+                        pc.getInventario().add(item);
+                    }
+                }
+            }
+
+            characters.add(pc);
+        }
+        characterRepo.saveAll(characters);
+        System.out.printf("[VTT Seeder] ✓ %d personaje(s) insertado(s)%n", characters.size());
     }
 
     // -------------------------------------------------------------------------

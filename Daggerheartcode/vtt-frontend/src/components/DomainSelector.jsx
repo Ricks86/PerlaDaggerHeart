@@ -25,7 +25,7 @@ export default function DomainSelector({ isOpen, onClose }) {
     if (!isOpen) return;
     setLoading(true);
 
-    fetch('http://localhost:8080/api/cards')
+    fetch('/api/cards')
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         setAllCards(data);

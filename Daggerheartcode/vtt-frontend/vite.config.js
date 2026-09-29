@@ -14,12 +14,21 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
       '/ws-daggerheart': {
         target: 'http://localhost:8080',
         ws: true,
         changeOrigin: true,
       },
     },
+  },
+
+
+  build: {
+    emptyOutDir: false,
   },
 
   optimizeDeps: {

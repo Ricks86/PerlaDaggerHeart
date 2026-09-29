@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCharacter } from '../context/CharacterContext';
 
 // =============================================================================
@@ -47,9 +47,17 @@ function TrackerSlot({ filled, onClick, color, size = 24 }) {
 // =============================================================================
 // Subcomponente: Fila de rastreador (label + casillas)
 // =============================================================================
-function TrackerRow({ label, max, colorKey, size = 24 }) {
+function TrackerRow({ label, max = 0, colorKey, size = 24 }) {
   const [slots, setSlots] = useState(() => Array(max).fill(false));
   const color = TRACKER_COLORS[colorKey];
+
+  useEffect(() => {
+    setSlots((prev) => {
+      if (prev.length === max) return prev;
+      return Array(max).fill(false).map((v, i) => prev[i] || false);
+    });
+  }, [max]);
+
   const filled = slots.filter(Boolean).length;
 
   function toggle(index) {
@@ -69,17 +77,21 @@ function TrackerRow({ label, max, colorKey, size = 24 }) {
       </div>
 
       {/* Casillas */}
-      <div style={styles.slotsContainer}>
-        {slots.map((isFilled, i) => (
-          <TrackerSlot
-            key={i}
-            filled={isFilled}
-            onClick={() => toggle(i)}
-            color={color}
-            size={size}
-          />
-        ))}
-      </div>
+      {max > 0 ? (
+        <div style={styles.slotsContainer}>
+          {slots.map((isFilled, i) => (
+            <TrackerSlot
+              key={i}
+              filled={isFilled}
+              onClick={() => toggle(i)}
+              color={color}
+              size={size}
+            />
+          ))}
+        </div>
+      ) : (
+        <span style={styles.emptySlotsNotice}>— Sin ranuras disponibles —</span>
+      )}
     </div>
   );
 }
@@ -123,23 +135,6 @@ function ChestSlot({ filled, onClick }) {
 // =============================================================================
 // Componente principal: ResourceTracker
 // =============================================================================
-
-/**
- * Panel de recursos manuales del jugador.
- *
- * IMPORTANTE: No hay lógica automática. El jugador controla manualmente
- * cada casilla con un clic. El estado es 100% local (no sincronizado
- * con el backend en este sprint).
- *
- * Recursos rastreados:
- *   - Puntos de Golpe (hpMax del character)
- *   - Estrés         (estresMax)
- *   - Esperanza      (esperanzaMax)
- *   - Armadura       (estático: 5 ranuras si el backend no lo envía)
- *
- * Sistema de Oro:
- *   - 10 puñados → 10 sacos → 1 cofre
- */
 export default function ResourceTracker() {
   const { character, loading } = useCharacter();
   const [cofre, setCofre] = useState(false);
@@ -151,6 +146,14 @@ export default function ResourceTracker() {
       </div>
     );
   }
+
+  const armaduraActiva = character.armaduraActiva;
+  const nivel = character.nivel || 1;
+
+  // Sprint 11 - Fase 4: Ranuras dinámicas de armadura y cálculo de umbrales
+  const armorSlotsMax = armaduraActiva ? (armaduraActiva.puntuacionBase || 0) : 0;
+  const umbralMayor = armaduraActiva ? (armaduraActiva.umbralMayorBase + nivel) : null;
+  const umbralGrave = armaduraActiva ? (armaduraActiva.umbralGraveBase + nivel) : null;
 
   return (
     <div style={styles.container}>
@@ -165,21 +168,55 @@ export default function ResourceTracker() {
           max={character.hpMax}
           colorKey="hp"
         />
+
+        {/* Umbrales de Daño calculados dinámicamente con armadura + nivel */}
+        <div style={styles.thresholdsCard}>
+          <div style={styles.thresholdsHeader}>
+            <span style={styles.thresholdTitle}>Umbrales de Daño:</span>
+            <span style={styles.thresholdFormula}>(Base + Nv.{nivel})</span>
+          </div>
+          <div style={styles.thresholdBadges}>
+            <div style={styles.thresholdItemMajor}>
+              <span style={styles.thresholdSublabel}>Mayor</span>
+              <strong style={styles.thresholdNum}>{umbralMayor != null ? umbralMayor : '—'}</strong>
+            </div>
+            <div style={styles.thresholdItemSevere}>
+              <span style={styles.thresholdSublabel}>Grave</span>
+              <strong style={styles.thresholdNum}>{umbralGrave != null ? umbralGrave : '—'}</strong>
+            </div>
+          </div>
+        </div>
+
         <TrackerRow
           label="Estrés"
           max={character.estresMax}
           colorKey="estres"
         />
+
         <TrackerRow
           label="Esperanza"
           max={character.esperanzaMax}
           colorKey="esperanza"
         />
-        <TrackerRow
-          label="Ranuras de Armadura"
-          max={character.armorSlots ?? 5}
-          colorKey="armadura"
-        />
+
+        {/* Ranuras de Armadura dinámicas */}
+        <div style={styles.armorTrackingGroup}>
+          <TrackerRow
+            label={armaduraActiva ? `Ranuras de Armadura (${armaduraActiva.nombre})` : 'Ranuras de Armadura (Sin armadura)'}
+            max={armorSlotsMax}
+            colorKey="armadura"
+          />
+
+          {/* Nota de texto estática si la armadura tiene rasgo especial */}
+          {armaduraActiva?.rasgoEspecial && (
+            <div style={styles.armorTraitNote}>
+              <span style={styles.armorTraitIcon}>⚠️</span>
+              <span style={styles.armorTraitText}>
+                <strong>Efecto de Armadura:</strong> {armaduraActiva.rasgoEspecial}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ------------------------------------------------------------------ */}
@@ -278,6 +315,90 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     gap: '5px',
+  },
+  emptySlotsNotice: {
+    color: '#6a5a4a',
+    fontSize: '0.75rem',
+    fontStyle: 'italic',
+  },
+  thresholdsCard: {
+    backgroundColor: '#120b06',
+    border: '1px solid #3a2a1a',
+    borderRadius: '6px',
+    padding: '8px 10px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    marginTop: '-4px',
+  },
+  thresholdsHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  thresholdTitle: {
+    color: '#a0906a',
+    fontSize: '0.75rem',
+    fontWeight: 'bold',
+  },
+  thresholdFormula: {
+    color: '#7a6a5a',
+    fontSize: '0.7rem',
+  },
+  thresholdBadges: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '8px',
+  },
+  thresholdItemMajor: {
+    backgroundColor: '#26140b',
+    border: '1px solid #7d441f',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  thresholdItemSevere: {
+    backgroundColor: '#300f0f',
+    border: '1px solid #8b1a1a',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  thresholdSublabel: {
+    color: '#e8dcc8',
+    fontSize: '0.72rem',
+  },
+  thresholdNum: {
+    color: '#f5c86c',
+    fontSize: '0.95rem',
+  },
+  armorTrackingGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  armorTraitNote: {
+    backgroundColor: '#241a0e',
+    border: '1px solid #6b4e1b',
+    borderRadius: '5px',
+    padding: '6px 10px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '6px',
+    fontSize: '0.75rem',
+    color: '#ffd580',
+    lineHeight: '1.3',
+  },
+  armorTraitIcon: {
+    fontSize: '0.85rem',
+    flexShrink: 0,
+  },
+  armorTraitText: {
+    color: '#f5e4c3',
   },
   loadingText: {
     color: '#7a6a5a',

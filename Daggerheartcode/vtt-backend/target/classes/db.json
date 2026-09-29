@@ -32,7 +32,14 @@
         { "nombre": "Rastreador del bosque", "valor": 2 },
         { "nombre": "Superviviente", "valor": 1 }
       ],
-      "inventarioIds": [],
+      "armaPrincipal": "Arco Largo Élfico",
+      "armaSecundaria": "Daga de Cazador",
+      "armaduraActiva": "Armadura de Cuero Endurecido",
+      "inventario": [
+        "Mandoble del Verdugo",
+        "Poción de Curación Menor",
+        "Bálsamo de Esperanza"
+      ],
       "cartasActivasIds": []
     }
   ],
@@ -63,7 +70,35 @@
       "tipo": "Subclase",
       "nivel": 1,
       "descripcion": "**Contactos del Bajomundo:** Puedes gastar **1 Esperanza** para conseguir información secreta, un escondite seguro o equipamiento del mercado negro en cualquier asentamiento civilizado.",
-      "metadata": null
+      "metadata": "{\"clase_padre\": \"Pícaro\"}"
+    },
+    {
+      "titulo": "Guardabosques",
+      "tipo": "Clase",
+      "nivel": 1,
+      "descripcion": "**Habilidad de Clase:** Conexión con la naturaleza y maestría en el rastreo y tiro a distancia.",
+      "metadata": "{\"evasion_base\": 11, \"hp_inicial\": 7, \"dominios\": [\"Hueso\", \"Sabiduría\"]}"
+    },
+    {
+      "titulo": "Cazador de Sombras",
+      "tipo": "Subclase",
+      "nivel": 1,
+      "descripcion": "**Acechador:** Te camuflas en la espesura para emboscar a tus presas con letalidad.",
+      "metadata": "{\"clase_padre\": \"Guardabosques\"}"
+    },
+    {
+      "titulo": "Guerrero",
+      "tipo": "Clase",
+      "nivel": 1,
+      "descripcion": "**Habilidad de Clase:** Especialista en combate cuerpo a cuerpo y tácticas defensivas pesadas.",
+      "metadata": "{\"evasion_base\": 9, \"hp_inicial\": 8, \"dominios\": [\"Cuchilla\", \"Valor\"]}"
+    },
+    {
+      "titulo": "Gladiador",
+      "tipo": "Subclase",
+      "nivel": 1,
+      "descripcion": "**Espectáculo Sangriento:** La multitud ruge con tus golpes críticos.",
+      "metadata": "{\"clase_padre\": \"Guerrero\"}"
     },
     {
       "titulo": "Ribbet",
@@ -84,24 +119,68 @@
     {
       "nombre": "Arco Largo Élfico",
       "tipo": "Arma",
+      "tier": 1,
+      "categoria": "Principal",
       "rasgo": "Preciso",
       "dadoBase": "d8",
       "modificadorDano": 1,
       "tipoDano": "físico",
       "carga": 1,
-      "alcance": "Lejano",
-      "rasgoEspecial": "Ignorar cobertura parcial al disparar"
+      "alcance": "Lejano"
+    },
+    {
+      "nombre": "Daga de Cazador",
+      "tipo": "Arma",
+      "tier": 1,
+      "categoria": "Secundaria",
+      "rasgo": "Rápida",
+      "dadoBase": "d6",
+      "modificadorDano": 2,
+      "tipoDano": "físico",
+      "carga": 1,
+      "alcance": "Cuerpo a cuerpo"
+    },
+    {
+      "nombre": "Mandoble del Verdugo",
+      "tipo": "Arma",
+      "tier": 1,
+      "categoria": "Principal",
+      "rasgo": "Devastador",
+      "dadoBase": "d10",
+      "modificadorDano": 3,
+      "tipoDano": "físico",
+      "carga": 2,
+      "alcance": "Cuerpo a cuerpo"
     },
     {
       "nombre": "Armadura de Cuero Endurecido",
       "tipo": "Armadura",
-      "rasgo": "Ligera",
-      "dadoBase": null,
-      "modificadorDano": 0,
-      "tipoDano": null,
-      "carga": 2,
-      "alcance": null,
-      "rasgoEspecial": "+2 a Evasión cuando no llevas escudo"
+      "tier": 1,
+      "puntuacionBase": 4,
+      "umbralMayorBase": 7,
+      "umbralGraveBase": 14,
+      "rasgoEspecial": "+1 a Evasión en bosques"
+    },
+    {
+      "nombre": "Cota de Malla Pesada",
+      "tipo": "Armadura",
+      "tier": 1,
+      "puntuacionBase": 6,
+      "umbralMayorBase": 9,
+      "umbralGraveBase": 16,
+      "rasgoEspecial": "-1 a Evasión"
+    },
+    {
+      "nombre": "Poción de Curación Menor",
+      "tipo": "Consumible",
+      "tier": 1,
+      "descripcion": "Restaura 2 Puntos de Golpe (HP)."
+    },
+    {
+      "nombre": "Bálsamo de Esperanza",
+      "tipo": "Consumible",
+      "tier": 1,
+      "descripcion": "Recupera 1 punto de Esperanza y despeja 1 punto de Estrés."
     }
   ],
   "adversaries": [

@@ -43,8 +43,14 @@ export function WebSocketProvider({ children }) {
     // Inicializar cliente STOMP con SockJS como transporte
     // -------------------------------------------------------------------------
     const stompClient = new Client({
-      // SockJS provee fallback para navegadores sin WS nativo
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws-daggerheart'),
+      // SockJS provee fallback para navegadores sin WS nativo (URL dinámica)
+      webSocketFactory: () => {
+        const socketUrl = typeof window !== 'undefined'
+          ? `${window.location.protocol}//${window.location.host}/ws-daggerheart`
+          : '/ws-daggerheart';
+        return new SockJS(socketUrl);
+      },
+
 
       // Reconexión automática cada 5 segundos si se cae la conexión
       reconnectDelay: 5000,

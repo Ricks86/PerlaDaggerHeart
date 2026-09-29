@@ -2,16 +2,21 @@ package com.daggerheart.vtt.model;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Entidad principal que representa a un jugador en Daggerheart.
  *
  * Estructura de almacenamiento:
- *  - Atributos y Oro → @Embedded (columnas inline en la misma tabla)
- *  - Experiencias     → @ElementCollection (tabla auxiliar player_character_experiencias)
- *  - InventarioIds    → @ElementCollection (tabla auxiliar player_character_inventario_ids)
- *  - CartasActivasIds → @ElementCollection (tabla auxiliar player_character_cartas_activas_ids)
+ *  - Atributos y Oro   → @Embedded
+ *  - Experiencias       → @ElementCollection (tabla player_character_experiencias)
+ *  - CartasActivasIds   → @ElementCollection (tabla player_character_cartas_activas_ids)
+ *  - ArmaPrincipal      → @ManyToOne (Item_Arma)
+ *  - ArmaSecundaria     → @ManyToOne (Item_Arma)
+ *  - ArmaduraActiva     → @ManyToOne (Item_Armadura)
+ *  - Inventario         → @ManyToMany (elementos no equipados: Item polimórfico)
  */
 @Entity
 @Table(name = "player_character")
@@ -49,7 +54,6 @@ public class PlayerCharacter {
     // -------------------------------------------------------------------------
     // Sub-estructuras embebidas
     // -------------------------------------------------------------------------
-
     @Embedded
     private Atributos atributos = new Atributos();
 
@@ -59,21 +63,12 @@ public class PlayerCharacter {
     // -------------------------------------------------------------------------
     // Colecciones embebidas
     // -------------------------------------------------------------------------
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
         name = "player_character_experiencias",
         joinColumns = @JoinColumn(name = "character_id")
     )
     private List<Experiencia> experiencias = new ArrayList<>();
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-        name = "player_character_inventario_ids",
-        joinColumns = @JoinColumn(name = "character_id")
-    )
-    @Column(name = "item_id")
-    private List<Long> inventarioIds = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -84,6 +79,29 @@ public class PlayerCharacter {
     private List<Long> cartasActivasIds = new ArrayList<>();
 
     // -------------------------------------------------------------------------
+    // Equipamiento activo y polimorfismo de inventario (Sprint 11)
+    // -------------------------------------------------------------------------
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "arma_principal_id")
+    private Arma armaPrincipal;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "arma_secundaria_id")
+    private Arma armaSecundaria;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "armadura_activa_id")
+    private Armadura armaduraActiva;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "player_character_inventario",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private Set<Item> inventario = new LinkedHashSet<>();
+
+    // -------------------------------------------------------------------------
     // Constructores
     // -------------------------------------------------------------------------
     public PlayerCharacter() {}
@@ -91,7 +109,6 @@ public class PlayerCharacter {
     // -------------------------------------------------------------------------
     // Getters y Setters
     // -------------------------------------------------------------------------
-
     public Long getId() { return id; }
 
     public String getNombre() { return nombre; }
@@ -145,9 +162,18 @@ public class PlayerCharacter {
     public List<Experiencia> getExperiencias() { return experiencias; }
     public void setExperiencias(List<Experiencia> experiencias) { this.experiencias = experiencias; }
 
-    public List<Long> getInventarioIds() { return inventarioIds; }
-    public void setInventarioIds(List<Long> inventarioIds) { this.inventarioIds = inventarioIds; }
-
     public List<Long> getCartasActivasIds() { return cartasActivasIds; }
     public void setCartasActivasIds(List<Long> cartasActivasIds) { this.cartasActivasIds = cartasActivasIds; }
+
+    public Arma getArmaPrincipal() { return armaPrincipal; }
+    public void setArmaPrincipal(Arma armaPrincipal) { this.armaPrincipal = armaPrincipal; }
+
+    public Arma getArmaSecundaria() { return armaSecundaria; }
+    public void setArmaSecundaria(Arma armaSecundaria) { this.armaSecundaria = armaSecundaria; }
+
+    public Armadura getArmaduraActiva() { return armaduraActiva; }
+    public void setArmaduraActiva(Armadura armaduraActiva) { this.armaduraActiva = armaduraActiva; }
+
+    public Set<Item> getInventario() { return inventario; }
+    public void setInventario(Set<Item> inventario) { this.inventario = inventario; }
 }

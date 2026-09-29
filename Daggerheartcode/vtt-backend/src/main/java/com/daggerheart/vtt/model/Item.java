@@ -1,15 +1,29 @@
 package com.daggerheart.vtt.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+import java.util.Objects;
 
 /**
- * Entidad Item: arma, armadura o consumible del inventario.
- * Los campos opcionales (alcance, tipoDano, etc.) pueden ser null
- * dependiendo del tipo de ítem.
+ * Entidad abstracta base Item para el sistema de inventario y equipamiento.
+ * Implementa polimorfismo mediante herencia JOINED en Spring Boot / JPA.
  */
 @Entity
 @Table(name = "item")
-public class Item {
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "tipo",
+    visible = true
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Arma.class, name = "Arma"),
+    @JsonSubTypes.Type(value = Armadura.class, name = "Armadura"),
+    @JsonSubTypes.Type(value = Consumible.class, name = "Consumible")
+})
+public abstract class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,62 +32,36 @@ public class Item {
     @Column(nullable = false)
     private String nombre;
 
-    /** "Arma", "Armadura" o "Consumible" */
-    private String tipo;
+    private int tier = 1;
 
-    private String rasgo;
-
-    /** Notación de dado: "d4", "d6", "d8", "d10", "d12" */
-    private String dadoBase;
-
-    private int modificadorDano;
-
-    /** "físico" o "mágico" */
-    private String tipoDano;
-
-    /** Cuántos slots de inventario ocupa */
-    private int carga;
-
-    /** "Cuerpo a cuerpo", "Cercano", "Lejano" */
-    private String alcance;
-
-    @Column(columnDefinition = "TEXT")
-    private String rasgoEspecial;
-
-    // -------------------------------------------------------------------------
-    // Constructores
-    // -------------------------------------------------------------------------
     public Item() {}
 
-    // -------------------------------------------------------------------------
-    // Getters y Setters
-    // -------------------------------------------------------------------------
+    public Item(String nombre, int tier) {
+        this.nombre = nombre;
+        this.tier = tier;
+    }
+
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    public int getTier() { return tier; }
+    public void setTier(int tier) { this.tier = tier; }
 
-    public String getRasgo() { return rasgo; }
-    public void setRasgo(String rasgo) { this.rasgo = rasgo; }
+    public abstract String getTipo();
 
-    public String getDadoBase() { return dadoBase; }
-    public void setDadoBase(String dadoBase) { this.dadoBase = dadoBase; }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id != null && id.equals(item.id);
+    }
 
-    public int getModificadorDano() { return modificadorDano; }
-    public void setModificadorDano(int modificadorDano) { this.modificadorDano = modificadorDano; }
-
-    public String getTipoDano() { return tipoDano; }
-    public void setTipoDano(String tipoDano) { this.tipoDano = tipoDano; }
-
-    public int getCarga() { return carga; }
-    public void setCarga(int carga) { this.carga = carga; }
-
-    public String getAlcance() { return alcance; }
-    public void setAlcance(String alcance) { this.alcance = alcance; }
-
-    public String getRasgoEspecial() { return rasgoEspecial; }
-    public void setRasgoEspecial(String rasgoEspecial) { this.rasgoEspecial = rasgoEspecial; }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

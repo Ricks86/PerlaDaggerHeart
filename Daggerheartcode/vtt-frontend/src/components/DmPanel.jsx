@@ -4,6 +4,7 @@ import DmRoller from './DmRoller';
 import SharedRollLog from './SharedRollLog';
 import SystemCompendium from './SystemCompendium';
 import DataImporter from './DataImporter';
+import ItemForge from './ItemForge';
 
 /**
  * DmPanel: Vista central y exclusiva del Dungeon Master (DJ).
@@ -53,6 +54,12 @@ export default function DmPanel() {
         >
           📥 Ingesta Masiva (JSON)
         </button>
+        <button
+          onClick={() => setActiveTab('FORGE')}
+          style={activeTab === 'FORGE' ? styles.tabBtnActive : styles.tabBtn}
+        >
+          🛠️ Forja de Objetos
+        </button>
       </div>
 
       {/* Grid Principal del DJ */}
@@ -64,6 +71,7 @@ export default function DmPanel() {
           {activeTab === 'IMPORTER' && (
             <DataImporter onImportSuccess={() => setActiveTab('COMPENDIUM')} />
           )}
+          {activeTab === 'FORGE' && <ItemForge />}
         </section>
 
         {/* Columna Derecha: Dados del DJ (en modo combate) + Chat en tiempo real */}

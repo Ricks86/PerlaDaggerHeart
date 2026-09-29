@@ -138,7 +138,7 @@ export default function DataImporter({ onImportSuccess }) {
     });
 
     // Enviar POST /api/cards/bulk
-    fetch('http://localhost:8080/api/cards/bulk', {
+    fetch('/api/cards/bulk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sanitizedCards),

@@ -28,8 +28,9 @@ export function DmProvider({ children }) {
 
   // Carga inicial de presets desde el backend
   useEffect(() => {
-    fetch('http://localhost:8080/api/adversaries')
+    fetch('/api/adversaries')
       .then((res) => (res.ok ? res.json() : []))
+
       .then((data) => {
         setDbPresets(data);
       })

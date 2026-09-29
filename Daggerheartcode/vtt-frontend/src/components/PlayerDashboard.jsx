@@ -17,8 +17,9 @@ export default function PlayerDashboard({ onSelectHero, onCreateHero }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/characters')
+    fetch('/api/characters')
       .then((res) => {
+
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })

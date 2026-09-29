@@ -58,12 +58,14 @@ export default function SystemCompendium() {
     hpInicial: 6,
     dominio1: 'Gracia',
     dominio2: 'Medianoche',
+    // Campo dinámico para tipo 'Subclase'
+    clasePadre: '',
   });
 
   // Cargar cartas desde la API
   function loadCards() {
     setLoading(true);
-    fetch('http://localhost:8080/api/cards')
+    fetch('/api/cards')
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         setCards(data);
@@ -91,13 +93,18 @@ export default function SystemCompendium() {
     setIsSubmitting(true);
     setFeedbackMsg(null);
 
-    // Preparar objeto de metadata si el tipo es 'Clase'
+    // Preparar objeto de metadata si el tipo es 'Clase' o 'Subclase'
     let metadataString = null;
     if (formData.tipo === 'Clase') {
       const metaObj = {
         evasion_base: parseInt(formData.evasionBase, 10) || 10,
         hp_inicial: parseInt(formData.hpInicial, 10) || 6,
         dominios: [formData.dominio1, formData.dominio2],
+      };
+      metadataString = JSON.stringify(metaObj);
+    } else if (formData.tipo === 'Subclase') {
+      const metaObj = {
+        clase_padre: formData.clasePadre ? formData.clasePadre.trim() : '',
       };
       metadataString = JSON.stringify(metaObj);
     }
@@ -110,7 +117,7 @@ export default function SystemCompendium() {
       metadata: metadataString,
     };
 
-    fetch('http://localhost:8080/api/cards', {
+    fetch('/api/cards', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -130,6 +137,7 @@ export default function SystemCompendium() {
           hpInicial: 6,
           dominio1: 'Gracia',
           dominio2: 'Medianoche',
+          clasePadre: '',
         });
         loadCards();
         setTimeout(() => setFeedbackMsg(null), 4000);
@@ -146,7 +154,7 @@ export default function SystemCompendium() {
   function handleDeleteCard(id, titulo) {
     if (!window.confirm(`¿Estás seguro de eliminar la carta "${titulo}"?`)) return;
 
-    fetch(`http://localhost:8080/api/cards/${id}`, {
+    fetch(`/api/cards/${id}`, {
       method: 'DELETE',
     })
       .then((res) => {
@@ -306,6 +314,37 @@ export default function SystemCompendium() {
             </div>
           )}
 
+          {/* Campos dinámicos para tipo 'Subclase' */}
+          {formData.tipo === 'Subclase' && (
+            <div style={{ ...styles.metadataBox, gridColumn: 'span 2' }}>
+              <h4 style={styles.metadataTitle}>⚙️ Configuración de Subclase</h4>
+              <div style={styles.metadataGrid}>
+                <div style={{ ...styles.inputGroup, gridColumn: 'span 2' }}>
+                  <label style={styles.label}>Clase Padre a la que pertenece:</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.clasePadre}
+                    onChange={(e) => handleFieldChange('clasePadre', e.target.value)}
+                    placeholder="Ej. Pícaro, Guerrero, Guardabosques..."
+                    style={styles.input}
+                    list="clases-existentes"
+                  />
+                  <datalist id="clases-existentes">
+                    {cards
+                      .filter((c) => c.tipo === 'Clase')
+                      .map((c) => (
+                        <option key={c.id} value={c.titulo} />
+                      ))}
+                  </datalist>
+                  <span style={styles.hintText}>
+                    La subclase solo aparecerá en el creador cuando el jugador elija esta Clase Padre.
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Descripción con soporte Markdown */}
           <div style={{ ...styles.inputGroup, gridColumn: 'span 2' }}>
             <div style={styles.labelRow}>
@@ -408,6 +447,11 @@ export default function SystemCompendium() {
                       <td style={styles.tdMeta}>
                         {parsedMeta ? (
                           <div style={styles.metaChips}>
+                            {parsedMeta.clase_padre && (
+                              <span style={styles.metaChip}>
+                                Clase: {parsedMeta.clase_padre}
+                              </span>
+                            )}
                             {parsedMeta.evasion_base != null && (
                               <span style={styles.metaChip}>
                                 Eva: {parsedMeta.evasion_base}

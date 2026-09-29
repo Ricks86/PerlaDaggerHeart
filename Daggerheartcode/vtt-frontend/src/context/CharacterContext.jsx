@@ -36,7 +36,7 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
     setLoading(true);
     setError(null);
 
-    fetch(`http://localhost:8080/api/characters/${id}`)
+    fetch(`/api/characters/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Personaje no encontrado (HTTP ${res.status})`);
@@ -80,7 +80,8 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
     const merged = { ...character, ...updatedData };
     setCharacter(merged);
 
-    return fetch(`http://localhost:8080/api/characters/${character.id}`, {
+    return fetch(`/api/characters/${character.id}`, {
+
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(merged),

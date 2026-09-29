@@ -41,8 +41,9 @@ export default function CardVault() {
   // Cargar cartas desde el backend
   // -------------------------------------------------------------------------
   useEffect(() => {
-    fetch('http://localhost:8080/api/cards')
+    fetch('/api/cards')
       .then((res) => {
+
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })

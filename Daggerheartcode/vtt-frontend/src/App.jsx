@@ -126,6 +126,7 @@ function AppContent() {
                 </aside>
               </div>
 
+
               {/* Bóveda y Mano Activa de cartas */}
               <section style={styles.cardSection}>
                 <CardVault />
@@ -317,6 +318,7 @@ const styles = {
     maxHeight: 'calc(100vh - 200px)',
     overflowY: 'auto',
   },
+
 
   // Bóveda de cartas
   cardSection: {
