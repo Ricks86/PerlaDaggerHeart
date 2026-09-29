@@ -95,4 +95,15 @@ public class Card {
 
     public String getMetadata() { return metadata; }
     public void setMetadata(String metadata) { this.metadata = metadata; }
+
+    @com.fasterxml.jackson.annotation.JsonSetter("metadata")
+    public void setMetadataFromJson(com.fasterxml.jackson.databind.JsonNode node) {
+        if (node == null || node.isNull()) {
+            this.metadata = null;
+        } else if (node.isTextual()) {
+            this.metadata = node.asText();
+        } else {
+            this.metadata = node.toString();
+        }
+    }
 }

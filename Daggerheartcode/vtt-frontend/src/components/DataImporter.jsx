@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 
 /**
- * DataImporter: Motor de Importación Masiva (Bulk Import) para el Dungeon Master.
+ * DataImporter: Motor de Ingesta Masiva (Bulk / Batch Import) para el Dungeon Master.
  *
- * Permite cargar un archivo .json o pegar JSON en texto plano para insertar
- * múltiples cartas de golpe en el backend mediante POST /api/cards/bulk.
+ * Permite cargar un archivo .json o pegar texto plano para insertar
+ * masivamente cartas fundacionales (/api/cards/batch) u objetos polimórficos (/api/items/batch)
+ * en la base de datos de una sola vez.
  *
- * @param {Function} onImportSuccess - Callback para refrescar la tabla del compendio.
+ * @param {Function} onImportSuccess - Callback para refrescar vistas o compendios tras el éxito.
  */
 export default function DataImporter({ onImportSuccess }) {
+  const [importTarget, setImportTarget] = useState('CARDS'); // 'CARDS' | 'ITEMS'
   const [jsonText, setJsonText] = useState('');
   const [fileName, setFileName] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [alertInfo, setAlertInfo] = useState(null); // { type: 'success' | 'error', message: string, count?: number }
   const [previewCount, setPreviewCount] = useState(null);
+
+  // Manejar cambio de tipo de ingesta (Cartas vs Objetos)
+  function handleSwitchTarget(target) {
+    setImportTarget(target);
+    setAlertInfo(null);
+    setJsonText('');
+    setFileName('');
+    setPreviewCount(null);
+  }
 
   // Manejar selección de archivo mediante FileReader
   function handleFileChange(e) {
@@ -28,7 +39,7 @@ export default function DataImporter({ onImportSuccess }) {
       const content = event.target?.result;
       if (typeof content === 'string') {
         setJsonText(content);
-        tryPreParse(content);
+        tryPreParse(content, importTarget);
       }
     };
     reader.onerror = () => {
@@ -40,20 +51,29 @@ export default function DataImporter({ onImportSuccess }) {
     reader.readAsText(file);
   }
 
-  // Pre-analizar texto para dar feedback rápido de cartas detectadas
-  function tryPreParse(text) {
+  // Pre-analizar texto para dar feedback rápido de elementos detectados
+  function tryPreParse(text, target = importTarget) {
     if (!text.trim()) {
       setPreviewCount(null);
       return;
     }
     try {
       const parsed = JSON.parse(text);
-      const list = Array.isArray(parsed)
-        ? parsed
-        : Array.isArray(parsed.cards)
-        ? parsed.cards
-        : [parsed];
-      setPreviewCount(list.length);
+      if (target === 'CARDS') {
+        const list = Array.isArray(parsed)
+          ? parsed
+          : Array.isArray(parsed.cards)
+          ? parsed.cards
+          : [parsed];
+        setPreviewCount(list.length);
+      } else {
+        const list = Array.isArray(parsed)
+          ? parsed
+          : Array.isArray(parsed.items)
+          ? parsed.items
+          : [parsed];
+        setPreviewCount(list.length);
+      }
     } catch {
       setPreviewCount(null);
     }
@@ -64,10 +84,10 @@ export default function DataImporter({ onImportSuccess }) {
     const val = e.target.value;
     setJsonText(val);
     setAlertInfo(null);
-    tryPreParse(val);
+    tryPreParse(val, importTarget);
   }
 
-  // Enviar el array de cartas a /api/cards/bulk
+  // Enviar el lote a /api/cards/batch o /api/items/batch
   function handleImportSubmit(e) {
     e.preventDefault();
     if (!jsonText.trim()) {
@@ -93,7 +113,15 @@ export default function DataImporter({ onImportSuccess }) {
       return;
     }
 
-    // Normalizar a array de cartas
+    if (importTarget === 'CARDS') {
+      importCards(parsed);
+    } else {
+      importItems(parsed);
+    }
+  }
+
+  // Lógica de importación para Cartas
+  function importCards(parsed) {
     let cardsArray = [];
     if (Array.isArray(parsed)) {
       cardsArray = parsed;
@@ -119,7 +147,6 @@ export default function DataImporter({ onImportSuccess }) {
       return;
     }
 
-    // Asegurar estructura limpia para la entidad Card
     const sanitizedCards = cardsArray.map((c) => {
       let metaStr = null;
       if (typeof c.metadata === 'object' && c.metadata !== null) {
@@ -137,8 +164,7 @@ export default function DataImporter({ onImportSuccess }) {
       };
     });
 
-    // Enviar POST /api/cards/bulk
-    fetch('/api/cards/bulk', {
+    fetch('/api/cards/batch', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sanitizedCards),
@@ -148,25 +174,21 @@ export default function DataImporter({ onImportSuccess }) {
         return res.json();
       })
       .then((data) => {
-        const count = data.count || sanitizedCards.length;
+        const count = data.count || (Array.isArray(data) ? data.length : sanitizedCards.length);
         setAlertInfo({
           type: 'success',
-          message: `✓ ¡Ingesta Masiva Exitosa! Se han insertado ${count} carta(s) en la base de datos.`,
+          message: `✓ ¡Ingesta Masiva Exitosa! Se han insertado ${count} carta(s) en el compendio.`,
           count,
         });
 
-        // Limpiar inputs
         setJsonText('');
         setFileName('');
         setPreviewCount(null);
 
-        // Notificar al compendio para refrescar su tabla
-        if (onImportSuccess) {
-          onImportSuccess();
-        }
+        if (onImportSuccess) onImportSuccess();
       })
       .catch((err) => {
-        console.error('[BulkImport] Error:', err);
+        console.error('[BulkImport Cards] Error:', err);
         setAlertInfo({
           type: 'error',
           message: `Error al comunicar con el servidor: ${err.message}`,
@@ -177,27 +199,132 @@ export default function DataImporter({ onImportSuccess }) {
       });
   }
 
-  // Ejemplo de JSON plantilla para facilitar la vida al DJ
+  // Lógica de importación para Objetos (Items polimórficos)
+  function importItems(parsed) {
+    let itemsArray = [];
+    if (Array.isArray(parsed)) {
+      itemsArray = parsed;
+    } else if (Array.isArray(parsed.items)) {
+      itemsArray = parsed.items;
+    } else if (typeof parsed === 'object' && parsed !== null) {
+      itemsArray = [parsed];
+    } else {
+      setIsProcessing(false);
+      setAlertInfo({
+        type: 'error',
+        message: 'El formato del JSON debe ser una lista de ítems o un objeto con propiedad "items".',
+      });
+      return;
+    }
+
+    if (itemsArray.length === 0) {
+      setIsProcessing(false);
+      setAlertInfo({
+        type: 'error',
+        message: 'No se encontraron objetos para importar en el JSON proporcionado.',
+      });
+      return;
+    }
+
+    // Asegurar que no se fuercen IDs que puedan colisionar
+    const sanitizedItems = itemsArray.map((it) => {
+      const copy = { ...it };
+      delete copy.id;
+      return copy;
+    });
+
+    fetch('/api/items/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sanitizedItems),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        const count = Array.isArray(data) ? data.length : sanitizedItems.length;
+        setAlertInfo({
+          type: 'success',
+          message: `✓ ¡Ingesta Masiva Exitosa! Se han insertado ${count} objeto(s) (armas, armaduras y consumibles) en el catálogo.`,
+          count,
+        });
+
+        setJsonText('');
+        setFileName('');
+        setPreviewCount(null);
+
+        if (onImportSuccess) onImportSuccess();
+      })
+      .catch((err) => {
+        console.error('[BatchImport Items] Error:', err);
+        setAlertInfo({
+          type: 'error',
+          message: `Error al comunicar con el servidor: ${err.message}`,
+        });
+      })
+      .finally(() => {
+        setIsProcessing(false);
+      });
+  }
+
+  // Cargar plantilla JSON adaptativa
   function handleLoadTemplate() {
-    const template = [
-      {
-        titulo: "Golpe de Sombras",
-        tipo: "Dominio",
-        nivel: 1,
-        descripcion: "**Acción:** Gasta **1 Esperanza** para realizar un ataque imbuido con oscuridad.",
-        metadata: null
-      },
-      {
-        titulo: "Guardián de Éter",
-        tipo: "Homebrew",
-        nivel: 1,
-        descripcion: "**Habilidad Especial:** Absorbe **2 puntos de daño** mágico por descanso largo.",
-        metadata: null
-      }
-    ];
-    const str = JSON.stringify(template, null, 2);
-    setJsonText(str);
-    tryPreParse(str);
+    if (importTarget === 'CARDS') {
+      const template = [
+        {
+          titulo: "Flecha de Tormenta",
+          tipo: "Dominio",
+          nivel: 1,
+          descripcion: "**Acción:** Gasta **1 Esperanza** para disparar una flecha cargada de electricidad. Inflige **daño mágico** y deja al objetivo **Marcado**.",
+          metadata: null,
+        },
+        {
+          titulo: "Pícaro",
+          tipo: "Clase",
+          nivel: 1,
+          descripcion: "**Habilidad de Clase:** Especialista en emboscadas y sigilo.",
+          metadata: {
+            evasion_base: 10,
+            hp_inicial: 6,
+            dominios: ["Gracia", "Medianoche"]
+          },
+        },
+      ];
+      const str = JSON.stringify(template, null, 2);
+      setJsonText(str);
+      tryPreParse(str, 'CARDS');
+    } else {
+      const template = [
+        {
+          nombre: "Espada de Acero Templado",
+          tier: 1,
+          categoria: "Principal",
+          rasgo: "Equilibrada",
+          dadoBase: "d8",
+          modificadorDano: 2,
+          tipoDano: "físico",
+          carga: 1,
+          alcance: "Cuerpo a cuerpo"
+        },
+        {
+          nombre: "Cota de Malla Reforzada",
+          tier: 1,
+          puntuacionBase: 5,
+          umbralMayorBase: 8,
+          umbralGraveBase: 15,
+          rasgoEspecial: "-1 a Evasión"
+        },
+        {
+          nombre: "Poción de Regeneración",
+          tier: 1,
+          descripcion: "Restaura 3 Puntos de Golpe (HP) y despeja 1 de Estrés."
+        }
+      ];
+      const str = JSON.stringify(template, null, 2);
+      setJsonText(str);
+      tryPreParse(str, 'ITEMS');
+    }
     setAlertInfo(null);
   }
 
@@ -208,9 +335,9 @@ export default function DataImporter({ onImportSuccess }) {
         <div style={styles.headerTitleGroup}>
           <span style={styles.icon}>📥</span>
           <div>
-            <h3 style={styles.title}>Motor de Ingesta Masiva (Bulk Import)</h3>
+            <h3 style={styles.title}>Motor de Ingesta Masiva (Bulk / Batch Import)</h3>
             <p style={styles.subtitle}>
-              Carga masivamente cartas fundacionales, dominios o material homebrew en la base de datos H2.
+              Carga masivamente cartas fundacionales o catálogo de objetos polimórficos en la base de datos.
             </p>
           </div>
         </div>
@@ -220,8 +347,29 @@ export default function DataImporter({ onImportSuccess }) {
           style={styles.btnTemplate}
           title="Carga una estructura de ejemplo en el área de texto"
         >
-          📋 Cargar Plantilla JSON
+          📋 Cargar Plantilla JSON ({importTarget === 'CARDS' ? 'Cartas' : 'Objetos'})
         </button>
+      </div>
+
+      {/* Selector de Destino de Ingesta (Sprint 16) */}
+      <div style={styles.targetSelectorRow}>
+        <span style={styles.selectorLabel}>Destino de Ingesta:</span>
+        <div style={styles.radioGroup}>
+          <button
+            type="button"
+            onClick={() => handleSwitchTarget('CARDS')}
+            style={importTarget === 'CARDS' ? styles.tabChoiceActive : styles.tabChoice}
+          >
+            📜 Compendio de Cartas (/api/cards/batch)
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSwitchTarget('ITEMS')}
+            style={importTarget === 'ITEMS' ? styles.tabChoiceActive : styles.tabChoice}
+          >
+            ⚔️ Catálogo de Objetos (/api/items/batch)
+          </button>
+        </div>
       </div>
 
       {/* Alerta de Estado */}
@@ -242,7 +390,9 @@ export default function DataImporter({ onImportSuccess }) {
         {/* Opción A: Cargar Archivo .json */}
         <div style={styles.uploadArea}>
           <label style={styles.uploadLabel}>
-            <span style={styles.uploadTitle}>📁 Opción A: Cargar archivo .json</span>
+            <span style={styles.uploadTitle}>
+              📁 Opción A: Cargar archivo .json ({importTarget === 'CARDS' ? 'Cartas' : 'Objetos'})
+            </span>
             <span style={styles.uploadDesc}>
               Selecciona un archivo JSON desde tu explorador de archivos
             </span>
@@ -270,18 +420,24 @@ export default function DataImporter({ onImportSuccess }) {
         {/* Opción B: Textarea con JSON Crudo */}
         <div style={styles.textareaGroup}>
           <div style={styles.textareaHeader}>
-            <label style={styles.label}>📝 Opción B: Pegar JSON Crudo</label>
+            <label style={styles.label}>
+              📝 Opción B: Pegar JSON Crudo ({importTarget === 'CARDS' ? 'Cartas' : 'Objetos'})
+            </label>
             {previewCount !== null && (
               <span style={styles.previewTag}>
-                ✓ {previewCount} carta(s) detectada(s)
+                ✓ {previewCount} {importTarget === 'CARDS' ? 'carta(s)' : 'objeto(s)'} detectado(s)
               </span>
             )}
           </div>
           <textarea
-            rows={7}
+            rows={8}
             value={jsonText}
             onChange={handleTextChange}
-            placeholder={`[\n  {\n    "titulo": "Flecha Arcana",\n    "tipo": "Dominio",\n    "nivel": 1,\n    "descripcion": "**Acción:** ..."\n  }\n]`}
+            placeholder={
+              importTarget === 'CARDS'
+                ? `[\n  {\n    "titulo": "Flecha Arcana",\n    "tipo": "Dominio",\n    "nivel": 1,\n    "descripcion": "**Acción:** ..."\n  }\n]`
+                : `[\n  {\n    "nombre": "Espada de Acero",\n    "tier": 1,\n    "categoria": "Principal",\n    "dadoBase": "d8",\n    "tipoDano": "físico"\n  }\n]`
+            }
             style={styles.textarea}
           />
         </div>
@@ -299,8 +455,8 @@ export default function DataImporter({ onImportSuccess }) {
           {isProcessing
             ? '⏳ Procesando Ingesta en la Base de Datos...'
             : previewCount
-            ? `🚀 Importar ${previewCount} Carta(s) a la Base de Datos`
-            : '🚀 Iniciar Importación Masiva'}
+            ? `🚀 Importar ${previewCount} ${importTarget === 'CARDS' ? 'Carta(s)' : 'Objeto(s)'} a la Base de Datos`
+            : '🚀 Iniciar Ingesta Masiva'}
         </button>
       </form>
     </div>
@@ -358,6 +514,49 @@ const styles = {
     cursor: 'pointer',
     fontFamily: 'inherit',
     transition: 'background-color 0.15s ease',
+  },
+  targetSelectorRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+    backgroundColor: '#100a04',
+    padding: '10px 14px',
+    borderRadius: '6px',
+    border: '1px solid #3a2a1a',
+    flexWrap: 'wrap',
+  },
+  selectorLabel: {
+    color: '#d4af37',
+    fontSize: '0.85rem',
+    fontWeight: 'bold',
+  },
+  radioGroup: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+  },
+  tabChoice: {
+    backgroundColor: '#1c1309',
+    color: '#a0906a',
+    border: '1px solid #4a3728',
+    borderRadius: '5px',
+    padding: '6px 12px',
+    fontSize: '0.82rem',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  tabChoiceActive: {
+    backgroundColor: '#8b1a1a',
+    color: '#f5e6d3',
+    border: '1px solid #d4af37',
+    borderRadius: '5px',
+    padding: '6px 12px',
+    fontSize: '0.82rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    boxShadow: '0 2px 8px rgba(139, 26, 26, 0.4)',
   },
   alertBanner: {
     border: '1px solid',

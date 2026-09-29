@@ -2,6 +2,7 @@
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/config/WebMvcConfig.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/config/WebSocketConfig.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/GameController.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/ItemController.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/SpaRedirectController.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/controller/TableController.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/dto/TableAction.java
@@ -22,3 +23,4 @@
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/ItemRepository.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/repository/PlayerCharacterRepository.java
 /home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/seeder/DatabaseSeeder.java
+/home/duckyrichii/Escritorio/codigos/base de datos/Daggerheartcode/vtt-backend/src/main/java/com/daggerheart/vtt/seeder/JsonFolderSeeder.java

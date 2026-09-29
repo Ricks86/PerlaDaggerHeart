@@ -1,0 +1,170 @@
+[
+  {
+    "titulo": "Aetheris",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Aura Sagrada:** Una vez por descanso largo, cuando un aliado a alcance Cercano tira con Miedo, puedes cambiarlo a una tirada con Esperanza en su lugar.\n\n**Alas Celestiales:** Tienes alas que te permiten volar. Una vez por escena mientras vuelas, puedes **gastar una Esperanza** en lugar de marcar un Espacio de Armadura.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Clank",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Diseño Intencionado:** Decide quién te construyó y con qué propósito. Al crear tu personaje, elige una de tus Experiencias que mejor se alinee con este propósito y gana un bono permanente de +1 a ella.\n\n**Eficiente:** Cuando tomas un descanso corto, puedes elegir un movimiento de descanso largo en lugar de uno de descanso corto.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Drakona",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Escamas:** Tus escamas actúan como protección natural. Cuando vayas a recibir daño Grave, puedes **marcar un Estrés** para marcar 1 Punto de Golpe menos.\n\n**Aliento Elemental:** Elige un elemento para tu aliento (como electricidad, fuego o hielo). Puedes usar este aliento contra un objetivo o grupo de objetivos a alcance Muy Cercano, tratándolo como un arma de Instinto que inflige d8 de daño mágico usando tu Competencia.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Enano (Dwarf)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Piel Gruesa:** Cuando recibes daño Menor, puedes **marcar 2 de Estrés** en lugar de marcar un Punto de Golpe.\n\n**Fortaleza Incrementada:** **Gasta 3 de Esperanza** para reducir a la mitad el daño físico entrante.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Linaje de la Tierra (Earthkin)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Piel de Piedra:** Ganas un bono permanente de +1 a tu Puntuación de Armadura y a tus umbrales de daño en la creación del personaje.\n\n**Inamovible:** Mientras estés tocando el suelo, no puedes ser levantado ni movido en contra de tu voluntad.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Linaje de la Brasa (Emberkin)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Ignífugo:** Eres inmune al daño por llamas mágicas o mundanas.\n\n**Ignición:** **Marca un Estrés** para envolver tu arma principal en llamas hasta el final de la escena. Mientras el arma esté en llamas, emite luz brillante y ganas un bono de 1d6 a las tiradas de daño con esa arma.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Linaje del Cielo (Skykin)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Fuerza de Vendaval:** **Marca un Estrés** para conjurar una ráfaga de viento que te lleva a ti o a un aliado a alcance Muy Cercano hasta alcance Muy Lejano. Además, siempre puedes controlar la velocidad a la que caes.\n\n**Ojo de la Tormenta:** **Gasta 2 de Esperanza** para otorgarte a ti o a un aliado a alcance Cuerpo a Cuerpo un bono de +1 a la Evasión hasta que recibas daño Grave o uses esta característica de nuevo.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Linaje de la Marea (Tidekin)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Anfibio:** Puedes respirar y moverte naturalmente bajo el agua.\n\n**Manantial de Vida:** Una vez por descanso, cuando tengas acceso a una pequeña cantidad de agua, puedes **marcar un Estrés** para limpiar un Punto de Golpe en ti o en un aliado a alcance Muy Cercano.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Elfo (Elf)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Reacciones Rápidas:** **Marca un Estrés** para ganar ventaja en una tirada de reacción.\n\n**Trance Celestial:** Durante un descanso, puedes entrar en un trance para elegir un movimiento de descanso adicional.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Hada (Faerie)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Moldeador de Suerte:** Una vez por sesión, después de que tú o un aliado voluntario a alcance Cercano haga una tirada de acción, puedes **gastar 3 de Esperanza** para volver a tirar los Dados de Dualidad.\n\n**Alas:** Puedes volar. Mientras vuelas, puedes **marcar un Estrés** después de que un adversario haga un ataque contra ti para ganar un bono de +2 a tu Evasión contra ese ataque.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Fauno (Faun)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Salto Caprino:** Puedes saltar a cualquier lugar dentro de alcance Cercano como si usaras movimiento normal, permitiéndote saltar obstáculos, cruzar brechas o escalar barreras con facilidad.\n\n**Patada:** Cuando tienes éxito en un ataque contra un objetivo a alcance Cuerpo a Cuerpo, puedes **marcar un Estrés** para impulsarte pateándolo, infligiendo 2d6 de daño adicional y empujándote a ti o al objetivo a alcance Muy Cercano.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Firbolg",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Carga:** Cuando tienes éxito en una Tirada de Agilidad para moverte desde alcance Lejano o Muy Lejano a alcance Cuerpo a Cuerpo con uno o más objetivos, puedes **marcar un Estrés** para infligir 1d12 de daño físico a todos los objetivos a alcance Cuerpo a Cuerpo.\n\n**Inquebrantable:** Cuando debas marcar un Estrés, tira un d6. En un resultado de 6, no lo marques.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Fungril",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Red Fungril:** Haz una Tirada de Instinto (12) para usar tu red micelial y hablar con otros de tu ancestro. En un éxito, puedes comunicarte a través de cualquier distancia.\n\n**Conexión con la Muerte:** Mientras tocas un cadáver que murió recientemente, puedes **marcar un Estrés** para extraer una memoria del cadáver relacionada con una emoción o sensación específica de tu elección.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Galapa",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Caparazón:** Ganas un bono a tus umbrales de daño igual a tu Competencia.\n\n**Retraerse:** **Marca un Estrés** para retraerte en tu caparazón. Mientras estás en tu caparazón, tienes resistencia al daño físico, tienes desventaja en las tiradas de acción y no puedes moverte.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Gigante (Giant)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Resistencia:** Ganas un espacio adicional de Puntos de Golpe en la creación del personaje.\n\n**Alcance:** Trata cualquier arma, habilidad, hechizo u otra característica que tenga alcance Cuerpo a Cuerpo como si tuviera alcance Muy Cercano en su lugar.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Gnomo (Gnome)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Dedos Ágiles:** Cuando haces una Tirada de Sutileza, puedes **gastar 2 de Esperanza** para volver a tirar tu Dado de Esperanza.\n\n**Paso Parpadeante:** Una vez por escena, puedes teletransportarte a otro punto que puedas ver a alcance Lejano.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Goblin",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Paso Seguro:** Ignoras la desventaja en las Tiradas de Agilidad.\n\n**Sentido del Peligro:** Una vez por descanso, **marca un Estrés** para obligar a un adversario a volver a tirar un ataque contra ti o un aliado a alcance Muy Cercano.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Mediano (Halfling)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Portador de Suerte:** Al inicio de cada sesión, todos en tu grupo ganan una Esperanza.\n\n**Brújula Interna:** Cuando sacas un 1 en tu Dado de Esperanza, puedes volver a tirarlo.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Humano (Human)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Alta Resistencia:** Ganas un espacio adicional de Estrés en la creación del personaje.\n\n**Adaptabilidad:** Cuando fallas una tirada que usó una de tus Experiencias, puedes **marcar un Estrés** para volver a tirar.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Infernis",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Sin Miedo:** Cuando tiras con Miedo, puedes **marcar 2 de Estrés** para cambiarlo a una tirada con Esperanza en su lugar.\n\n**Rostro de Pavor:** Tienes ventaja en las tiradas para intimidar a criaturas hostiles.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Katari",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Instintos Felinos:** Cuando haces una Tirada de Agilidad, puedes **gastar 2 de Esperanza** para volver a tirar tu Dado de Esperanza.\n\n**Garras Retráctiles:** Haz una Tirada de Agilidad para rasguñar a un objetivo a alcance Cuerpo a Cuerpo. En un éxito, se vuelven temporalmente Vulnerables.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Orco (Orc)",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Robusto:** Cuando te queda 1 Punto de Golpe, los ataques contra ti tienen desventaja.\n\n**Colmillos:** Cuando tienes éxito en un ataque contra un objetivo a alcance Cuerpo a Cuerpo, puedes **gastar una Esperanza** para cornear al objetivo con tus colmillos, infligiendo 1d6 de daño extra.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Ribbet",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Anfibio:** Puedes respirar y moverte naturalmente bajo el agua.\n\n**Lengua Larga:** Puedes usar tu larga lengua para agarrar cosas a alcance Cercano. **Marca un Estrés** para usar tu lengua como un arma de Sutileza de alcance Cercano que inflige d12 de daño físico usando tu Competencia.",
+    "metadata": {}
+  },
+  {
+    "titulo": "Simiah",
+    "tipo": "Linaje",
+    "nivel": 1,
+    "descripcion": "**Escalador Natural:** Tienes ventaja en Tiradas de Agilidad que involucran balancearse y escalar.\n\n**Ágil:** Ganas un bono permanente de +1 a tu Evasión en la creación del personaje.",
+    "metadata": {}
+  }
+]

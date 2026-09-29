@@ -1,5 +1,6 @@
 package com.daggerheart.vtt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
@@ -12,17 +13,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "item")
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "tipo",
-    visible = true
-)
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Arma.class, name = "Arma"),
-    @JsonSubTypes.Type(value = Armadura.class, name = "Armadura"),
-    @JsonSubTypes.Type(value = Consumible.class, name = "Consumible")
+    @JsonSubTypes.Type(value = Arma.class),
+    @JsonSubTypes.Type(value = Armadura.class),
+    @JsonSubTypes.Type(value = Consumible.class)
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Item {
 
     @Id

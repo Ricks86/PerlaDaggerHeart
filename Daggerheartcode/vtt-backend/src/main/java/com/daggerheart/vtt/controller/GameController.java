@@ -256,7 +256,7 @@ public class GameController {
         return ResponseEntity.ok(cardRepo.save(card));
     }
 
-    @PostMapping("/cards/bulk")
+    @PostMapping({"/cards/bulk", "/cards/batch"})
     public ResponseEntity<Map<String, Object>> bulkImportCards(@RequestBody List<Card> cards) {
         List<Card> saved = cardRepo.saveAll(cards);
         Map<String, Object> response = new HashMap<>();

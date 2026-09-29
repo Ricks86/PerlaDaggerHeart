@@ -1,0 +1,554 @@
+[
+  {
+    "nombre": "Túnica de Mago (Mage Robes)",
+    "tier": 1,
+    "puntuacionBase": 2,
+    "umbralMayorBase": 4,
+    "umbralGraveBase": 10,
+    "rasgoEspecial": "**Encantada:** Ganas un bono a tus umbrales de daño igual a tu rasgo de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Gambesón (Gambeson Armor)",
+    "tier": 1,
+    "puntuacionBase": 3,
+    "umbralMayorBase": 5,
+    "umbralGraveBase": 11,
+    "rasgoEspecial": "**Flexible:** +1 a Evasión."
+  },
+  {
+    "nombre": "Brigantina (Brigandine Armor)",
+    "tier": 1,
+    "puntuacionBase": 3,
+    "umbralMayorBase": 6,
+    "umbralGraveBase": 12,
+    "rasgoEspecial": "**Forrada:** Marca un Estrés para anular el daño Menor."
+  },
+  {
+    "nombre": "Armadura de Cuero (Leather Armor)",
+    "tier": 1,
+    "puntuacionBase": 3,
+    "umbralMayorBase": 6,
+    "umbralGraveBase": 13,
+    "rasgoEspecial": null
+  },
+  {
+    "nombre": "Cota de Escamas (Scale Mail Armor)",
+    "tier": 1,
+    "puntuacionBase": 3,
+    "umbralMayorBase": 7,
+    "umbralGraveBase": 14,
+    "rasgoEspecial": "**Engorrosa:** -1 a Sutileza."
+  },
+  {
+    "nombre": "Cota de Malla (Chainmail Armor)",
+    "tier": 1,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 7,
+    "umbralGraveBase": 15,
+    "rasgoEspecial": "**Pesada:** -1 a Evasión."
+  },
+  {
+    "nombre": "Armadura de Bandas (Banded Armor)",
+    "tier": 1,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 8,
+    "umbralGraveBase": 16,
+    "rasgoEspecial": "**Voluminosa:** -1 a Evasión; cuando recibes daño Grave, debes marcar un Estrés."
+  },
+  {
+    "nombre": "Armadura Completa de Placas (Full Plate Armor)",
+    "tier": 1,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 8,
+    "umbralGraveBase": 17,
+    "rasgoEspecial": "**Muy Pesada:** -2 a Evasión; -1 a Agilidad."
+  },
+  {
+    "nombre": "Túnica de Mago Mejorada (Improved Mage Robes)",
+    "tier": 2,
+    "puntuacionBase": 3,
+    "umbralMayorBase": 6,
+    "umbralGraveBase": 15,
+    "rasgoEspecial": "**Encantada:** Ganas un bono a tus umbrales de daño igual a tu rasgo de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Gambesón Mejorado (Improved Gambeson Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 7,
+    "umbralGraveBase": 16,
+    "rasgoEspecial": "**Flexible:** +1 a Evasión."
+  },
+  {
+    "nombre": "Brigantina Mejorada (Improved Brigandine Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 19,
+    "rasgoEspecial": "**Forrada:** Marca un Estrés para anular el daño Menor."
+  },
+  {
+    "nombre": "Armadura de Cuero Mejorada (Improved Leather Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": null
+  },
+  {
+    "nombre": "Cota de Escamas Mejorada (Improved Scale Mail Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 23,
+    "rasgoEspecial": "**Engorrosa:** -1 a Sutileza."
+  },
+  {
+    "nombre": "Cota de Malla Mejorada (Improved Chainmail Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 24,
+    "rasgoEspecial": "**Pesada:** -1 a Evasión."
+  },
+  {
+    "nombre": "Armadura de Bandas Mejorada (Improved Banded Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Voluminosa:** -1 a Evasión; cuando recibes daño Grave, debes marcar un Estrés."
+  },
+  {
+    "nombre": "Armadura Completa de Placas Mejorada (Improved Full Plate Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 28,
+    "rasgoEspecial": "**Muy Pesada:** -2 a Evasión; -1 a Agilidad."
+  },
+  {
+    "nombre": "Túnica del Encantador (Enchanter's Robes)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Mnemónica:** Una vez por escena, puedes recuperar una carta de dominio de tu bóveda sin pagar su Coste de Recuperación."
+  },
+  {
+    "nombre": "Manto de la Guardia del Halcón (Hawkguard's Mantle)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Planeo:** Puedes planear hasta alcance Lejano y eres inmune al daño por caída."
+  },
+  {
+    "nombre": "Túnica de Seda de Araña (Spidersilk Tunic)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Escalar Paredes:** +1 a Evasión; puedes caminar sobre paredes tan fácilmente como en el suelo."
+  },
+  {
+    "nombre": "Hábito Hilo de Tormenta (Stormthread Habit)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Absorbente:** Una vez por escena, cuando recibes daño mágico, puedes limpiar un Espacio de Armadura."
+  },
+  {
+    "nombre": "Cota Elundriana (Elundrian Chain Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 21,
+    "rasgoEspecial": "**Protegida:** Reduces el daño mágico entrante en tu Puntuación de Armadura antes de aplicarlo a tus umbrales de daño."
+  },
+  {
+    "nombre": "Armadura de Hueso Desgarrador (Harrowbone Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 21,
+    "rasgoEspecial": "**Resiliente:** Antes de marcar tu último Espacio de Armadura, tira un d6. Con un resultado de 6, reduce la gravedad en un umbral sin marcar un Espacio de Armadura."
+  },
+  {
+    "nombre": "Peto de Árbol de Hierro (Irontree Breastplate Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Reforzada:** Cuando marcas tu último Espacio de Armadura, aumenta tus umbrales de daño en +2 hasta que limpies al menos 1 Espacio de Armadura."
+  },
+  {
+    "nombre": "Armadura Flotante Runetan (Runetan Floating Armor)",
+    "tier": 2,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 20,
+    "rasgoEspecial": "**Cambiante:** Cuando eres objetivo de un ataque, puedes marcar un Espacio de Armadura para darle desventaja a la tirada de ataque contra ti."
+  },
+  {
+    "nombre": "Armadura Blanda Tyris (Tyris Soft Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 8,
+    "umbralGraveBase": 18,
+    "rasgoEspecial": "**Silenciosa:** Ganas un bono de +2 a las tiradas que hagas para moverte en silencio."
+  },
+  {
+    "nombre": "Armadura de Férulas de Madera del Destino (Wyrdwood Splint Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 10,
+    "umbralGraveBase": 21,
+    "rasgoEspecial": "**Paso Veloz:** No puedes ser Retenido y puedes moverte hasta alcance Lejano como parte de una tirada de acción."
+  },
+  {
+    "nombre": "Armadura de Rosa Silvestre (Rosewild Armor)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 23,
+    "rasgoEspecial": "**Esperanzada:** Cuando fueras a gastar una Esperanza, puedes marcar un Espacio de Armadura en su lugar."
+  },
+  {
+    "nombre": "Coraza de Piel de Troll (Trollhide Cuirass)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 23,
+    "rasgoEspecial": "**Autocuración:** Cuando tomas un descanso, limpia un Espacio de Armadura."
+  },
+  {
+    "nombre": "Placas Solares Doradas (Gilded Sunplate)",
+    "tier": 2,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 12,
+    "umbralGraveBase": 26,
+    "rasgoEspecial": "**Resplandeciente:** Una vez por escena, cuando gastas Esperanza, puedes limpiar un Espacio de Armadura."
+  },
+  {
+    "nombre": "Túnica de Mago Avanzada (Advanced Mage Robes)",
+    "tier": 3,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 8,
+    "umbralGraveBase": 22,
+    "rasgoEspecial": "**Encantada:** Ganas un bono a tus umbrales de daño igual a tu rasgo de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Gambesón Avanzado (Advanced Gambeson Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 9,
+    "umbralGraveBase": 23,
+    "rasgoEspecial": "**Flexible:** +1 a Evasión."
+  },
+  {
+    "nombre": "Brigantina Avanzada (Advanced Brigandine Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 26,
+    "rasgoEspecial": "**Forrada:** Marca un Estrés para anular el daño Menor."
+  },
+  {
+    "nombre": "Armadura de Cuero Avanzada (Advanced Leather Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": null
+  },
+  {
+    "nombre": "Cota de Escamas Avanzada (Advanced Scale Mail Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 30,
+    "rasgoEspecial": "**Engorrosa:** -1 a Sutileza."
+  },
+  {
+    "nombre": "Cota de Malla Avanzada (Advanced Chainmail Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 31,
+    "rasgoEspecial": "**Pesada:** -1 a Evasión."
+  },
+  {
+    "nombre": "Armadura de Bandas Avanzada (Advanced Banded Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 34,
+    "rasgoEspecial": "**Voluminosa:** -1 a Evasión; cuando recibes daño Grave, debes marcar un Estrés."
+  },
+  {
+    "nombre": "Armadura Completa de Placas Avanzada (Advanced Full Plate Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 35,
+    "rasgoEspecial": "**Muy Pesada:** -2 a Evasión; -1 a Agilidad."
+  },
+  {
+    "nombre": "Galas de Granminster (Granminster's Finery)",
+    "tier": 3,
+    "puntuacionBase": 2,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Magnífica:** Ganas un bono a tu Puntuación de Armadura igual a tu Presencia."
+  },
+  {
+    "nombre": "Armadura de Placas con Púas (Spiked Plate Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 10,
+    "umbralGraveBase": 25,
+    "rasgoEspecial": "**Afilada:** En un ataque exitoso contra un objetivo a alcance Cuerpo a cuerpo, añade un d4 a la tirada de daño."
+  },
+  {
+    "nombre": "Atuendo Astral (Astral Raiment)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Estelar:** Marca un Estrés para ganar ventaja en una tirada de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Armadura Fina Bellamoi (Bellamoi Fine Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Dorada:** +1 a Presencia."
+  },
+  {
+    "nombre": "Capa de Trébol Tejido (Cloverweave Cloak)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Favorecida por la Fortuna:** Una vez por escena, puedes cambiar un fallo con Esperanza por un éxito con Miedo."
+  },
+  {
+    "nombre": "Armadura de Escamas de Dragón (Dragonscale Armor)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Impenetrable:** Una vez por descanso corto, cuando fueras a marcar tu último Punto de Golpe, puedes marcar un Estrés en su lugar."
+  },
+  {
+    "nombre": "Lamelar del Custodio Celestial (Skywarden's Lamellar)",
+    "tier": 3,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 27,
+    "rasgoEspecial": "**Vigilante:** +2 a Evasión."
+  },
+  {
+    "nombre": "Placas de Piedra de Sangre (Bloodstone Plate Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 35,
+    "rasgoEspecial": "**Sanguinaria:** Cuando logras un éxito crítico en un ataque con arma a alcance Cuerpo a cuerpo, limpia un Punto de Golpe."
+  },
+  {
+    "nombre": "Armadura de Coral Forjada en las Profundidades (Deep-Forged Coral Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 35,
+    "rasgoEspecial": "**Acuática:** Puedes respirar bajo el agua y ganas ventaja en tiradas de Agilidad mientras estás sumergido."
+  },
+  {
+    "nombre": "Armadura de la Espada (Bladefare Armor)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 16,
+    "umbralGraveBase": 39,
+    "rasgoEspecial": "**Física:** No puedes marcar un Espacio de Armadura para reducir daño mágico."
+  },
+  {
+    "nombre": "Capa de Monett (Monett's Cloak)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 16,
+    "umbralGraveBase": 39,
+    "rasgoEspecial": "**Mágica:** No puedes marcar un Espacio de Armadura para reducir daño físico."
+  },
+  {
+    "nombre": "Runas de Fortificación (Runes of Fortification)",
+    "tier": 3,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 17,
+    "umbralGraveBase": 43,
+    "rasgoEspecial": "**Dolorosa:** Cada vez que marcas un Espacio de Armadura, debes marcar un Estrés."
+  },
+  {
+    "nombre": "Túnica de Mago Legendaria (Legendary Mage Robes)",
+    "tier": 4,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 10,
+    "umbralGraveBase": 31,
+    "rasgoEspecial": "**Encantada:** Ganas un bono a tus umbrales de daño igual a tu rasgo de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Gambesón Legendario (Legendary Gambeson Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 11,
+    "umbralGraveBase": 32,
+    "rasgoEspecial": "**Flexible:** +1 a Evasión."
+  },
+  {
+    "nombre": "Brigantina Legendaria (Legendary Brigandine Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 35,
+    "rasgoEspecial": "**Forrada:** Marca un Estrés para anular el daño Menor."
+  },
+  {
+    "nombre": "Armadura de Cuero Legendaria (Legendary Leather Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": null
+  },
+  {
+    "nombre": "Cota de Escamas Legendaria (Legendary Scale Mail Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 39,
+    "rasgoEspecial": "**Engorrosa:** -1 a Sutileza."
+  },
+  {
+    "nombre": "Cota de Malla Legendaria (Legendary Chainmail Armor)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 40,
+    "rasgoEspecial": "**Pesada:** -1 a Evasión."
+  },
+  {
+    "nombre": "Armadura de Bandas Legendaria (Legendary Banded Armor)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 17,
+    "umbralGraveBase": 43,
+    "rasgoEspecial": "**Voluminosa:** -1 a Evasión; cuando recibes daño Grave, debes marcar un Estrés."
+  },
+  {
+    "nombre": "Armadura Completa de Placas Legendaria (Legendary Full Plate Armor)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 17,
+    "umbralGraveBase": 44,
+    "rasgoEspecial": "**Muy Pesada:** -2 a Evasión; -1 a Agilidad."
+  },
+  {
+    "nombre": "Armadura Completamente Fortificada (Full Fortified Armor)",
+    "tier": 4,
+    "puntuacionBase": 4,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 40,
+    "rasgoEspecial": "**Fortificada:** Cuando marcas un Espacio de Armadura, reduces la gravedad de un ataque en dos umbrales en lugar de uno."
+  },
+  {
+    "nombre": "Armadura de Canalización (Channeling Armor)",
+    "tier": 4,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Canalizadora:** +1 a las tiradas de Lanzamiento de Conjuros."
+  },
+  {
+    "nombre": "Sudario de Tejido Oscuro (Darkweave Shroud)",
+    "tier": 4,
+    "puntuacionBase": 5,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Caminante Fantasmal:** Una vez por descanso, marca un Estrés para moverte hasta alcance Cercano a través de objetos sólidos."
+  },
+  {
+    "nombre": "Armadura de Ascuas Tejidas (Emberwoven Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Ardiente:** Cuando un adversario te ataca a alcance Cuerpo a cuerpo, marca un Estrés."
+  },
+  {
+    "nombre": "Laminar Vinculada a los Dioses (Godbound Laminar)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Divina:** Cuando marcas un Espacio de Armadura, ganas una Esperanza."
+  },
+  {
+    "nombre": "Armadura de Ópalo Veritas (Veritas Opal Armor)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Buscadora de la Verdad:** Esta armadura brilla cuando otra criatura a alcance Cercano dice una mentira."
+  },
+  {
+    "nombre": "Placas del Terror Forjadas en Círculo (Circle-Forged Dreadplate)",
+    "tier": 4,
+    "puntuacionBase": 6,
+    "umbralMayorBase": 14,
+    "umbralGraveBase": 38,
+    "rasgoEspecial": "**Maldita:** Cuando marcas cualquier cantidad de Puntos de Golpe por un ataque, tira un d4. Con un resultado de 4, el atacante debe marcar una cantidad igual de Estrés."
+  },
+  {
+    "nombre": "Exoesqueleto Forjado en Runas (Rune-Forged Exosuit)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 12,
+    "umbralGraveBase": 39,
+    "rasgoEspecial": "**Sintonizado:** El número máximo de cartas de dominio en tu mano activa se reduce en uno, pero ganas un bono a tus umbrales de daño igual a tu tier."
+  },
+  {
+    "nombre": "Seda Encadenada Dunamis (Dunamis Silkchain)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 36,
+    "rasgoEspecial": "**Ralentización Temporal:** Marca un Espacio de Armadura para tirar un d4 y sumar su resultado como bono a tu Evasión contra un ataque entrante."
+  },
+  {
+    "nombre": "Placas Heroicas Consagradas (Hallowed Heroplate)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 13,
+    "umbralGraveBase": 35,
+    "rasgoEspecial": "**Bendita:** Una vez por descanso largo, puedes gastar cualquier cantidad de Esperanza antes de hacer la tirada de muerte Arriesgarlo Todo. Ganas un bono al resultado de tu Dado de Esperanza igual a la cantidad de Esperanza gastada."
+  },
+  {
+    "nombre": "Arnés Resonante (Resonant Harness)",
+    "tier": 4,
+    "puntuacionBase": 7,
+    "umbralMayorBase": 15,
+    "umbralGraveBase": 40,
+    "rasgoEspecial": "**Vítreo:** Cuando fueras a recibir daño Grave o superior, puedes marcar 2 Espacios de Armadura para anular ese daño. Si lo haces, obtienes un penalizador de -5 a tus umbrales de daño hasta que elijas reparar tu armadura como acción de descanso."
+  },
+  {
+    "nombre": "Cota de Malla del Salvador (Savior Chainmail)",
+    "tier": 4,
+    "puntuacionBase": 8,
+    "umbralMayorBase": 18,
+    "umbralGraveBase": 48,
+    "rasgoEspecial": "**Difícil:** -1 a todos los atributos del personaje y a Evasión."
+  }
+]
