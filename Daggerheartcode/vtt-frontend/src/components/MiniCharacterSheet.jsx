@@ -16,6 +16,7 @@ export default function MiniCharacterSheet({ character, onRemove }) {
   const umbralMayor = armadura ? armadura.umbralMayorBase + nivel : null;
   const umbralGrave = armadura ? armadura.umbralGraveBase + nivel : null;
   const armorSlots = armadura ? armadura.puntuacionBase : 0;
+  const ranurasMarcadas = character.ranurasArmaduraMarcadas || 0;
 
   // Porcentajes de barras de recursos
   const hpPercent = Math.min(100, Math.max(0, ((character.hpActual || 0) / (character.hpMax || 1)) * 100));
@@ -69,7 +70,15 @@ export default function MiniCharacterSheet({ character, onRemove }) {
           <span style={styles.defenseIcon}>🦺</span>
           <div style={styles.defenseMeta}>
             <span style={styles.defenseLabel}>ARMADURA</span>
-            <strong style={styles.defenseValue}>{armorSlots}</strong>
+            <div style={styles.armorScoreRow}>
+              <strong style={styles.defenseValue}>{armorSlots}</strong>
+              <span
+                style={ranurasMarcadas > 0 ? styles.armorMarkedTagBroken : styles.armorMarkedTagOk}
+                title={`${ranurasMarcadas} de ${armorSlots} ranuras marcadas (desgastadas)`}
+              >
+                {ranurasMarcadas}/{armorSlots} gastadas
+              </span>
+            </div>
           </div>
           <span style={styles.armorNameMini} title={armadura?.nombre || 'Sin armadura'}>
             {armadura ? armadura.nombre : 'Sin armadura'}
@@ -326,6 +335,30 @@ const styles = {
     color: '#d4af37',
     fontSize: '1.05rem',
     lineHeight: 1,
+  },
+  armorScoreRow: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: '6px',
+    flexWrap: 'wrap',
+  },
+  armorMarkedTagOk: {
+    backgroundColor: '#1b2a1a',
+    color: '#7cd37c',
+    border: '1px solid #3d6a3d',
+    borderRadius: '3px',
+    padding: '1px 5px',
+    fontSize: '0.62rem',
+    fontWeight: 'bold',
+  },
+  armorMarkedTagBroken: {
+    backgroundColor: '#3a1a15',
+    color: '#ff9a85',
+    border: '1px solid #8b1a1a',
+    borderRadius: '3px',
+    padding: '1px 5px',
+    fontSize: '0.62rem',
+    fontWeight: 'bold',
   },
   armorNameMini: {
     position: 'absolute',

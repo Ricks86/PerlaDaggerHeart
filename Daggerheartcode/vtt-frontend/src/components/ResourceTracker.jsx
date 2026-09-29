@@ -151,8 +151,7 @@ function ChestSlot({ filled, onClick }) {
 // Componente principal: ResourceTracker
 // =============================================================================
 export default function ResourceTracker() {
-  const { character, setCharacter, loading } = useCharacter();
-  const { sendTableAction } = useWebSocket();
+  const { character, updateCharacter, loading } = useCharacter();
   const [cofre, setCofre] = useState(false);
 
   if (loading || !character) {
@@ -171,29 +170,11 @@ export default function ResourceTracker() {
   const umbralMayor = armaduraActiva ? (armaduraActiva.umbralMayorBase + nivel) : null;
   const umbralGrave = armaduraActiva ? (armaduraActiva.umbralGraveBase + nivel) : null;
 
-  // Sincronización bidireccional (Sprint 13): actualiza backend y avisa a la mesa vía WebSocket
-  const handleResourceChange = async (field, newVal) => {
-    const updated = { ...character, [field]: newVal };
-    setCharacter(updated);
-
-    try {
-      await fetch(`/api/characters/${character.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [field]: newVal }),
-      });
-    } catch (err) {
-      console.error('[ResourceTracker] Error al sincronizar recurso:', err);
+  // Sincronización en tiempo real vía PATCH y WebSocket
+  const handleResourceChange = (field, newVal) => {
+    if (updateCharacter) {
+      updateCharacter({ [field]: newVal });
     }
-
-    sendTableAction('CHARACTER_UPDATE', character.nombre, {
-      characterId: character.id,
-      field,
-      value: newVal,
-      hpActual: field === 'hpActual' ? newVal : character.hpActual,
-      estresActual: field === 'estresActual' ? newVal : character.estresActual,
-      esperanzaActual: field === 'esperanzaActual' ? newVal : character.esperanzaActual,
-    });
   };
 
   return (
@@ -251,6 +232,8 @@ export default function ResourceTracker() {
           <TrackerRow
             label={armaduraActiva ? `Ranuras de Armadura (${armaduraActiva.nombre})` : 'Ranuras de Armadura (Sin armadura)'}
             max={armorSlotsMax}
+            value={character.ranurasArmaduraMarcadas || 0}
+            onChange={(nuevoValor) => updateCharacter({ ranurasArmaduraMarcadas: nuevoValor })}
             colorKey="armadura"
           />
 

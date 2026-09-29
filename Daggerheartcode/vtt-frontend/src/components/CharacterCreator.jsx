@@ -247,6 +247,7 @@ export default function CharacterCreator({ onComplete, onCancel }) {
       esperanzaActual: 2,
       esperanzaMax: 5,
       evasion: claseMetadata.evasion_base,
+      ranurasArmaduraMarcadas: 0,
       atributos: {
         agilidad: parseInt(atributos.agilidad, 10),
         fuerza: parseInt(atributos.fuerza, 10),

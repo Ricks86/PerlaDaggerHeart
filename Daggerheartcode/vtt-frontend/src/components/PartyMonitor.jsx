@@ -64,8 +64,20 @@ export default function PartyMonitor() {
   useEffect(() => {
     // Si llegó un nuevo mensaje en el log compartido de la mesa
     if (tableLog.length > prevLogLengthRef.current) {
+      const newItems = tableLog.slice(prevLogLengthRef.current);
       prevLogLengthRef.current = tableLog.length;
-      // Re-fetch silencioso para actualizar inmediatamente los datos del monitor
+
+      // Actualización reactiva instantánea para eventos CHARACTER_UPDATE (HP, Estrés, Armadura)
+      newItems.forEach((action) => {
+        if (action.type === 'CHARACTER_UPDATE' && action.payload?.characterId) {
+          const { characterId, ...updates } = action.payload;
+          setAllCharacters((prev) =>
+            prev.map((c) => (c.id === characterId ? { ...c, ...updates } : c))
+          );
+        }
+      });
+
+      // Re-fetch silencioso para garantizar consistencia total con la base de datos
       fetchCharacters(true);
     }
   }, [tableLog, fetchCharacters]);

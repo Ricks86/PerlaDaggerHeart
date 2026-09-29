@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useWebSocket } from './WebSocketContext';
 
 // =============================================================================
 // Context
@@ -29,6 +30,7 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { sendTableAction } = useWebSocket();
 
   // Carga inicial o recarga por ID
   function loadCharacterById(id) {
@@ -39,17 +41,24 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
     fetch(`/api/characters/${id}`)
       .then((res) => {
         if (!res.ok) {
+          if (res.status === 404) {
+            setCharacter(null);
+            setLoading(false);
+            return null;
+          }
           throw new Error(`Personaje no encontrado (HTTP ${res.status})`);
         }
         return res.json();
       })
       .then((data) => {
-        setCharacter(data);
-        setLoading(false);
+        if (data) {
+          setCharacter(data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        console.error('[VTT] Error cargando personaje:', err);
-        setError(err.message);
+        console.warn('[VTT] No se pudo cargar personaje por ID:', err);
+        setError(null);
         setLoading(false);
       });
   }
@@ -72,6 +81,47 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
   }
 
   /**
+   * Actualiza parcialmente el personaje vía PATCH a /api/characters/{id},
+   * actualiza el estado local y emite CHARACTER_UPDATE al WebSocket tras recibir 200 OK.
+   */
+  async function updateCharacter(updates) {
+    if (!character?.id) return null;
+
+    // Actualización optimista del estado local
+    const merged = { ...character, ...updates };
+    setCharacter(merged);
+
+    try {
+      const res = await fetch(`/api/characters/${character.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+
+      if (res.ok) {
+        const saved = await res.json();
+        setCharacter(saved);
+
+        // Emitir CHARACTER_UPDATE al WebSocket tras recibir 200 OK
+        if (sendTableAction) {
+          sendTableAction('CHARACTER_UPDATE', saved.nombre, {
+            characterId: saved.id,
+            ranurasArmaduraMarcadas: saved.ranurasArmaduraMarcadas,
+            hpActual: saved.hpActual,
+            estresActual: saved.estresActual,
+            esperanzaActual: saved.esperanzaActual,
+            ...updates,
+          });
+        }
+        return saved;
+      }
+    } catch (err) {
+      console.error('[CharacterContext] Error actualizando personaje (PATCH):', err);
+    }
+    return merged;
+  }
+
+  /**
    * Actualiza el personaje tanto en el estado local como en la base de datos vía PUT.
    */
   function updateActiveCharacter(updatedData) {
@@ -81,7 +131,6 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
     setCharacter(merged);
 
     return fetch(`/api/characters/${character.id}`, {
-
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(merged),
@@ -101,6 +150,7 @@ export function CharacterProvider({ children, initialCharacterId = 1 }) {
     character,
     setCharacter,
     selectCharacter,
+    updateCharacter,
     updateActiveCharacter,
     reloadCharacter: () => loadCharacterById(character?.id),
     loading,

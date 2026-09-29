@@ -50,6 +50,7 @@ public class PlayerCharacter {
     private int esperanzaActual;
     private int esperanzaMax;
     private int evasion;
+    private int ranurasArmaduraMarcadas = 0;
 
     // -------------------------------------------------------------------------
     // Sub-estructuras embebidas
@@ -176,4 +177,7 @@ public class PlayerCharacter {
 
     public Set<Item> getInventario() { return inventario; }
     public void setInventario(Set<Item> inventario) { this.inventario = inventario; }
+
+    public int getRanurasArmaduraMarcadas() { return ranurasArmaduraMarcadas; }
+    public void setRanurasArmaduraMarcadas(int ranurasArmaduraMarcadas) { this.ranurasArmaduraMarcadas = ranurasArmaduraMarcadas; }
 }

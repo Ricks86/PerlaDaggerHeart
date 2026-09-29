@@ -167,15 +167,15 @@ function AppContent() {
  */
 export default function App() {
   return (
-    <DmProvider>
-      <DiceProvider>
-        <CharacterProvider initialCharacterId={1}>
-          <WebSocketProvider>
+    <WebSocketProvider>
+      <DmProvider>
+        <DiceProvider>
+          <CharacterProvider initialCharacterId={1}>
             <AppContent />
-          </WebSocketProvider>
-        </CharacterProvider>
-      </DiceProvider>
-    </DmProvider>
+          </CharacterProvider>
+        </DiceProvider>
+      </DmProvider>
+    </WebSocketProvider>
   );
 }
 

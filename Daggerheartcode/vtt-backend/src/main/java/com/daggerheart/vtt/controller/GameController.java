@@ -111,6 +111,7 @@ public class GameController {
             pc.setEsperanzaActual(details.getEsperanzaActual());
             pc.setEsperanzaMax(details.getEsperanzaMax());
             pc.setEvasion(details.getEvasion());
+            pc.setRanurasArmaduraMarcadas(details.getRanurasArmaduraMarcadas());
 
             if (details.getAtributos() != null) pc.setAtributos(details.getAtributos());
             if (details.getOro() != null) pc.setOro(details.getOro());
@@ -225,8 +226,20 @@ public class GameController {
             if (updates.containsKey("esperanzaActual")) {
                 pc.setEsperanzaActual(((Number) updates.get("esperanzaActual")).intValue());
             }
+            if (updates.containsKey("ranurasArmaduraMarcadas")) {
+                pc.setRanurasArmaduraMarcadas(((Number) updates.get("ranurasArmaduraMarcadas")).intValue());
+            }
             return ResponseEntity.ok(characterRepo.save(pc));
         }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/characters/{id}")
+    public ResponseEntity<Void> deleteCharacter(@PathVariable Long id) {
+        if (!characterRepo.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        characterRepo.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // -------------------------------------------------------------------------

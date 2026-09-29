@@ -6,6 +6,7 @@ import SystemCompendium from './SystemCompendium';
 import DataImporter from './DataImporter';
 import ItemForge from './ItemForge';
 import PartyMonitor from './PartyMonitor';
+import PlayerCompendium from './PlayerCompendium';
 
 /**
  * DmPanel: Vista central y exclusiva del Dungeon Master (DJ).
@@ -14,10 +15,13 @@ import PartyMonitor from './PartyMonitor';
  *  - 'ENCOUNTER': Gestión de monstruos en combate (NpcManager + DmRoller)
  *  - 'COMPENDIUM': Creación y mantenimiento de cartas fundacionales
  *  - 'IMPORTER': Motor de importación masiva mediante archivo .json o texto
+ *  - 'FORGE': Forja de armas, armaduras y consumibles
+ *  - 'PARTY_MONITOR': Monitor en tiempo real de hasta 5 héroes
+ *  - 'HERO_COMPENDIUM': Gestión de personajes, eliminación, exportación y restauración de backups
  * Mantiene acceso al SharedRollLog para seguir la mesa.
  */
 export default function DmPanel() {
-  const [activeTab, setActiveTab] = useState('ENCOUNTER'); // 'ENCOUNTER' | 'COMPENDIUM' | 'IMPORTER'
+  const [activeTab, setActiveTab] = useState('ENCOUNTER'); // 'ENCOUNTER' | 'COMPENDIUM' | 'IMPORTER' | 'FORGE' | 'PARTY_MONITOR' | 'HERO_COMPENDIUM'
 
   return (
     <div style={styles.container}>
@@ -67,6 +71,12 @@ export default function DmPanel() {
         >
           👥 Monitor de Grupo
         </button>
+        <button
+          onClick={() => setActiveTab('HERO_COMPENDIUM')}
+          style={activeTab === 'HERO_COMPENDIUM' ? styles.tabBtnActive : styles.tabBtn}
+        >
+          📜 Compendio de Héroes
+        </button>
       </div>
 
       {/* Grid Principal del DJ */}
@@ -80,6 +90,7 @@ export default function DmPanel() {
           )}
           {activeTab === 'FORGE' && <ItemForge />}
           {activeTab === 'PARTY_MONITOR' && <PartyMonitor />}
+          {activeTab === 'HERO_COMPENDIUM' && <PlayerCompendium />}
         </section>
 
         {/* Columna Derecha: Dados del DJ (en modo combate) + Chat en tiempo real */}
