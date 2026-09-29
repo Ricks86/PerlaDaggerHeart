@@ -106,9 +106,11 @@ export default function EquipmentManager() {
     // '[Nombre Personaje] tira daño con [Nombre Arma]: [Resultados Dados] + Modificador([X]) = [Total] de daño [tipoDano]'
     const chatMessage = `${character.nombre} tira daño con ${arma.nombre}: ${rollsStr} + Modificador(${modStr}) = ${total} de daño ${arma.tipoDano}`;
 
-    sendTableAction('DAMAGE_ROLL', character.nombre, {
+    sendTableAction('ROLL', character.nombre, {
       result: chatMessage,
+      type: 'DAMAGE',
       weaponName: arma.nombre,
+      dice: `${arma.dadoBase || 'Daño'}${arma.carga === 2 ? ' x2' : ''}`,
       rolls,
       modifier: mod,
       total,

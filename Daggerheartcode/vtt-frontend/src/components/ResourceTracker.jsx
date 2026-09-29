@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCharacter } from '../context/CharacterContext';
+import { useWebSocket } from '../context/WebSocketContext';
 
 // =============================================================================
 // Constantes de color por tipo de rastreador
@@ -47,25 +48,36 @@ function TrackerSlot({ filled, onClick, color, size = 24 }) {
 // =============================================================================
 // Subcomponente: Fila de rastreador (label + casillas)
 // =============================================================================
-function TrackerRow({ label, max = 0, colorKey, size = 24 }) {
-  const [slots, setSlots] = useState(() => Array(max).fill(false));
+function TrackerRow({ label, max = 0, colorKey, size = 24, value, onChange }) {
+  const [localSlots, setLocalSlots] = useState(() => Array(max).fill(false));
   const color = TRACKER_COLORS[colorKey];
 
-  useEffect(() => {
-    setSlots((prev) => {
-      if (prev.length === max) return prev;
-      return Array(max).fill(false).map((v, i) => prev[i] || false);
-    });
-  }, [max]);
+  const isControlled = typeof value === 'number';
 
-  const filled = slots.filter(Boolean).length;
+  useEffect(() => {
+    if (!isControlled) {
+      setLocalSlots((prev) => {
+        if (prev.length === max) return prev;
+        return Array(max).fill(false).map((v, i) => prev[i] || false);
+      });
+    }
+  }, [max, isControlled]);
+
+  const filled = isControlled
+    ? Math.max(0, Math.min(value, max))
+    : localSlots.filter(Boolean).length;
 
   function toggle(index) {
-    setSlots((prev) => {
-      const next = [...prev];
-      next[index] = !next[index];
-      return next;
-    });
+    if (isControlled) {
+      const newValue = index < value ? index : index + 1;
+      if (onChange) onChange(newValue);
+    } else {
+      setLocalSlots((prev) => {
+        const next = [...prev];
+        next[index] = !next[index];
+        return next;
+      });
+    }
   }
 
   return (
@@ -79,15 +91,18 @@ function TrackerRow({ label, max = 0, colorKey, size = 24 }) {
       {/* Casillas */}
       {max > 0 ? (
         <div style={styles.slotsContainer}>
-          {slots.map((isFilled, i) => (
-            <TrackerSlot
-              key={i}
-              filled={isFilled}
-              onClick={() => toggle(i)}
-              color={color}
-              size={size}
-            />
-          ))}
+          {Array(max).fill(false).map((_, i) => {
+            const isFilled = isControlled ? i < filled : !!localSlots[i];
+            return (
+              <TrackerSlot
+                key={i}
+                filled={isFilled}
+                onClick={() => toggle(i)}
+                color={color}
+                size={size}
+              />
+            );
+          })}
         </div>
       ) : (
         <span style={styles.emptySlotsNotice}>— Sin ranuras disponibles —</span>
@@ -136,7 +151,8 @@ function ChestSlot({ filled, onClick }) {
 // Componente principal: ResourceTracker
 // =============================================================================
 export default function ResourceTracker() {
-  const { character, loading } = useCharacter();
+  const { character, setCharacter, loading } = useCharacter();
+  const { sendTableAction } = useWebSocket();
   const [cofre, setCofre] = useState(false);
 
   if (loading || !character) {
@@ -155,6 +171,31 @@ export default function ResourceTracker() {
   const umbralMayor = armaduraActiva ? (armaduraActiva.umbralMayorBase + nivel) : null;
   const umbralGrave = armaduraActiva ? (armaduraActiva.umbralGraveBase + nivel) : null;
 
+  // Sincronización bidireccional (Sprint 13): actualiza backend y avisa a la mesa vía WebSocket
+  const handleResourceChange = async (field, newVal) => {
+    const updated = { ...character, [field]: newVal };
+    setCharacter(updated);
+
+    try {
+      await fetch(`/api/characters/${character.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: newVal }),
+      });
+    } catch (err) {
+      console.error('[ResourceTracker] Error al sincronizar recurso:', err);
+    }
+
+    sendTableAction('CHARACTER_UPDATE', character.nombre, {
+      characterId: character.id,
+      field,
+      value: newVal,
+      hpActual: field === 'hpActual' ? newVal : character.hpActual,
+      estresActual: field === 'estresActual' ? newVal : character.estresActual,
+      esperanzaActual: field === 'esperanzaActual' ? newVal : character.esperanzaActual,
+    });
+  };
+
   return (
     <div style={styles.container}>
       <h3 style={styles.title}>⚡ Recursos</h3>
@@ -166,6 +207,8 @@ export default function ResourceTracker() {
         <TrackerRow
           label="Puntos de Golpe"
           max={character.hpMax}
+          value={character.hpActual}
+          onChange={(newVal) => handleResourceChange('hpActual', newVal)}
           colorKey="hp"
         />
 
@@ -190,12 +233,16 @@ export default function ResourceTracker() {
         <TrackerRow
           label="Estrés"
           max={character.estresMax}
+          value={character.estresActual}
+          onChange={(newVal) => handleResourceChange('estresActual', newVal)}
           colorKey="estres"
         />
 
         <TrackerRow
           label="Esperanza"
           max={character.esperanzaMax}
+          value={character.esperanzaActual}
+          onChange={(newVal) => handleResourceChange('esperanzaActual', newVal)}
           colorKey="esperanza"
         />
 

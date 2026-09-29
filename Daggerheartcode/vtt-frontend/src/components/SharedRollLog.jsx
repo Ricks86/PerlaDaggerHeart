@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
 import MarkdownText from './MarkdownText';
 
@@ -6,13 +6,11 @@ import MarkdownText from './MarkdownText';
 // Mapa de iconos por tipo de acción
 // =============================================================================
 const ACTION_ICONS = {
-  ROLL:        '🎲',
-  DUALITY_ROLL:'⚔️',
-  CARD_PLAYED: '🃏',
-  HP_UPDATE:   '❤️',
-  STRESS_UPDATE:'😰',
-  HOPE_UPDATE: '✨',
-  DEFAULT:     '📋',
+  ROLL:         '🎲',
+  DUALITY_ROLL: '⚔️',
+  CARD_PLAYED:  '🃏',
+  SYSTEM_MESSAGE: '📢',
+  DEFAULT:      '📋',
 };
 
 // Colores de borde por tipo de carta (sincronizado con CardVault)
@@ -27,28 +25,40 @@ const CARD_TYPE_COLORS = {
   default:   '#4a3728',
 };
 
-
 // =============================================================================
-// Subcomponente: entrada de tipo ROLL (texto simple)
+// Subcomponente: entrada de tipo ROLL (tiradas de dados, daño, dualidad)
 // =============================================================================
 function RollEntry({ action }) {
   const payload = action.payload ?? {};
-  const dice    = payload.dice ?? 'd?';
-  const result  = payload.result ?? '?';
+  const isDuality = payload.type === 'DUALITY';
+  const isDamage  = payload.type === 'DAMAGE';
+  const dice      = payload.dice ?? (isDuality ? 'Dualidad' : isDamage ? 'Daño' : 'd?');
+  const result    = payload.result ?? '?';
+  const isCrit    = Boolean(
+    payload.verdict?.includes('Crítico') ||
+    payload.isCritical ||
+    payload.isCrit
+  );
 
   return (
-    <li style={styles.rollItem}>
+    <li
+      style={{
+        ...styles.rollItem,
+        borderLeftColor: isCrit ? '#f4c430' : isDamage ? '#8b1a1a' : isDuality ? '#3a7bd5' : '#4a3728',
+      }}
+    >
       <span style={styles.timestamp}>{action._timestamp}</span>
-      <span style={styles.icon}>{ACTION_ICONS.ROLL}</span>
+      <span style={styles.icon}>{isDamage ? '⚔️' : isDuality ? '🎲' : ACTION_ICONS.ROLL}</span>
       <span style={styles.player}>{action.player}</span>
       <span style={styles.actionType}>tiró {dice}</span>
+      {isCrit && <span style={styles.critBadge}>¡CRÍTICO!</span>}
       <span style={styles.rollResult}>→ {result}</span>
     </li>
   );
 }
 
 // =============================================================================
-// Subcomponente: entrada de tipo CARD_PLAYED (tarjeta visual)
+// Subcomponente: entrada de tipo CARD_PLAYED (tarjeta visual con Markdown)
 // =============================================================================
 function CardPlayedEntry({ action }) {
   const card = action.payload ?? {};
@@ -87,12 +97,13 @@ function CardPlayedEntry({ action }) {
 }
 
 // =============================================================================
-// Subcomponente: entrada de tipo DM_ROLL (Tirada exclusiva del Dungeon Master)
+// Subcomponente: entrada de tipo DM_ROLL (Tiradas del Dungeon Master)
 // =============================================================================
 function DmRollEntry({ action }) {
   const payload = action.payload ?? {};
   const result = payload.result ?? '';
   const isCrit = payload.isCritical || payload.isCrit;
+  const adversary = payload.adversary ? `(${payload.adversary}) ` : '';
 
   return (
     <li
@@ -104,10 +115,34 @@ function DmRollEntry({ action }) {
       <div style={styles.dmHeader}>
         <span style={styles.timestamp}>{action._timestamp}</span>
         <span style={styles.icon}>👑</span>
-        <span style={styles.dmPlayer}>{action.player}</span>
+        <span style={styles.dmPlayer}>{action.player} {adversary}</span>
         {isCrit && <span style={styles.critBadge}>¡CRÍTICO!</span>}
       </div>
       <div style={styles.dmResult}>{result}</div>
+    </li>
+  );
+}
+
+// =============================================================================
+// Subcomponente: entrada de tipo SYSTEM_MESSAGE (alertas narrativas del sistema)
+// =============================================================================
+function SystemMessageEntry({ action }) {
+  const payload = action.payload ?? {};
+  const messageText = typeof payload === 'string'
+    ? payload
+    : (payload.message || payload.text || payload.result || JSON.stringify(payload));
+
+  return (
+    <li style={styles.systemItem}>
+      <div style={styles.systemHeader}>
+        <span style={styles.timestamp}>{action._timestamp}</span>
+        <span style={styles.icon}>📢</span>
+        <span style={styles.systemSender}>{action.player || 'Sistema'}</span>
+        <span style={styles.systemBadge}>SISTEMA</span>
+      </div>
+      <div style={styles.systemBody}>
+        {messageText}
+      </div>
     </li>
   );
 }
@@ -142,15 +177,54 @@ function GenericEntry({ action }) {
 /**
  * Historial compartido en tiempo real de todas las acciones de la mesa.
  *
- * Renderizado condicional por tipo:
- *   ROLL        → RollEntry      (texto compacto: "Arya tiró d20 → 17")
- *   CARD_PLAYED → CardPlayedEntry (tarjeta visual con Markdown)
- *   otros       → GenericEntry   (fallback genérico)
+ * Filtro estricto (Sprint 14):
+ *   Solo añade a `messages` si message.type es estrictamente:
+ *   - 'ROLL'           (tiradas de dados, daño, dualidad, DM)
+ *   - 'CARD_PLAYED'    (uso de cartas)
+ *   - 'SYSTEM_MESSAGE' (alertas del sistema)
  *
- * El log crece hacia abajo. Futuro: auto-scroll al último elemento.
+ *   Cualquier mensaje como 'CHARACTER_UPDATE' u otra sincronización interna es ignorado.
  */
 export default function SharedRollLog() {
   const { tableLog, connected } = useWebSocket();
+  const [messages, setMessages] = useState([]);
+  const processedCountRef = useRef(0);
+  const logEndRef = useRef(null);
+
+  // Escuchar mensajes entrantes del WebSocket con filtrado estricto
+  useEffect(() => {
+    if (!tableLog) return;
+
+    // Resetear contador si el log fue vaciado
+    if (tableLog.length < processedCountRef.current) {
+      processedCountRef.current = 0;
+      setMessages([]);
+    }
+
+    const newArrivals = tableLog.slice(processedCountRef.current);
+    processedCountRef.current = tableLog.length;
+
+    // Validación estricta: solo se registran eventos narrativos
+    const allowedNew = newArrivals.filter((msg) => {
+      if (!msg || !msg.type) return false;
+      return (
+        msg.type === 'ROLL' ||
+        msg.type === 'CARD_PLAYED' ||
+        msg.type === 'SYSTEM_MESSAGE'
+      );
+    });
+
+    if (allowedNew.length > 0) {
+      setMessages((prev) => [...prev, ...allowedNew]);
+    }
+  }, [tableLog]);
+
+  // Auto-scroll al final con cada nuevo mensaje recibido
+  useEffect(() => {
+    if (logEndRef.current) {
+      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   return (
     <div style={styles.container}>
@@ -162,24 +236,28 @@ export default function SharedRollLog() {
         </span>
       </div>
 
-      {/* Lista de eventos */}
+      {/* Lista de eventos con scroll independiente */}
       <div style={styles.logContainer}>
-        {tableLog.length === 0 ? (
+        {messages.length === 0 ? (
           <p style={styles.emptyMsg}>Aún no hay acciones en la mesa...</p>
         ) : (
           <ul style={styles.list}>
-            {tableLog.map((action) => {
+            {messages.map((action) => {
               switch (action.type) {
                 case 'ROLL':
+                  if (action.payload?.isDm || action.player === 'Dungeon Master') {
+                    return <DmRollEntry key={action._id} action={action} />;
+                  }
                   return <RollEntry key={action._id} action={action} />;
                 case 'CARD_PLAYED':
                   return <CardPlayedEntry key={action._id} action={action} />;
-                case 'DM_ROLL':
-                  return <DmRollEntry key={action._id} action={action} />;
+                case 'SYSTEM_MESSAGE':
+                  return <SystemMessageEntry key={action._id} action={action} />;
                 default:
                   return <GenericEntry key={action._id} action={action} />;
               }
             })}
+            <div ref={logEndRef} />
           </ul>
         )}
       </div>
@@ -198,7 +276,11 @@ const styles = {
     padding: '16px',
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '200px',
+    minHeight: '240px',
+    height: '100%',
+    maxHeight: 'calc(100vh - 220px)',
+    overflow: 'hidden',
+    boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.4)',
   },
   header: {
     display: 'flex',
@@ -207,11 +289,13 @@ const styles = {
     marginBottom: '12px',
     borderBottom: '1px solid #4a3728',
     paddingBottom: '8px',
+    flexShrink: 0,
   },
   title: {
     margin: 0,
     color: '#d4af37',
     fontSize: '1rem',
+    letterSpacing: '1px',
   },
   dotOn: {
     color: '#4caf50',
@@ -226,12 +310,15 @@ const styles = {
   logContainer: {
     overflowY: 'auto',
     flex: 1,
+    paddingRight: '6px',
+    scrollbarWidth: 'thin',
+    scrollbarColor: '#4a3728 #1a1208',
   },
   emptyMsg: {
     color: '#7a6a5a',
     fontStyle: 'italic',
     textAlign: 'center',
-    padding: '20px 0',
+    padding: '30px 0',
     fontSize: '0.88rem',
   },
   list: {
@@ -248,16 +335,18 @@ const styles = {
     display: 'flex',
     gap: '8px',
     alignItems: 'baseline',
-    padding: '6px 10px',
+    padding: '7px 12px',
     backgroundColor: '#241a0e',
     borderRadius: '4px',
-    borderLeft: '3px solid #4a3728',
+    borderLeft: '4px solid #4a3728',
     flexWrap: 'wrap',
+    lineHeight: 1.45,
   },
   rollResult: {
     color: '#d4af37',
     fontWeight: 'bold',
-    fontSize: '1rem',
+    fontSize: '0.95rem',
+    wordBreak: 'break-word',
   },
 
   // --- Entrada CARD_PLAYED ---
@@ -296,10 +385,12 @@ const styles = {
   timestamp: {
     color: '#7a6a5a',
     fontSize: '0.73rem',
-    minWidth: '60px',
+    minWidth: '55px',
+    flexShrink: 0,
   },
   icon: {
     fontSize: '0.9rem',
+    flexShrink: 0,
   },
   player: {
     color: '#d4af37',
@@ -314,6 +405,7 @@ const styles = {
   payloadText: {
     color: '#e8dcc8',
     fontSize: '0.88rem',
+    wordBreak: 'break-word',
   },
 
   // --- Entrada DM_ROLL ---
@@ -343,13 +435,55 @@ const styles = {
     color: '#0d0905',
     fontWeight: 'bold',
     fontSize: '0.68rem',
-    padding: '1px 5px',
+    padding: '1px 6px',
     borderRadius: '3px',
+    letterSpacing: '0.5px',
   },
   dmResult: {
     padding: '8px 12px',
     color: '#f5e6d3',
     fontSize: '0.88rem',
     fontWeight: '500',
+    lineHeight: 1.4,
+    wordBreak: 'break-word',
+  },
+
+  // --- Entrada SYSTEM_MESSAGE ---
+  systemItem: {
+    backgroundColor: '#1c180d',
+    borderRadius: '6px',
+    borderLeft: '4px solid #d4af37',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  systemHeader: {
+    display: 'flex',
+    gap: '7px',
+    alignItems: 'center',
+    padding: '6px 10px',
+    backgroundColor: '#282210',
+  },
+  systemSender: {
+    color: '#d4af37',
+    fontWeight: 'bold',
+    fontSize: '0.85rem',
+  },
+  systemBadge: {
+    backgroundColor: '#4a3728',
+    color: '#f5e6d3',
+    fontSize: '0.66rem',
+    fontWeight: 'bold',
+    padding: '1px 5px',
+    borderRadius: '3px',
+    letterSpacing: '0.5px',
+  },
+  systemBody: {
+    padding: '8px 12px',
+    color: '#e8dcc8',
+    fontSize: '0.88rem',
+    lineHeight: 1.4,
+    fontStyle: 'italic',
+    wordBreak: 'break-word',
   },
 };

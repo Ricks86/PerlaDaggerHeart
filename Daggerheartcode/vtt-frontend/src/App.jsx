@@ -156,7 +156,7 @@ function AppContent() {
       {/* Footer                                                         */}
       {/* ------------------------------------------------------------ */}
       <footer style={styles.footer}>
-        Sprint 7 · Lobby de Jugador · Wizard de Creación · Selección Restringida de Dominios · Homebrew
+        Sprint 14 · Filtrado del Historial de Mesa · Reestructuración de Proporciones · Party Monitor
       </footer>
     </div>
   );
@@ -290,11 +290,11 @@ const styles = {
     borderBottom: '1px solid #2a1e12',
   },
 
-  // Área de juego del Jugador: 3 columnas
+  // Área de juego del Jugador: 3 columnas (Proporciones ajustadas Sprint 14)
   gameArea: {
     display: 'grid',
-    gridTemplateColumns: '280px 1fr 320px',
-    gap: '16px',
+    gridTemplateColumns: '260px minmax(320px, 380px) minmax(420px, 1fr)',
+    gap: '20px',
     padding: '16px 28px',
     alignItems: 'start',
   },
@@ -302,12 +302,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+    minWidth: 0,
   },
   centerColumn: {
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
     minWidth: 0,
+    maxWidth: '400px',
   },
   rightColumn: {
     display: 'flex',
@@ -317,6 +319,7 @@ const styles = {
     top: '16px',
     maxHeight: 'calc(100vh - 200px)',
     overflowY: 'auto',
+    minWidth: '380px',
   },
 
 

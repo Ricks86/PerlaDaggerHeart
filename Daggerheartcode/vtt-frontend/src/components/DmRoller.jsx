@@ -96,13 +96,14 @@ export default function DmRoller() {
     });
     setLastDamageResult(null);
 
-    sendTableAction('DM_ROLL', 'Dungeon Master', {
+    sendTableAction('ROLL', 'Dungeon Master', {
       result: resultMessage,
       adversary: selectedAdversary.nombre,
       type: 'ATTACK',
       naturalD20,
       total,
       isCritical,
+      isDm: true,
     });
   }
 
@@ -140,13 +141,14 @@ export default function DmRoller() {
       message: resultMessage,
     });
 
-    sendTableAction('DM_ROLL', 'Dungeon Master', {
+    sendTableAction('ROLL', 'Dungeon Master', {
       result: resultMessage,
       adversary: selectedAdversary.nombre,
       type: 'DAMAGE',
       rolls,
       total,
       isCrit: isCritManual,
+      isDm: true,
     });
 
     // Resetear el flag de crítico tras usarlo
