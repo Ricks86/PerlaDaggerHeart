@@ -51,6 +51,7 @@ public class PlayerCharacter {
     private int esperanzaMax;
     private int evasion;
     private int ranurasArmaduraMarcadas = 0;
+    private boolean puedeSubirNivel = false;
 
     // -------------------------------------------------------------------------
     // Sub-estructuras embebidas
@@ -60,6 +61,9 @@ public class PlayerCharacter {
 
     @Embedded
     private Oro oro = new Oro();
+
+    @Embedded
+    private TierProgression tierProgression = new TierProgression();
 
     // -------------------------------------------------------------------------
     // Colecciones embebidas
@@ -182,4 +186,17 @@ public class PlayerCharacter {
 
     public int getRanurasArmaduraMarcadas() { return ranurasArmaduraMarcadas; }
     public void setRanurasArmaduraMarcadas(int ranurasArmaduraMarcadas) { this.ranurasArmaduraMarcadas = ranurasArmaduraMarcadas; }
+
+    public TierProgression getTierProgression() {
+        if (tierProgression == null) {
+            tierProgression = new TierProgression();
+        }
+        return tierProgression;
+    }
+    public void setTierProgression(TierProgression tierProgression) {
+        this.tierProgression = tierProgression;
+    }
+
+    public boolean isPuedeSubirNivel() { return puedeSubirNivel; }
+    public void setPuedeSubirNivel(boolean puedeSubirNivel) { this.puedeSubirNivel = puedeSubirNivel; }
 }

@@ -100,6 +100,29 @@ export default function PlayerCompendium() {
     }
   };
 
+  // Conmutador de permiso de subida de nivel para el DJ
+  const handleToggleLevelUp = async (char) => {
+    try {
+      const res = await fetch(`/api/characters/${char.id}/toggle-level-up`, {
+        method: 'PATCH',
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setCharacters((prev) =>
+          prev.map((c) => (c.id === updated.id ? updated : c))
+        );
+        const actionText = updated.puedeSubirNivel ? 'habilitada' : 'revocada';
+        showFeedback('success', `✓ Subida de nivel ${actionText} para ${updated.nombre}`);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        showFeedback('error', `Error al cambiar permiso: ${err.error || res.statusText}`);
+      }
+    } catch (err) {
+      console.error('[PlayerCompendium] Error conmutando nivel:', err);
+      showFeedback('error', `Error: ${err.message}`);
+    }
+  };
+
   // ===========================================================================
   // Fase 4: Motor de Restauración (Importar JSON)
   // ===========================================================================
@@ -359,13 +382,28 @@ export default function PlayerCompendium() {
                       {/* Acciones */}
                       <td style={{ ...styles.td, textAlign: 'right' }}>
                         <div style={styles.actionsGroup}>
+                          {/* Conmutador de Permiso de Subida de Nivel (Sprint 22) */}
+                          {(c.nivel || 1) < 10 && (
+                            <button
+                              onClick={() => handleToggleLevelUp(c)}
+                              style={c.puedeSubirNivel ? styles.btnLevelUpTableActive : styles.btnLevelUpTableDisabled}
+                              title={
+                                c.puedeSubirNivel
+                                  ? `Subida habilitada para ${c.nombre}. Clic para revocar.`
+                                  : `Habilitar subida de nivel para ${c.nombre} (desbloquea Nivel ${(c.nivel || 1) + 1})`
+                              }
+                            >
+                              {c.puedeSubirNivel ? '⚡ Subida Habilitada' : '🔒 Habilitar Subida'}
+                            </button>
+                          )}
+
                           {/* Fase 3: Botón Exportar Backup */}
                           <button
                             onClick={() => handleExportBackup(c)}
                             style={styles.btnExport}
                             title={`Descargar archivo JSON de respaldo para ${c.nombre}`}
                           >
-                            💾 Exportar Backup
+                            💾 Exportar
                           </button>
 
                           {/* Fase 2: Botón Eliminar (Rojo) */}
@@ -374,7 +412,7 @@ export default function PlayerCompendium() {
                             style={styles.btnDelete}
                             title={`Eliminar permanentemente a ${c.nombre} de la base de datos`}
                           >
-                            🗑️ Eliminar
+                            🗑️
                           </button>
                         </div>
                       </td>
@@ -652,6 +690,39 @@ const styles = {
     gap: '8px',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  btnLevelUpTableActive: {
+    backgroundColor: '#3a2b0a',
+    color: '#ffea75',
+    border: '1px solid #ffd700',
+    boxShadow: '0 0 8px rgba(255, 215, 0, 0.45)',
+    borderRadius: '4px',
+    padding: '5px 9px',
+    fontSize: '0.74rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '3px',
+  },
+  btnLevelUpTableDisabled: {
+    backgroundColor: '#26190f',
+    color: '#d4c2a5',
+    border: '1px solid #5a3d24',
+    borderRadius: '4px',
+    padding: '5px 9px',
+    fontSize: '0.74rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '3px',
   },
   btnExport: {
     backgroundColor: '#1e160a',

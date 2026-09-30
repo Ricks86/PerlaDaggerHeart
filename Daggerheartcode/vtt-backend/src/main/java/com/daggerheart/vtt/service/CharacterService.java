@@ -1,5 +1,6 @@
 package com.daggerheart.vtt.service;
 
+import com.daggerheart.vtt.dto.LevelUpRequest;
 import com.daggerheart.vtt.dto.TableAction;
 import com.daggerheart.vtt.model.Item;
 import com.daggerheart.vtt.model.PlayerCharacter;
@@ -20,14 +21,17 @@ public class CharacterService {
     private final PlayerCharacterRepository characterRepo;
     private final ItemRepository itemRepo;
     private final SimpMessagingTemplate messagingTemplate;
+    private final LevelUpService levelUpService;
 
     public CharacterService(
             PlayerCharacterRepository characterRepo,
             ItemRepository itemRepo,
-            SimpMessagingTemplate messagingTemplate) {
+            SimpMessagingTemplate messagingTemplate,
+            LevelUpService levelUpService) {
         this.characterRepo = characterRepo;
         this.itemRepo = itemRepo;
         this.messagingTemplate = messagingTemplate;
+        this.levelUpService = levelUpService;
     }
 
     /**
@@ -99,6 +103,39 @@ public class CharacterService {
     }
 
     /**
+     * Conmuta el permiso de subida de nivel otorgado por el DJ (Sprint 22).
+     */
+    public PlayerCharacter toggleLevelUpPermission(Long id) {
+        PlayerCharacter character = characterRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Personaje no encontrado con id: " + id));
+
+        character.setPuedeSubirNivel(!character.isPuedeSubirNivel());
+        PlayerCharacter saved = characterRepo.save(character);
+
+        broadcastCharacterUpdate(saved);
+        return saved;
+    }
+
+    /**
+     * Sube de nivel a un personaje aplicando las validaciones de Tier y bolsa de opciones (Sprint 21 y 22).
+     */
+    public PlayerCharacter levelUp(Long id, LevelUpRequest request) {
+        PlayerCharacter character = characterRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Personaje no encontrado con id: " + id));
+
+        if (!character.isPuedeSubirNivel()) {
+            throw new IllegalStateException("Subida de nivel no autorizada por el DJ.");
+        }
+
+        levelUpService.processLevelUp(character, request);
+        character.setPuedeSubirNivel(false);
+        PlayerCharacter saved = characterRepo.save(character);
+
+        broadcastCharacterUpdate(saved);
+        return saved;
+    }
+
+    /**
      * Emite un evento WebSocket CHARACTER_UPDATE a /topic/table con el estado completo del personaje.
      */
     public void broadcastCharacterUpdate(PlayerCharacter character) {
@@ -106,9 +143,19 @@ public class CharacterService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("characterId", character.getId());
             payload.put("character", character);
+            payload.put("puedeSubirNivel", character.isPuedeSubirNivel());
+            payload.put("nivel", character.getNivel());
+            payload.put("competencia", character.getCompetencia());
+            payload.put("evasion", character.getEvasion());
+            payload.put("atributos", character.getAtributos());
+            payload.put("experiencias", character.getExperiencias());
+            payload.put("cartasActivasIds", character.getCartasActivasIds());
+            payload.put("tierProgression", character.getTierProgression());
             payload.put("inventario", character.getInventario());
             payload.put("hpActual", character.getHpActual());
+            payload.put("hpMax", character.getHpMax());
             payload.put("estresActual", character.getEstresActual());
+            payload.put("estresMax", character.getEstresMax());
             payload.put("esperanzaActual", character.getEsperanzaActual());
             payload.put("ranurasArmaduraMarcadas", character.getRanurasArmaduraMarcadas());
             payload.put("armaPrincipal", character.getArmaPrincipal());

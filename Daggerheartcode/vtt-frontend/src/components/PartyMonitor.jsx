@@ -109,6 +109,29 @@ export default function PartyMonitor() {
     setSelectedIds((prev) => prev.filter((id) => id !== idToRemove));
   };
 
+  // Conmutar permiso de subida de nivel (Sprint 22)
+  const handleToggleLevelUp = async (hero) => {
+    try {
+      const res = await fetch(`/api/characters/${hero.id}/toggle-level-up`, {
+        method: 'PATCH',
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setAllCharacters((prev) =>
+          prev.map((c) => (c.id === updated.id ? updated : c))
+        );
+        const actionText = updated.puedeSubirNivel ? 'habilitada' : 'revocada';
+        setFeedbackToast(`Subida de nivel ${actionText} para ${updated.nombre}`);
+        setTimeout(() => setFeedbackToast(null), 3000);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(`Error al cambiar permiso: ${err.error || res.statusText}`);
+      }
+    } catch (e) {
+      console.error('Error al conmutar permiso de subida de nivel:', e);
+    }
+  };
+
   // Filtrar los objetos de los personajes anclados
   const monitoredCharacters = selectedIds
     .map((id) => allCharacters.find((c) => c.id === id))
@@ -226,6 +249,7 @@ export default function PartyMonitor() {
               character={hero}
               onRemove={handleUnpin}
               onGift={(heroToGift) => setGiftingHero(heroToGift)}
+              onToggleLevelUp={handleToggleLevelUp}
             />
           ))}
         </div>

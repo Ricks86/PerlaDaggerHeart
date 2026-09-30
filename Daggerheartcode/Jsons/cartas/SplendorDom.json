@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Faro de Destello (Bolt Beacon)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, **gasta una Esperanza** para enviar un haz de luz brillante hacia él, infligiendo d8+2 de daño mágico usando tu Competencia. El objetivo queda temporalmente Vulnerable y brilla intensamente hasta que se limpie esta condición.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tacto Reparador (Mending Touch)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Pones tus manos sobre una criatura y canalizas magia curativa para cerrar sus heridas. Cuando puedas tomarte unos minutos para concentrarte en el objetivo al que estás ayudando, puedes **gastar 2 de Esperanza** para limpiar un Punto de Golpe o un Estrés en él.\n\nUna vez por descanso largo, cuando dediques este tiempo de curación a aprender algo nuevo sobre él o a revelar algo sobre ti mismo, puedes limpiar 2 Puntos de Golpe o 2 de Estrés en él en su lugar.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Reconfortar (Reassurance)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Una vez por descanso, después de que un aliado intente una tirada de acción pero antes de que se produzcan las consecuencias, puedes ofrecer asistencia o palabras de apoyo. Cuando lo haces, tu aliado puede volver a tirar sus dados.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Últimas Palabras (Final Words)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Puedes insuflar un instante de vida a un cadáver para hablar con él. Haz una Tirada de Lanzamiento de Conjuros (13). En un éxito con Esperanza, el cadáver responde hasta tres preguntas. En un éxito con Miedo, el cadáver responde una pregunta. El cadáver responde con sinceridad, pero no puede transmitir información que no supiera en vida. En un fallo, o una vez que el cadáver haya terminado de responder a tus preguntas, el cuerpo se convierte en polvo.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Manos Curativas (Healing Hands)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (13) y elige como objetivo a una criatura distinta de ti a alcance Cuerpo a cuerpo. En un éxito, **marca un Estrés** para limpiar 2 Puntos de Golpe o 2 de Estrés en el objetivo. En un fallo, **marca un Estrés** para limpiar un Punto de Golpe o un Estrés en el objetivo. No puedes curar al mismo objetivo nuevamente hasta tu próximo descanso largo.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Segundo Aire (Second Wind)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Una vez por descanso, cuando tengas éxito en un ataque contra un adversario, puedes limpiar 3 de Estrés o un Punto de Golpe. En un éxito con Esperanza, también limpias 3 de Estrés o un Punto de Golpe en un aliado a alcance Cercano respecto a ti.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Voz de la Razón (Voice of Reason)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Hablas con un poder y una autoridad incomparables. Tienes ventaja en las tiradas de acción para calmar situaciones violentas o convencer a alguien de que siga tu liderazgo.\n\nAdemás, te envalentonas en momentos de apremio: cuando todas tus casillas de Estrés estén marcadas, ganas un bono de +1 a tu Competencia para las tiradas de daño.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Adivinación (Divination)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Una vez por descanso largo, **gasta 3 de Esperanza** para contactar con las fuerzas del más allá y hacer una pregunta de «sí o no» sobre un acontecimiento, persona, lugar o situación del futuro cercano. Por un instante, el presente se desvanece y ves la respuesta ante ti.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Guarda de Vida (Life Ward)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "**Gasta 3 de Esperanza** y elige a un aliado a alcance Cercano. Queda marcado con un sigilo de protección resplandeciente. Cuando este aliado fuera a realizar un movimiento de muerte, limpia un Punto de Golpe en su lugar.\n\nEste efecto termina cuando salva al objetivo de un movimiento de muerte, cuando lanzas Guarda de Vida sobre otro objetivo o cuando tomas un descanso largo.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Moldear Material (Shape Material)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "**Gasta una Esperanza** para moldear una sección de material natural que estés tocando (como piedra, hielo o madera) según tus necesidades. El área del material no puede ser mayor que tú (por ejemplo, puedes formar una herramienta rudimentaria o crear una puerta). Solo puedes afectar al material dentro de alcance Cercano desde el punto en el que lo tocas.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Castigo Sagrado (Smite)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Una vez por descanso, **gasta 3 de Esperanza** para cargar tu poderoso castigo. La próxima vez que ataques con éxito con un arma, duplica el resultado de tu tirada de daño. Este ataque inflige daño mágico independientemente del tipo de daño del arma.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Restauración (Restoration)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Tras un descanso largo, coloca en esta carta un número de fichas igual a tu rasgo de Lanzamiento de Conjuros. Toca a una criatura y gasta cualquier cantidad de fichas para limpiar 2 Puntos de Golpe o 2 de Estrés por cada ficha gastada.\n\nTambién puedes gastar una ficha de esta carta al tocar a una criatura para limpiar la condición Vulnerable o sanar una dolencia física o mágica (el DJ puede requerir fichas adicionales dependiendo de la gravedad de la afección). Al tomar un descanso largo, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Zona de Protección (Zone of Protection)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (16). Una vez por descanso largo en un éxito, elige un punto a alcance Lejano y crea una zona visible de protección allí para todos los aliados a alcance Muy Cercano respecto a ese punto. Cuando lo hagas, coloca un d6 en esta carta con el valor 1 hacia arriba.\n\nCuando un aliado en esta zona reciba daño, lo reduce en el valor actual del dado. Luego, incrementas el valor del dado en uno. Cuando el valor del dado fuera a superar 6, este efecto termina.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Golpe Sanador (Healing Strike)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando inflijas daño a un adversario, puedes **gastar 2 de Esperanza** para limpiar un Punto de Golpe en un aliado a alcance Cercano.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por el Esplendor (Splendor-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Splendor, obtienes los siguientes beneficios:\n• Bono de +3 a tu umbral de daño Grave.\n• Una vez por descanso largo, cuando el daño entrante requiera que marques una cantidad de Puntos de Golpe, puedes elegir **marcar esa misma cantidad de Estrés** o **gastar esa misma cantidad de Esperanza** en su lugar.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Aura de Escudo (Shield Aura)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "**Marca un Estrés** para proyectar un aura protectora sobre un objetivo a alcance Muy Cercano. Cuando el objetivo marque un Espacio de Armadura, reduce la gravedad del ataque en un umbral adicional. Si este conjuro hace que una criatura que fuera a recibir daño no marque ningún Punto de Golpe, el efecto termina. Solo puedes mantener Aura de Escudo en una criatura a la vez.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Luz Solar Abrasadora (Stunning Sunlight)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros para desatar poderosos rayos de luz solar abrasadora contra todos los adversarios frente a ti a alcance Lejano. En un éxito, gasta cualquier cantidad de Esperanza y obliga a esa misma cantidad de objetivos contra los que tuviste éxito a hacer una Tirada de Reacción (14).\n\nLos objetivos que tengan éxito reciben 3d20+3 de daño mágico. Los objetivos que fallen reciben 4d20+5 de daño mágico y quedan temporalmente Aturdidos. Mientras estén Aturdidos, no pueden usar reacciones ni realizar ninguna otra acción hasta que limpien esta condición.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Aura Abrumadora (Overwhelming Aura)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (15) para potenciar mágicamente tu aura. En un éxito, **gasta 2 de Esperanza** para igualar tu Presencia a tu rasgo de Lanzamiento de Conjuros hasta tu próximo descanso largo.\n\nMientras este conjuro esté activo, un adversario debe **marcar un Estrés** cuando te elija como objetivo de un ataque.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Rayo de Salvación (Salvation Beam)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (16). En un éxito, **marca cualquier cantidad de Estrés** para apuntar a una línea de aliados a alcance Lejano. Puedes limpiar Puntos de Golpe en los objetivos por un total igual al número de puntos de Estrés marcados, distribuidos entre ellos como prefieras.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Vigorización (Invigoration)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando tú o un aliado a alcance Cercano hayan usado un rasgo que posea un límite de uso (como una vez por descanso o una vez por sesión), puedes gastar cualquier cantidad de Esperanza y tirar esa misma cantidad de d6s. Si alguno obtiene un 6, el rasgo puede volver a utilizarse.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Resurrección (Resurrection)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (20). En un éxito, restaura a una criatura que no lleve muerta más de 100 años con todas sus fuerzas. Luego tira un d6; con un resultado de 5 o menor, coloca esta carta en tu bóveda permanentemente.\n\nEn un fallo, no puedes volver a lanzar Resurrección durante una semana.",
+    "metadata": {
+      "dominio": "Splendor",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  }
+]

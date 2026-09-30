@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Volver a Levantarse (Get Back Up)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando recibes daño Grave, puedes **marcar un Estrés** para reducir la gravedad en un umbral.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "No es Suficiente (Not Good Enough)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando tiras tus dados de daño, puedes volver a tirar cualquier 1 o 2.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Torbellino (Whirlwind)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando realizas un ataque con éxito contra un objetivo a alcance Muy Cercano, puedes **gastar una Esperanza** para aplicar el ataque contra todos los demás objetivos a alcance Muy Cercano. Todos los adversarios adicionales contra los que tengas éxito con esta habilidad reciben la mitad del daño.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Vínculo de Soldado (A Soldier's Bond)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Una vez por descanso largo, cuando elogias a alguien o le preguntas sobre algo en lo que es bueno, ambos pueden ganar 3 de Esperanza.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Temerario (Reckless)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "**Marca un Estrés** para ganar ventaja en un ataque.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Escabullirse (Scramble)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Una vez por descanso, cuando una criatura a alcance Cuerpo a cuerpo fuera a infligirte daño, puedes evitar el ataque y moverte de forma segura fuera del alcance Cuerpo a cuerpo del enemigo.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Luchador Versátil (Versatile Fighter)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Puedes usar un atributo de personaje diferente para un arma equipada, en lugar del atributo que el arma requiere.\n\nCuando infliges daño, puedes **marcar un Estrés** para usar el valor máximo de uno de tus dados de daño en lugar de tirarlo.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Enfoque Mortal (Deadly Focus)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Una vez por descanso, puedes dirigir todo tu enfoque hacia un objetivo de tu elección. Hasta que ataques a otra criatura, derrotes al objetivo o la batalla termine, ganas un bono de +1 a tu Competencia.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Armadura Fortificada (Fortified Armor)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Mientras lleves armadura puesta, ganas un bono de +2 a tus umbrales de daño.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Filo del Campeón (Champion's Edge)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Cuando logras un éxito crítico en un ataque, puedes gastar hasta 3 de Esperanza y elegir una de las siguientes opciones por cada Esperanza gastada:\n- Limpias un Punto de Golpe.\n- Limpias un Espacio de Armadura.\n- El objetivo debe **marcar un Punto de Golpe adicional**.\nNo puedes elegir la misma opción más de una vez.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Vitalidad (Vitality)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Al elegir esta carta, ganas permanentemente dos de los siguientes beneficios:\n- Un espacio de Estrés adicional.\n- Un espacio de Puntos de Golpe adicional.\n- Bono de +2 a tus umbrales de daño.\nLuego, coloca esta carta en tu bóveda de forma permanente.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Curtido en Batalla (Battle-Hardened)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Una vez por descanso largo, cuando fueras a realizar un Movimiento de Muerte, puedes **gastar una Esperanza** para limpiar un Punto de Golpe en su lugar.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Enardecerse (Rage Up)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Antes de realizar un ataque, puedes **marcar un Estrés** para ganar un bono a tu tirada de daño igual al doble de tu Fuerza. Puedes activar Enardecerse hasta dos veces por ataque.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por el Filo (Blade-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Blade, obtienes los siguientes beneficios:\n- Bono de +2 a tus tiradas de ataque.\n- Bono de +4 a tu umbral de daño Grave.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpe Rozante (Glancing Blow)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando fallas un ataque, puedes **marcar un Estrés** para infligir el daño del arma utilizando la mitad de tu Competencia.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Grito de Batalla (Battle Cry)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Una vez por descanso largo, mientras cargas hacia el peligro, puedes lanzar un grito conmovedor que inspira a tus aliados. Todos los aliados que puedan escucharte limpian un Estrés y ganan una Esperanza cada uno. Además, tus aliados ganan ventaja en las tiradas de ataque hasta que tú o un aliado obtengan un fallo con Miedo.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Frenesí (Frenzy)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Una vez por descanso largo, puedes entrar en Frenesí hasta que no queden más adversarios a la vista.\n\nMientras estés en Frenesí, no puedes usar Espacios de Armadura, y ganas un bono de +10 a tus tiradas de daño y un bono de +8 a tu umbral de daño Grave.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Sangre y Gloria (Gore and Glory)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Cuando logras un éxito crítico en un ataque con arma, ganas una Esperanza adicional o limpias un Estrés adicional.\n\nAdemás, cuando infliges suficiente daño como para derrotar a un enemigo, ganas una Esperanza o limpias un Estrés.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Golpe del Segador (Reaper's Strike)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Una vez por descanso largo, **gasta una Esperanza** para realizar una tirada de ataque. El DJ te indicará contra cuáles objetivos dentro del alcance tendría éxito. Elige uno de esos objetivos y oblígalo a **marcar 5 Puntos de Golpe**.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Monstruo de Batalla (Battle Monster)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando realizas un ataque exitoso contra un adversario, puedes **marcar 4 de Estrés** para obligar al objetivo a marcar un número de Puntos de Golpe igual al número de Puntos de Golpe que tengas marcados actualmente, en lugar de tirar el daño.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Embestida Implacable (Onslaught)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando realizas con éxito un ataque con tu arma, nunca infliges daño por debajo del umbral de daño Mayor del objetivo (el objetivo siempre marca un mínimo de 2 Puntos de Golpe).\n\nAdemás, cuando una criatura dentro del alcance de tu arma inflige daño a un aliado con un ataque que no te incluya a ti, puedes **marcar un Estrés** para obligarla a hacer una Tirada de Reacción (15). En un fallo, el objetivo debe marcar un Punto de Golpe.",
+    "metadata": {
+      "dominio": "Blade",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  }
+]

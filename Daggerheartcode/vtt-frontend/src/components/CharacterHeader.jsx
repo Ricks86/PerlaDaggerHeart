@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCharacter } from '../context/CharacterContext';
 import { useDice } from '../context/DiceContext';
 import EquipmentManager from './EquipmentManager';
+import LevelUpModal from './LevelUpModal';
 
 /**
  * Cabecera visual del personaje activo (Sprint 11.5).
@@ -12,6 +13,7 @@ import EquipmentManager from './EquipmentManager';
 export default function CharacterHeader() {
   const { character, loading, error } = useCharacter();
   const { requestDualityWithMod } = useDice();
+  const [isLevelUpOpen, setIsLevelUpOpen] = useState(false);
 
   // -------------------------------------------------------------------------
   // Estado: Cargando
@@ -46,14 +48,31 @@ export default function CharacterHeader() {
 
   return (
     <div style={styles.container}>
+      <style>{`
+        @keyframes pulseLevelUp {
+          0% { transform: scale(1); box-shadow: 0 0 6px rgba(255, 215, 0, 0.4); }
+          50% { transform: scale(1.04); box-shadow: 0 0 16px rgba(255, 215, 0, 0.85); }
+          100% { transform: scale(1); box-shadow: 0 0 6px rgba(255, 215, 0, 0.4); }
+        }
+      `}</style>
+
       {/* =================================================================== */}
       {/* BLOQUE IZQUIERDO: Identidad, Stats principales y Atributos           */}
       {/* =================================================================== */}
       <div style={styles.leftBlock}>
-        {/* Nombre + Badge de nivel */}
+        {/* Nombre + Badge de nivel + Botón de Subida */}
         <div style={styles.nameRow}>
           <h2 style={styles.name}>{character.nombre}</h2>
           <span style={styles.levelBadge}>Nv. {character.nivel}</span>
+          {character.nivel < 10 && character.puedeSubirNivel && (
+            <button
+              onClick={() => setIsLevelUpOpen(true)}
+              style={styles.btnLevelUpPulse}
+              title={`¡El DJ ha desbloqueado tu Nivel ${character.nivel + 1}! Haz clic para subir de nivel`}
+            >
+              ⚡ ¡El DJ ha desbloqueado tu Nivel {character.nivel + 1}!
+            </button>
+          )}
         </div>
 
         {/* Identidad narrativa */}
@@ -113,6 +132,14 @@ export default function CharacterHeader() {
       <div style={styles.rightBlock}>
         <EquipmentManager />
       </div>
+
+      {/* Asistente interactivo de subida de nivel (Sprint 22) */}
+      {isLevelUpOpen && (
+        <LevelUpModal
+          character={character}
+          onClose={() => setIsLevelUpOpen(false)}
+        />
+      )}
     </div>
   );
 }
@@ -208,6 +235,23 @@ const styles = {
     padding: '2px 8px',
     fontSize: '0.78rem',
     fontWeight: 'bold',
+  },
+  btnLevelUpPulse: {
+    backgroundColor: '#382509',
+    color: '#ffea75',
+    border: '1px solid #ffd700',
+    borderRadius: '4px',
+    padding: '3px 10px',
+    fontSize: '0.76rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    animation: 'pulseLevelUp 1.8s infinite',
+    boxShadow: '0 0 10px rgba(255, 215, 0, 0.45)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
+    transition: 'all 0.15s ease',
   },
   identityRow: {
     display: 'flex',

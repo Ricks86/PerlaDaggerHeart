@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Huesos Pelados (Bare Bones)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando eliges no equipar armadura, tienes una Puntuación de Armadura base de 3 + tu Fuerza y utilizas los siguientes umbrales de daño base:\n• Tier 1: 9/19\n• Tier 2: 11/24\n• Tier 3: 13/31\n• Tier 4: 15/38",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Empuje Contundente (Forceful Push)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Realiza un ataque con tu arma principal contra un objetivo a alcance Cuerpo a cuerpo. En un éxito, infliges daño y lo empujas hacia atrás hasta alcance Cercano. En un éxito con Esperanza, añade un d6 a tu tirada de daño.\n\nAdemás, puedes **gastar una Esperanza** para dejarlo temporalmente Vulnerable.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Yo Soy tu Escudo (I Am Your Shield)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando un aliado a alcance Muy Cercano fuera a recibir daño, puedes **marcar un Estrés** para interponerte en el camino y convertirte en el objetivo del ataque en su lugar. Cuando recibes daño por este ataque, puedes marcar cualquier número de Espacios de Armadura.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpeador Corporal (Body Basher)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Utilizas toda la fuerza de tu cuerpo en combate. En un ataque exitoso utilizando un arma con alcance Cuerpo a cuerpo, gana un bono a tu tirada de daño igual a tu Fuerza.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Presencia Audaz (Bold Presence)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Cuando hagas una Tirada de Presencia, puedes **gastar una Esperanza** para sumar tu Fuerza a la tirada.\n\nAdemás, una vez por descanso cuando fueras a adquirir una condición, puedes describir cómo tu audaz presencia te ayuda en la situación y evitar adquirir dicha condición.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Inspiración Crítica (Critical Inspiration)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Una vez por descanso, cuando logres un éxito crítico en un ataque, todos los aliados a alcance Muy Cercano pueden limpiar un Estrés o ganar una Esperanza.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Apóyate en Mí (Lean on Me)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Una vez por descanso largo, cuando consueles o inspires a un aliado que haya fallado una tirada de acción, ambos pueden limpiar 2 de Estrés.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Provocación (Goad Them On)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Describe cómo te burlas de un objetivo a alcance Cercano y luego haz una Tirada de Presencia contra él. En un éxito, el objetivo debe **marcar un Estrés**, y la próxima vez que el DJ lo ponga en el foco, debe atacarte a ti, realizando el ataque con desventaja.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tanque de Apoyo (Support Tank)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Cuando un aliado a alcance Cercano falle una tirada, puedes **gastar 2 de Esperanza** para permitirle volver a tirar su Dado de Esperanza o su Dado de Miedo.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Armero (Armorer)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Mientras lleves armadura puesta, ganas un bono de +1 a tu Puntuación de Armadura.\n\nDurante un descanso, cuando elijas reparar tu armadura como acción de descanso, tus aliados también limpian un Espacio de Armadura.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpe Alentador (Rousing Strike)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Una vez por descanso, cuando logres un éxito crítico en un ataque, tú y todos los aliados que puedan verte u oírte pueden limpiar un Punto de Golpe o 1d4 de Estrés.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Inevitable (Inevitable)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Cuando fallas una tirada de acción, tu siguiente tirada de acción tiene ventaja.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Alzarse (Rise Up)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Ganas un bono a tu umbral Grave igual a tu Competencia.\n\nCuando marcas 1 o más Puntos de Golpe por un ataque, limpia un Estrés.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Encogerse de Hombros (Shrug It Off)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando fueras a recibir daño, puedes **marcar un Estrés** para reducir la gravedad del daño en un umbral. Cuando lo hagas, tira un d6; con un resultado de 3 o menor, coloca esta carta en tu bóveda.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por el Valor (Valor-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Valor, obtienes los siguientes beneficios:\n• Bono de +1 a tu Puntuación de Armadura.\n• Cuando marques 1 o más Puntos de Golpe sin marcar un Espacio de Armadura, limpia un Espacio de Armadura.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Oleada Total (Full Surge)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Una vez por descanso largo, **marca 3 de Estrés** para llevar tu cuerpo a sus límites. Ganas un bono de +2 a todos los atributos de tu personaje hasta tu próximo descanso.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpe al Suelo (Ground Pound)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "**Gasta 2 de Esperanza** para golpear el suelo donde estás parado y haz una Tirada de Fuerza contra todos los objetivos a alcance Muy Cercano. Los objetivos contra los que tengas éxito son lanzados hacia atrás a alcance Lejano y deben hacer una Tirada de Reacción (17). Los objetivos que fallen reciben 4d10+8 de daño; los que tengan éxito reciben la mitad del daño.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Mantener la Línea (Hold the Line)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Describe la postura defensiva que adoptas y **gasta una Esperanza**. Si un adversario se mueve a alcance Muy Cercano, es arrastrado a alcance Cuerpo a cuerpo e Inmovilizado.\n\nEsta condición dura hasta que te muevas o falles una tirada con Miedo, o hasta que el DJ gaste 2 de Miedo en su turno para retirarla.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Predicar con el Ejemplo (Lead by Example)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Cuando inflijas daño a un adversario, puedes **marcar un Estrés** y describir cómo alientas a tus aliados. El siguiente PJ que realice un ataque contra ese adversario puede limpiar un Estrés o ganar una Esperanza.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Inquebrantable (Unbreakable)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando marques tu último Punto de Golpe, en lugar de realizar un movimiento de muerte, puedes tirar un d6 y limpiar una cantidad de Puntos de Golpe igual al resultado. Luego, coloca esta carta en tu bóveda.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 4
+    }
+  },
+  {
+    "titulo": "Armadura Inflexible (Unyielding Armor)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando fueras a marcar un Espacio de Armadura, tira una cantidad de d6s igual a tu Competencia. Si alguno obtiene un 6, reduce la gravedad del daño en un umbral sin marcar un Espacio de Armadura.",
+    "metadata": {
+      "dominio": "Valor",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  }
+]

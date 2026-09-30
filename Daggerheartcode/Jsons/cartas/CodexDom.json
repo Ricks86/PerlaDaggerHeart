@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Libro de Ava (Book of Ava)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "• **Empuje de Poder:** Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cuerpo a cuerpo. En un éxito, es empujado a alcance Lejano y recibe d10+2 de daño mágico usando tu Competencia.\n• **Armadura de Tava:** **Gasta una Esperanza** para darle a un objetivo que puedas tocar un bono de +1 a su Puntuación de Armadura hasta su próximo descanso o hasta que lances Armadura de Tava nuevamente.\n• **Púa de Hielo:** Haz una Tirada de Lanzamiento de Conjuros (12) para convocar una gran púa de hielo a alcance Lejano. Si la usas como arma, haz la Tirada de Lanzamiento de Conjuros contra la Dificultad del objetivo en su lugar; en un éxito, inflige d6 de daño físico usando tu Competencia.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Illiat (Book of Illiat)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "• **Letargo:** Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Cercano. En un éxito, queda Dormido hasta que reciba daño o el DJ gaste un Miedo en su turno para limpiar esta condición.\n• **Andanada Arcana:** Una vez por descanso, gasta cualquier cantidad de Esperanza y dispara proyectiles mágicos que impactan a un objetivo de tu elección a alcance Cercano. Tira una cantidad de d6s igual a la Esperanza gastada e inflige esa cantidad de daño mágico al objetivo.\n• **Telepatía:** **Gasta una Esperanza** para abrir una línea de comunicación mental con un objetivo que puedas ver. Esta conexión dura hasta tu próximo descanso o hasta que lances Telepatía nuevamente.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Tyfar (Book of Tyfar)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "• **Llama Salvaje:** Haz una Tirada de Lanzamiento de Conjuros contra hasta tres adversarios a alcance Cuerpo a cuerpo. Los objetivos contra los que tengas éxito reciben 2d6 de daño mágico y deben **marcar un Estrés** cuando las llamas brotan de tu mano.\n• **Mano Mágica:** Conjuras una mano mágica del mismo tamaño y fuerza que la tuya a alcance Lejano.\n• **Niebla Misteriosa:** Haz una Tirada de Lanzamiento de Conjuros (13) para conjurar una espesa niebla temporal que se acumula en un área estacionaria a alcance Muy Cercano. La niebla oscurece fuertemente esta área y todo lo que se encuentre dentro de ella.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Sitil (Book of Sitil)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "• **Alterar Apariencia:** Cambias mágicamente tu apariencia y vestimenta para evitar ser reconocido.\n• **Paralela:** **Gasta 2 de Esperanza** para lanzar este conjuro sobre ti o un aliado a alcance Cercano. La próxima vez que el objetivo haga un ataque, puede impactar a un objetivo adicional dentro del alcance contra el cual su tirada de ataque habría tenido éxito. Solo puedes mantener este conjuro en una criatura a la vez.\n• **Ilusión:** Haz una Tirada de Lanzamiento de Conjuros (14). En un éxito, crea una ilusión visual temporal no más grande que tú a alcance Cercano que dura mientras la mires. Resiste el escrutinio hasta que un observador se encuentre a alcance Cuerpo a cuerpo.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Vagras (Book of Vagras)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "• **Cerradura Rúnica:** Haz una Tirada de Lanzamiento de Conjuros (15) sobre un objeto que estés tocando y que se pueda cerrar (como una cerradura, cofre o caja). Una vez por descanso en un éxito, puedes bloquear el objeto para que solo las criaturas de tu elección puedan abrirlo. Alguien con acceso a la magia y una hora para estudiar el conjuro puede romperlo.\n• **Puerta Arcana:** Cuando no tengas adversarios a alcance Cuerpo a cuerpo, haz una Tirada de Lanzamiento de Conjuros (13). En un éxito, **gasta una Esperanza** para crear un portal desde donde estás hacia un punto a alcance Lejano que puedas ver. Se cierra una vez que una criatura lo atraviesa.\n• **Revelar:** Haz una Tirada de Lanzamiento de Conjuros. Si hay algo mágicamente oculto a alcance Cercano, se revela.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Korvax (Book of Korvax)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "• **Levitación:** Haz una Tirada de Lanzamiento de Conjuros para elevar temporalmente en el aire a un objetivo que puedas ver y moverlo a alcance Cercano respecto a su posición original.\n• **Desdecir:** **Gasta una Esperanza** para obligar a un objetivo a alcance Cuerpo a cuerpo a realizar una Tirada de Reacción (15). En un fallo, olvida el último minuto de tu conversación.\n• **Círculo Rúnico:** **Marca un Estrés** para crear un círculo mágico temporal en el suelo donde estás parado. Todos los adversarios a alcance Cuerpo a cuerpo, o que entren en él, reciben 2d12+4 de daño mágico y son empujados a alcance Muy Cercano.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Norai (Book of Norai)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "• **Atadura Mística:** Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, queda temporalmente Retenido y debe **marcar un Estrés**. Si apuntas a una criatura voladora, este conjuro la derriba al suelo y la Retiene temporalmente.\n• **Bola de Fuego:** Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Lejano. En un éxito, lanza una esfera de fuego hacia él que explota al impactar. El objetivo y todas las criaturas a alcance Muy Cercano de él deben hacer una Tirada de Reacción (13). Quienes fallen reciben d20+5 de daño mágico usando tu Competencia; quienes tengan éxito reciben la mitad del daño.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Exota (Book of Exota)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "• **Repudiar:** Puedes interrumpir un efecto mágico que se esté llevando a cabo. Haz una tirada de reacción usando tu rasgo de Lanzamiento de Conjuros. Una vez por descanso en un éxito, el efecto se detiene y se evita cualquier consecuencia.\n• **Crear Constructo:** **Gasta una Esperanza** para elegir un grupo de objetos a tu alrededor y crear a partir de ellos un constructo animado que obedece órdenes básicas. Haz una Tirada de Lanzamiento de Conjuros para ordenarle actuar. Cuando sea necesario, comparte tu Evasión y rasgos, y sus ataques infligen 2d10+3 de daño físico. Solo puedes mantener un constructo a la vez, y se desmorona si recibe cualquier cantidad de daño.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Libro de Grynn (Book of Grynn)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "• **Desvío Arcano:** Una vez por descanso largo, **gasta una Esperanza** para anular el daño de un ataque dirigido a ti o a un aliado a alcance Muy Cercano.\n• **Bloqueo Temporal:** Selecciona un objeto a alcance Lejano. Ese objeto se detiene en el tiempo y el espacio exactamente donde está hasta tu próximo descanso. Si una criatura intenta moverlo, haz una Tirada de Lanzamiento de Conjuros contra ella para mantener el conjuro.\n• **Muro de Llamas:** Haz una Tirada de Lanzamiento de Conjuros (15). En un éxito, crea un muro temporal de llamas mágicas entre dos puntos a alcance Lejano. Todas las criaturas en su trayectoria deben elegir un lado en el que quedarse, y cualquier cosa que pase posteriormente a través del muro recibe 4d10+3 de daño mágico.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Manifestar Muro (Manifest Wall)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (15). Una vez por descanso en un éxito, **gasta una Esperanza** para crear un muro mágico temporal entre dos puntos a alcance Lejano. Puede tener hasta 50 pies de altura y formarse en cualquier ángulo. Las criaturas u objetos en su trayectoria son empujados hacia un lado de tu elección. El muro permanece en pie hasta tu próximo descanso o hasta que lances Manifestar Muro de nuevo.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Teletransporte (Teleport)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Una vez por descanso largo, puedes teletransportarte instantáneamente a ti y a cualquier número de objetivos dispuestos a alcance Cercano a un lugar en el que hayas estado antes. Elige una de las siguientes opciones y luego haz una Tirada de Lanzamiento de Conjuros (16):\n- Si conoces el lugar muy bien, ganas un bono de +3.\n- Si has visitado el lugar frecuentemente, ganas un bono de +1.\n- Si has visitado el lugar con poca frecuencia, no obtienes modificador.\n- Si solo has estado allí una vez, recibes una penalización de -2.\nEn un éxito, apareces donde pretendías ir. En un fallo, apareces fuera de curso, determinando la distancia del desvío según el margen de fallo.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Desterrar (Banish)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano. En un éxito, tira una cantidad de d20s igual a tu rasgo de Lanzamiento de Conjuros. El objetivo debe hacer una tirada de reacción con una Dificultad igual a tu resultado más alto. En un éxito, el objetivo debe **marcar un Estrés**, pero no es desterrado. Una vez por descanso en un fallo, es desterrado de este plano.\n\nCuando los PJ tiran con Miedo, la Dificultad sufre una penalización de -1 y el objetivo hace otra tirada de reacción; con un éxito, regresa del destierro.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Sigilo de Retribución (Sigil of Retribution)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Marca a un adversario a alcance Cercano con un sigilo de retribución. El DJ gana un Miedo. Cuando el adversario marcado inflija daño a ti o a tus aliados, coloca un d8 en esta carta (puedes acumular una cantidad de d8s igual a tu nivel).\n\nCuando ataques con éxito al adversario marcado, tira los dados acumulados en esta carta y suma el total a tu tirada de daño, luego retira los dados. Este efecto termina cuando el adversario marcado es derrotado o cuando lanzas Sigilo de Retribución nuevamente.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Homet (Book of Homet)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "• **Traspasar:** Haz una Tirada de Lanzamiento de Conjuros (13). Una vez por descanso en un éxito, tú y todas las criaturas que te toquen pueden atravesar una pared o puerta a alcance Cercano. El efecto termina una vez que todos estén al otro lado.\n• **Puerta Planar:** Haz una Tirada de Lanzamiento de Conjuros (14). Una vez por descanso largo en un éxito, abre un portal hacia una ubicación en otra dimensión o plano de existencia en el que hayas estado antes. Este portal permanece abierto hasta tu próximo descanso.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Tocado por el Códice (Codex-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Codex, obtienes los siguientes beneficios:\n• Puedes **marcar un Estrés** para sumar tu Competencia a una Tirada de Lanzamiento de Conjuros.\n• Una vez por descanso, reemplaza esta carta por cualquier carta de tu bóveda sin pagar su Coste de Recuperación.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Libro de Vyola (Book of Vyola)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "• **Sondear Memoria:** Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, escudriña en la mente del objetivo y hazle una pregunta al DJ. El DJ describe los recuerdos que tenga el objetivo referentes a la respuesta.\n• **Claridad Compartida:** Una vez por descanso largo, **gasta una Esperanza** para elegir a dos criaturas dispuestas. Cuando una de ellas fuera a marcar Estrés, pueden decidir entre ambas quién lo marca. Este conjuro dura hasta su próximo descanso.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Refugio Seguro (Safe Haven)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Cuando tengas unos minutos de calma para concentrarte, puedes **gastar 2 de Esperanza** para convocar tu Refugio Seguro, un amplio hogar interdimensional donde tú y tus aliados pueden guarecerse. Aparece una puerta mágica en algún lugar a alcance Cercano a la que solo pueden entrar criaturas de tu elección.\n\nUna vez dentro, puedes hacer la entrada invisible. Tú y cualquiera adentro siempre pueden salir, pero una vez fuera, la puerta debe convocarse nuevamente. Al tomar un descanso dentro de tu Refugio Seguro, puedes elegir una acción de descanso adicional.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Libro de Ronin (Book of Ronin)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "• **Transformación:** Haz una Tirada de Lanzamiento de Conjuros (15). En un éxito, transfórmate en un objeto inanimado no mayor al doble de tu tamaño normal. Puedes permanecer en esta forma hasta recibir daño.\n• **Enervación Eterna:** Una vez por descanso largo, haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano. En un éxito, queda permanentemente Vulnerable y no puede limpiar esta condición por ningún medio.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 4
+    }
+  },
+  {
+    "titulo": "Onda de Desintegración (Disintegration Wave)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (18). Una vez por descanso largo en un éxito, el DJ te indica cuáles adversarios a alcance Lejano tienen una Dificultad de 18 o inferior. **Marca un Estrés** por cada uno que desees alcanzar con este conjuro: son aniquilados al instante y no pueden volver a la vida por ningún medio.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 4
+    }
+  },
+  {
+    "titulo": "Libro de Yarrow (Book of Yarrow)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "• **Inhibidor Temporal:** Haz una Tirada de Lanzamiento de Conjuros (18). En un éxito, el tiempo se ralentiza temporalmente hasta detenerse para todos a alcance Lejano excepto para ti. Se reanuda la próxima vez que hagas una tirada de acción dirigida a otra criatura.\n• **Inmunidad Mágica:** **Gasta 5 de Esperanza** para volverte inmune al daño mágico hasta tu próximo descanso.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Grimorio",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Unión Trascendente (Transcendent Union)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Una vez por descanso largo, **gasta 5 de Esperanza** para lanzar este conjuro sobre dos o más criaturas dispuestas. Hasta tu próximo descanso, cuando una criatura conectada por esta unión fuera a marcar Estrés o Puntos de Golpe, las criaturas conectadas pueden elegir quién los marca.",
+    "metadata": {
+      "dominio": "Codex",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  }
+]

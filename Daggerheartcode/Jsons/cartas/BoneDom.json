@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Maniobras Diestras (Deft Maneuvers)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Una vez por descanso, **marca un Estrés** para esprintar a cualquier lugar a alcance Lejano sin hacer una Tirada de Agilidad para llegar allí.\n\nSi terminas este movimiento a alcance Cuerpo a cuerpo de un adversario y le realizas inmediatamente un ataque, ganas un bono de +1 a la tirada de ataque.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Lo Veo Venir (I See It Coming)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando eres el objetivo de un ataque realizado desde más allá del alcance Cuerpo a cuerpo, puedes **marcar un Estrés** para tirar un d4 y ganar un bono a tu Evasión igual al resultado contra ese ataque.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Intocable (Untouchable)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Ganas un bono a tu Evasión igual a la mitad de tu Agilidad.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Ferocidad (Ferocity)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Cuando causes que un adversario marque 1 o más Puntos de Golpe, puedes **gastar 2 de Esperanza** para aumentar tu Evasión en la cantidad de Puntos de Golpe que haya marcado. Este bono dura hasta después del siguiente ataque realizado contra ti.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Enfoque Estratégico (Strategic Approach)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Tras un descanso largo, coloca en esta carta un número de fichas igual a tu Conocimiento (mínimo 1). La primera vez que te muevas a alcance Cercano de un adversario y le realices un ataque, puedes gastar una ficha para elegir una de las siguientes opciones:\n- Realizas el ataque con ventaja;\n- Limpias un Estrés de un aliado a alcance Cuerpo a cuerpo del adversario.\n- Añades un d8 a tu tirada de daño.\nCuando tomes un descanso largo, limpia todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Afianzarse (Brace)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Cuando marcas un Espacio de Armadura para reducir el daño entrante, puedes **marcar un Estrés** para marcar un Espacio de Armadura adicional.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Táctico (Tactician)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Cuando Ayudas a un Aliado, este puede **gastar una Esperanza** para sumar una de tus Experiencias a su tirada junto a tu dado de ventaja.\n\nAl realizar una Tirada en Equipo (Tag Team Roll), puedes tirar un d20 como tu Dado de Esperanza.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Impulso (Boost)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "**Marca un Estrés** para impulsarte en un aliado dispuesto a alcance Cercano, lanzarte por el aire y realizar un ataque aéreo contra un objetivo a alcance Lejano. Tienes ventaja en el ataque, añades un d10 a la tirada de daño y terminas tu movimiento a alcance Cuerpo a cuerpo del objetivo.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Redirigir (Redirect)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Cuando un ataque realizado contra ti desde más allá del alcance Cuerpo a cuerpo falla, tira un número de d6s igual a tu Competencia. Si alguno obtiene un 6, puedes **marcar un Estrés** para redirigir el ataque y dañar a un adversario a alcance Muy Cercano en su lugar.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Conoce a tu Enemigo (Know Thy Enemy)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Al observar a una criatura, puedes realizar una Tirada de Instinto contra ella. En un éxito, **gasta una Esperanza** y pídele al DJ uno de los siguientes conjuntos de información sobre el objetivo:\n- Sus Puntos de Golpe y Estrés no marcados.\n- Su Dificultad y umbrales de daño.\n- Sus tácticas y dados de daño de ataque estándar.\n- Sus rasgos y Experiencias.\nAdemás, en un éxito, puedes **marcar un Estrés** para quitar un Miedo de la Reserva de Miedo del DJ.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Movimiento Distintivo (Signature Move)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Nombra y describe tu maniobra de combate distintiva. Una vez por descanso, cuando realices esta maniobra distintiva como parte de una acción que estés llevando a cabo, puedes tirar un d20 como tu Dado de Esperanza. En un éxito, limpia un Estrés.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Respuesta Rápida (Rapid Riposte)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Cuando un ataque realizado contra ti desde el alcance Cuerpo a cuerpo falla, puedes **marcar un Estrés** y aprovechar la oportunidad para infligir el daño de arma de una de tus armas activas al atacante.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Recuperación (Recovery)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Durante un descanso corto, puedes elegir realizar una acción de descanso largo en su lugar. Puedes **gastar una Esperanza** para permitir que un aliado haga lo mismo.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por el Hueso (Bone-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Bone, obtienes los siguientes beneficios:\n- Bono de +1 a Agilidad.\n- Una vez por descanso, puedes **gastar 3 de Esperanza** para hacer que un ataque que tuvo éxito contra ti falle en su lugar.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Precisión Cruel (Cruel Precision)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando realizas un ataque exitoso con un arma, ganas un bono a tu tirada de daño igual a tu Sutileza o a tu Agilidad.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpe Quebrantador (Breaking Blow)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Cuando realizas un ataque con éxito, puedes **marcar un Estrés** para hacer que el siguiente ataque exitoso contra ese mismo objetivo inflija 2d12 de daño adicional.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Arreo (Wrangle)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Agilidad contra todos los objetivos a alcance Cercano. **Gasta una Esperanza** para mover a los objetivos contra los que tengas éxito, y a cualquier aliado dispuesto a alcance Cercano, a otro punto dentro del alcance Cercano.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Al Borde (On the Brink)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Cuando tienes 2 o menos Puntos de Golpe sin marcar, no recibes daño Menor.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Golpe Astillador (Splintering Strike)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "**Gasta una Esperanza** y realiza un ataque contra todos los adversarios dentro del alcance de tu arma. Una vez por descanso largo, en un éxito contra cualquier objetivo, tira el daño de tu arma y distribúyelo como desees entre los objetivos contra los que tuviste éxito. Antes de aplicar el daño a cada objetivo, tira un dado de daño adicional y suma su resultado al daño que le infliges.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Carrera Mortal (Deathrun)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "**Gasta 3 de Esperanza** para recorrer una trayectoria recta a través del campo de batalla hasta un punto a alcance Lejano, realizando un ataque contra todos los adversarios dentro del alcance de tu arma a lo largo de ese camino.\n\nElige el orden en el que infliges daño a los objetivos contra los que tuviste éxito. Para el primero, tira el daño de tu arma con un bono de +1 a tu Competencia. Luego retira un dado de tu tirada de daño e inflige el daño restante al siguiente objetivo. Continúa retirando un dado por cada objetivo sucesivo hasta que no tengas más dados de daño o adversarios.\n\nNo puedes atacar al mismo adversario más de una vez por ataque.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Paso Veloz (Swift Step)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando un ataque realizado contra ti falla, limpia un Estrés. Si no puedes limpiar un Estrés, gana una Esperanza.",
+    "metadata": {
+      "dominio": "Bone",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  }
+]

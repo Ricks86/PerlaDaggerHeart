@@ -4,9 +4,33 @@ import React from 'react';
  * MiniCharacterSheet: Tarjeta de resumen compacta y de alta legibilidad
  * para el Monitor de Grupo del Dungeon Master (Sprint 13).
  */
-export default function MiniCharacterSheet({ character, onRemove, onGift }) {
+export default function MiniCharacterSheet({ character, onRemove, onGift, onToggleLevelUp }) {
   if (!character) return null;
 
+  const [internalPuedeSubir, setInternalPuedeSubir] = React.useState(character.puedeSubirNivel);
+
+  React.useEffect(() => {
+    setInternalPuedeSubir(character.puedeSubirNivel);
+  }, [character.puedeSubirNivel]);
+
+  const handleToggleClick = async (e) => {
+    e?.stopPropagation();
+    if (onToggleLevelUp) {
+      onToggleLevelUp(character);
+    } else {
+      try {
+        const res = await fetch(`/api/characters/${character.id}/toggle-level-up`, { method: 'PATCH' });
+        if (res.ok) {
+          const updated = await res.json();
+          setInternalPuedeSubir(updated.puedeSubirNivel);
+        }
+      } catch (err) {
+        console.error('Error toggling level up permission:', err);
+      }
+    }
+  };
+
+  const isLevelUpActive = character.puedeSubirNivel ?? internalPuedeSubir;
   const nivel = character.nivel || 1;
   const armadura = character.armaduraActiva;
   const armaPrinc = character.armaPrincipal;
@@ -44,16 +68,6 @@ export default function MiniCharacterSheet({ character, onRemove, onGift }) {
         </div>
 
         <div style={styles.headerRightActions}>
-          {onGift && (
-            <button
-              onClick={() => onGift(character)}
-              style={styles.btnGift}
-              title={`Entregar botín a ${character.nombre}`}
-            >
-              🎁 Dar Objeto
-            </button>
-          )}
-
           {onRemove && (
             <button
               onClick={() => onRemove(character.id)}
@@ -64,6 +78,37 @@ export default function MiniCharacterSheet({ character, onRemove, onGift }) {
             </button>
           )}
         </div>
+      </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* BARRA DE ACCIONES DEL DJ: Subida de Nivel y Botín             */}
+      {/* ------------------------------------------------------------- */}
+      <div style={styles.dmActionsRow}>
+        {nivel < 10 && (
+          <button
+            type="button"
+            onClick={handleToggleClick}
+            style={isLevelUpActive ? styles.btnLevelUpActive : styles.btnLevelUpDisabled}
+            title={
+              isLevelUpActive
+                ? `Subida de nivel habilitada para ${character.nombre}. Clic para revocar el permiso.`
+                : `Habilitar subida de nivel para ${character.nombre} (desbloquea Nivel ${nivel + 1})`
+            }
+          >
+            {isLevelUpActive ? '⚡ Subida: Habilitada' : '🔒 Habilitar Subida'}
+          </button>
+        )}
+
+        {onGift && (
+          <button
+            type="button"
+            onClick={() => onGift(character)}
+            style={styles.btnGift}
+            title={`Entregar botín a ${character.nombre}`}
+          >
+            🎁 Dar Botín
+          </button>
+        )}
       </div>
 
       {/* ------------------------------------------------------------- */}
@@ -299,13 +344,59 @@ const styles = {
     gap: '6px',
     flexShrink: 0,
   },
+  dmActionsRow: {
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+    backgroundColor: '#1b1208',
+    border: '1px solid #3d2a1b',
+    borderRadius: '6px',
+    padding: '6px 8px',
+  },
+  btnLevelUpActive: {
+    flex: 1,
+    backgroundColor: '#3a2b0a',
+    color: '#ffea75',
+    border: '1px solid #ffd700',
+    boxShadow: '0 0 10px rgba(255, 215, 0, 0.45)',
+    borderRadius: '4px',
+    padding: '6px 10px',
+    fontSize: '0.74rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.2s ease',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '4px',
+  },
+  btnLevelUpDisabled: {
+    flex: 1,
+    backgroundColor: '#26190f',
+    color: '#d4c2a5',
+    border: '1px solid #5a3d24',
+    borderRadius: '4px',
+    padding: '6px 10px',
+    fontSize: '0.74rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.2s ease',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '4px',
+  },
   btnGift: {
     backgroundColor: '#2e1f0e',
     color: '#d4af37',
     border: '1px solid #5a3d24',
     borderRadius: '4px',
-    padding: '3px 8px',
-    fontSize: '0.68rem',
+    padding: '6px 10px',
+    fontSize: '0.74rem',
     fontWeight: 'bold',
     cursor: 'pointer',
     fontFamily: 'inherit',
@@ -313,7 +404,7 @@ const styles = {
     whiteSpace: 'nowrap',
     display: 'flex',
     alignItems: 'center',
-    gap: '3px',
+    gap: '4px',
   },
   btnRemove: {
     backgroundColor: 'transparent',

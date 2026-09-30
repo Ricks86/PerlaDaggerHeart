@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Rastreador Dotado (Gifted Tracker)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando estés rastreando a una criatura específica o a un grupo de criaturas basándote en los rastros de su paso, puedes **gastar cualquier cantidad de Esperanza** y hacerle al DJ esa misma cantidad de preguntas de la siguiente lista:\n• ¿En qué dirección fueron?\n• ¿Cuánto tiempo hace que pasaron por aquí?\n• ¿Qué estaban haciendo en este lugar?\n• ¿Cuántos de ellos había aquí?\nCuando te encuentres con criaturas que hayas rastreado de esta manera, ganas un bono de +1 a tu Evasión contra ellas.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Lengua de la Naturaleza (Nature's Tongue)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Puedes hablar el idioma del mundo natural. Cuando quieras hablar con las plantas y los animales a tu alrededor, haz una Tirada de Instinto (12). En un éxito, te darán la información que sepan. En una tirada con Miedo, su conocimiento podría ser limitado o tener un coste.\n\nAdemás, antes de hacer una Tirada de Lanzamiento de Conjuros mientras estás dentro de un entorno natural, puedes **gastar una Esperanza** para ganar un bono de +2 a la tirada.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Enredo Vicioso (Vicious Entangle)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, raíces y enredaderas brotan del suelo, infligiendo 1d8+1 de daño físico y dejando temporalmente Inmovilizado al objetivo.\n\nAdemás, en un éxito, puedes **gastar una Esperanza** para dejar temporalmente Inmovilizado a otro adversario a alcance Muy Cercano respecto a tu objetivo.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Conjurar Enjambre (Conjure Swarm)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "• **Escarabajos Acorazados Tekaira:** **Marca un Estrés** para conjurar escarabajos acorazados que te rodean. La próxima vez que recibas daño, reduce la gravedad en un umbral. Puedes **gastar una Esperanza** para mantener los escarabajos conjurados tras recibir daño.\n• **Luciérnagas de Fuego:** Haz una Tirada de Lanzamiento de Conjuros contra todos los adversarios a alcance Cercano. **Gasta una Esperanza** para infligir 2d8+3 de daño mágico a los objetivos contra los que hayas tenido éxito.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Familiar Natural (Natural Familiar)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "**Gasta una Esperanza** para convocar a un pequeño espíritu de la naturaleza o criatura del bosque a tu lado hasta tu próximo descanso, hasta que lances Familiar Natural de nuevo o hasta que el familiar sea objetivo de un ataque. Si gastas una Esperanza adicional, puedes invocar a un familiar que vuela. Puedes comunicarte con él, hacer una Tirada de Lanzamiento de Conjuros para ordenarle realizar tareas sencillas y **marcar un Estrés** para ver a través de sus ojos.\n\nCuando infliges daño a un adversario a alcance Cuerpo a cuerpo de tu familiar, añades un d6 a tu tirada de daño.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Proyectil Corrosivo (Corrosive Projectile)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, inflige d6+4 de daño mágico usando tu Competencia.\n\nAdemás, **marca 2 o más de Estrés** para dejarlo permanentemente Corroído. Mientras un objetivo esté Corroído, recibe una penalización de -1 a su Dificultad por cada 2 puntos de Estrés que hayas gastado. Esta condición se puede acumular.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tallo Imponente (Towering Stalk)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Una vez por descanso, puedes conjurar un tallo grueso y retorcido a alcance Cercano que se puede escalar fácilmente. Su altura puede crecer hasta alcance Lejano.\n\n**Marca un Estrés** para usar este conjuro como un ataque. Haz una Tirada de Lanzamiento de Conjuros contra un adversario o grupo de adversarios a alcance Cercano. El tallo brotante eleva por los aires a los objetivos contra los que tengas éxito y los deja caer, infligiéndoles d8 de daño físico usando tu Competencia.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Agarre Mortal (Death Grip)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano y elige una de las siguientes opciones:\n• Arrastras al objetivo a alcance Cuerpo a cuerpo o te atraes a ti mismo a alcance Cuerpo a cuerpo respecto a él.\n• Constriñes al objetivo y lo obligas a **marcar 2 de Estrés**.\n• Todos los adversarios entre tú y el objetivo deben tener éxito en una Tirada de Reacción (13) o ser alcanzados por enredaderas, recibiendo 3d6+2 de daño físico.\nEn un éxito, las enredaderas brotan de tus manos, causando el efecto elegido y dejando temporalmente Inmovilizado al objetivo.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Campo de Curación (Healing Field)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Una vez por descanso largo, puedes conjurar un campo de plantas curativas a tu alrededor. En todas partes a alcance Cercano respecto a ti la naturaleza brota con vitalidad, permitiendo que tú y todos los aliados en el área limpien un Punto de Golpe.\n\n**Gasta 2 de Esperanza** para permitir que tú y todos los aliados limpien 2 Puntos de Golpe en su lugar.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Piel de Espinas (Thorn Skin)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Una vez por descanso, **gasta una Esperanza** para hacer brotar espinas por todo tu cuerpo. Al hacerlo, coloca en esta carta un número de fichas igual a tu rasgo de Lanzamiento de Conjuros. Cuando recibas daño, puedes gastar cualquier cantidad de fichas para tirar esa misma cantidad de d6s; suma los resultados y reduce el daño entrante en esa cantidad. Si estás a alcance Cuerpo a cuerpo del atacante, inflígele esa misma cantidad de daño de vuelta.\n\nCuando tomes un descanso, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Fortaleza Salvaje (Wild Fortress)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (13). En un éxito, **gasta 2 de Esperanza** para hacer crecer una barricada natural en forma de cúpula dentro de la cual tú y un aliado pueden refugiarse. Mientras estén dentro de la cúpula, una criatura no puede ser objetivo de ataques ni puede realizarlos. Los ataques realizados contra la cúpula tienen éxito automáticamente. La cúpula tiene umbrales de daño 15/30 y dura hasta que marque 3 Puntos de Golpe (coloca fichas en esta carta para representar sus Puntos de Golpe).",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Corceles Conjurados (Conjured Steeds)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "**Gasta cualquier cantidad de Esperanza** para conjurar esa misma cantidad de corceles mágicos (como caballos, camellos o elefantes) que tú y tus aliados pueden montar hasta tu próximo descanso largo o hasta que los corceles reciban cualquier daño. Los corceles duplican tu velocidad terrestre al viajar y, ante el peligro, te permiten moverte a alcance Lejano sin tener que tirar. Las criaturas que montan un corcel tienen una penalización de -2 a las tiradas de ataque y un bono de +2 a las tiradas de daño.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Recolector (Forager)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Como acción de descanso adicional que puedes elegir, tira un d6 para ver qué recolectas. Describe el objeto junto con el DJ y agrégalo a tu inventario como consumible (tu grupo puede portar hasta cinco consumibles recolectados a la vez):\n1. Comida exótica (Limpia 2 de Estrés).\n2. Reliquia hermosa (Gana 2 de Esperanza).\n3. Runa arcana (+2 a una Tirada de Lanzamiento de Conjuros).\n4. Vial curativo (Limpia 2 Puntos de Golpe).\n5. Amuleto de la suerte (Vuelve a tirar cualquier dado).\n6. Elige una de las opciones anteriores.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por la Sabiduría (Sage-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Sage, obtienes los siguientes beneficios:\n• Mientras estés en un entorno natural, ganas un bono de +2 a tus Tiradas de Lanzamiento de Conjuros.\n• Una vez por descanso, puedes duplicar tu Agilidad o Instinto al hacer una tirada que utilice ese atributo (debes elegir hacerlo antes de tirar).",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Oleada Salvaje (Wild Surge)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Una vez por descanso largo, **marca un Estrés** para canalizar el mundo natural que te rodea y mejorarte a ti mismo. Describe cómo cambia tu apariencia y luego coloca un d6 en esta carta con el valor 1 hacia arriba.\n\nMientras el Dado de Oleada Salvaje esté activo, sumas su valor a cada tirada de acción que realices. Después de sumar su valor a una tirada, aumenta el valor del dado en uno. Cuando el valor del dado fuera a superar 6 o tomes un descanso, esta forma se disipa y debes **marcar un Estrés adicional**.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Espíritus del Bosque (Forest Sprites)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (13). En un éxito, **gasta cualquier cantidad de Esperanza** para crear un número igual de pequeños espíritus del bosque que aparecen en puntos que elijas a alcance Lejano, otorgando los siguientes beneficios:\n• Tus aliados ganan un bono de +3 a las tiradas de ataque contra adversarios a alcance Cuerpo a cuerpo de un espíritu.\n• Un aliado que marque un Espacio de Armadura mientras esté a alcance Cuerpo a cuerpo de un espíritu puede marcar un Espacio de Armadura adicional.\nUn espíritu se desvanece tras otorgar un beneficio o al recibir cualquier daño.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Barrera de Rejuvenecimiento (Rejuvenation Barrier)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (15). Una vez por descanso en un éxito, crea una barrera temporal de energía protectora a tu alrededor a alcance Muy Cercano. Tú y todos los aliados dentro de la barrera cuando se lanza este conjuro limpian 1d4 Puntos de Golpe. Mientras la barrera esté activa, tú y todos los aliados en su interior tienen resistencia al daño físico proveniente de fuera de la barrera. Cuando te mueves, la barrera se mueve contigo.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Santuario de lo Salvaje (Fane of the Wilds)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Tras un descanso largo, coloca en esta carta una cantidad de fichas igual al número de cartas del dominio Sage en tu repertorio activo y en tu bóveda.\n\nCuando fueras a hacer una Tirada de Lanzamiento de Conjuros, puedes gastar cualquier cantidad de fichas tras la tirada para ganar un bono de +1 por cada ficha gastada.\n\nCuando logres un éxito crítico en una Tirada de Lanzamiento de Conjuros para un conjuro del dominio Sage, ganas una ficha.\n\nAl tomar un descanso largo, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Dominio Vegetal (Plant Dominion)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (18). Una vez por descanso largo en un éxito, remodelas el mundo natural, alterando la vegetación circundante en cualquier lugar a alcance Lejano respecto a ti (por ejemplo, hacer crecer árboles instantáneamente, despejar un sendero a través de densas enredaderas o crear un muro de raíces).",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Fuerza de la Naturaleza (Force of Nature)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "**Marca un Estrés** para transformarte en un imponente espíritu de la naturaleza, obteniendo los siguientes beneficios:\n• Cuando tengas éxito en un ataque o Tirada de Lanzamiento de Conjuros, ganas un bono de +10 a la tirada de daño.\n• Cuando inflijas suficiente daño como para derrotar a una criatura a alcance Cercano, la absorbes y limpias un Espacio de Armadura.\n• No puedes ser Inmovilizado.\nAntes de hacer una tirada de acción, debes **gastar una Esperanza**; si no puedes, reviertes a tu forma normal.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Tempestad (Tempest)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Elige una de las siguientes tempestades y haz una Tirada de Lanzamiento de Conjuros contra todos los objetivos a alcance Lejano. Los objetivos contra los que tengas éxito experimentan sus efectos hasta que el DJ gaste un Miedo en su turno para terminar este conjuro:\n• **Ventisca:** Inflige 2d20+8 de daño mágico y los objetivos quedan temporalmente Vulnerables.\n• **Huracán:** Inflige 3d10+10 de daño mágico y eliges una dirección hacia la que sopla el viento; los objetivos no pueden moverse en contra del viento.\n• **Tormenta de Arena:** Inflige 5d6+9 de daño mágico; los ataques realizados desde más allá del alcance Cuerpo a cuerpo tienen desventaja.",
+    "metadata": {
+      "dominio": "Sage",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  }
+]

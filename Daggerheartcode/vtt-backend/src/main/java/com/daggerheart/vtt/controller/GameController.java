@@ -1,5 +1,6 @@
 package com.daggerheart.vtt.controller;
 
+import com.daggerheart.vtt.dto.LevelUpRequest;
 import com.daggerheart.vtt.model.*;
 import com.daggerheart.vtt.repository.*;
 import com.daggerheart.vtt.service.CharacterService;
@@ -283,6 +284,42 @@ public class GameController {
             return ResponseEntity.ok(updated);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
+     * PATCH /api/characters/{id}/toggle-level-up
+     * Conmuta el permiso de subida de nivel para un personaje (Sprint 22).
+     */
+    @PatchMapping("/characters/{id}/toggle-level-up")
+    public ResponseEntity<?> toggleLevelUpPermission(@PathVariable Long id) {
+        try {
+            PlayerCharacter updated = characterService.toggleLevelUpPermission(id);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
+     * POST /api/characters/{id}/level-up
+     * Aplica la subida de nivel al personaje con validación estricta de reglas de Tier (Sprint 21).
+     */
+    @PostMapping("/characters/{id}/level-up")
+    public ResponseEntity<?> levelUpCharacter(
+            @PathVariable Long id,
+            @RequestBody LevelUpRequest request) {
+        try {
+            PlayerCharacter updated = characterService.levelUp(id, request);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }

@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Forzar y Hurtar (Pick and Pull)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Tienes ventaja en las tiradas de acción para forzar cerraduras no mágicas, desarmar trampas no mágicas o robar objetos de un objetivo (ya sea mediante sigilo o por la fuerza).",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Lluvia de Hojas (Rain of Blades)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "**Gasta una Esperanza** para hacer una Tirada de Lanzamiento de Conjuros y conjurar hojas arrojadizas que atacan a todos los objetivos a alcance Muy Cercano. Los objetivos contra los que tengas éxito reciben d8+2 de daño mágico usando tu Competencia. Si un objetivo al que impactas está Vulnerable, recibe 1d8 de daño adicional.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Disfraz Insólito (Uncanny Disguise)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Cuando dispongas de unos minutos para prepararte, puedes **marcar un Estrés** para adoptar la apariencia de cualquier humanoide que puedas visualizar con claridad en tu mente. Mientras estés disfrazado, tienes ventaja en las Tiradas de Presencia para evitar el escrutinio.\n\nColoca en esta carta un número de fichas igual a tu rasgo de Lanzamiento de Conjuros. Cuando realices una acción mientras estás disfrazado, gasta una ficha de esta carta. Una vez resuelta la acción en la que gastes la última ficha, el disfraz se disipa.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Espíritu de Medianoche (Midnight Spirit)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "**Gasta una Esperanza** para invocar a un espíritu de tamaño humanoide que puede mover o cargar cosas por ti hasta tu próximo descanso.\n\nTambién puedes enviarlo a atacar a un adversario. Cuando lo hagas, haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Lejano. En un éxito, el espíritu se desplaza a alcance Cuerpo a cuerpo con ese objetivo. Tira una cantidad de d6s igual a tu rasgo de Lanzamiento de Conjuros e inflige esa cantidad de daño mágico al objetivo. Luego, el espíritu se desvanece. Solo puedes tener un espíritu activo a la vez.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Atadura Sombría (Shadowbind)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra todos los adversarios a alcance Muy Cercano. Los objetivos contra los que tengas éxito quedan temporalmente Retenidos mientras sus propias sombras los fijan en el lugar.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Llave de Estrangulamiento (Chokehold)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Cuando te posiciones detrás de una criatura de tamaño similar al tuyo, puedes **marcar un Estrés** para atraparla en una presa de estrangulamiento, haciéndola temporalmente Vulnerable.\n\nCuando una criatura ataca a un objetivo que es Vulnerable por esta causa, inflige 2d6 de daño adicional.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Velo Nocturno (Veil of Night)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (13). En un éxito, puedes crear una cortina temporal de oscuridad entre dos puntos a alcance Lejano. Solo tú puedes ver a través de esta oscuridad. Se te considera Oculto frente a adversarios al otro lado del velo, y tienes ventaja en los ataques que realices a través de la oscuridad. El velo permanece hasta que lances otro conjuro.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Maestría en Sigilo (Stealth Expertise)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Cuando saques una tirada con Miedo al intentar moverte sin ser detectado a través de una zona peligrosa, puedes **marcar un Estrés** para convertirla en una tirada con Esperanza en su lugar.\n\nSi un aliado a alcance Cercano también está intentando pasar inadvertido y saca una tirada con Miedo, puedes **marcar un Estrés** para cambiar su resultado a una tirada con Esperanza.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Glifo del Ocaso (Glyph of Nightfall)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Cercano. En un éxito, **gasta una Esperanza** para trazar un glifo oscuro sobre su cuerpo que expone sus puntos débiles, reduciendo temporalmente la Dificultad del objetivo en un valor igual a tu Conocimiento (mínimo 1).",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Silencio (Hush)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano. En un éxito, **gasta una Esperanza** para conjurar magia supresora alrededor del objetivo que abarca todo dentro de alcance Muy Cercano respecto a él y lo sigue mientras se mueve.\n\nEl objetivo y cualquier cosa dentro del área quedan Silenciados hasta que el DJ gaste un Miedo en su turno para limpiar esta condición, lances Silencio de nuevo o recibas daño Mayor. Mientras estén Silenciados, no pueden emitir sonidos ni lanzar conjuros.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Retirada Fantasma (Phantom Retreat)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "**Gasta una Esperanza** para activar Retirada Fantasma en el lugar exacto donde estás parado. Gasta otra Esperanza en cualquier momento antes de tu próximo descanso para desaparecer de tu posición actual y reaparecer donde estabas cuando activaste el conjuro. Este conjuro termina tras reaparecer.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Susurros Oscuros (Dark Whispers)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Puedes hablar en la mente de cualquier persona con la que hayas tenido contacto físico. Una vez que hayas abierto un canal con ella, puede responderte mentalmente. Además, puedes **marcar un Estrés** para hacer una Tirada de Lanzamiento de Conjuros contra ella. En un éxito, puedes hacerle una de las siguientes preguntas al DJ y recibir una respuesta:\n• ¿Dónde está?\n• ¿Qué está haciendo?\n• ¿A qué le teme?\n• ¿Qué es lo que más valora en el mundo?",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Disfraz Masivo (Mass Disguise)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Cuando tengas unos minutos de silencio para concentrarte, puedes **marcar un Estrés** para cambiar la apariencia de todas las criaturas dispuestas a alcance Cercano. Sus nuevas formas deben compartir una estructura corporal y tamaño generales, y pueden ser alguien o algo que hayas visto antes o figuras enteramente inventadas. Una criatura disfrazada tiene ventaja en las Tiradas de Presencia para evitar el escrutinio.\n\nActiva una Cuenta Atrás (8). Avanza como una consecuencia elegida por el DJ. Cuando se agote, el disfraz cae.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Tocado por la Medianoche (Midnight-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Midnight, obtienes los siguientes beneficios:\n• Una vez por descanso, cuando tengas 0 de Esperanza y el DJ fuera a ganar un Miedo, puedes ganar una Esperanza en su lugar.\n• Cuando realices un ataque exitoso, puedes **marcar un Estrés** para sumar el resultado de tu Dado de Miedo a tu tirada de daño.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Esquiva Fugaz (Vanishing Dodge)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando falle un ataque contra ti que fuera a infligir daño físico, puedes **gastar una Esperanza** para envolverte en sombras, volviéndote Oculto y teletransportándote a un punto a alcance Cercano respecto al atacante. Permaneces Oculto hasta la próxima vez que realices una tirada de acción.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Cazador de Sombras (Shadowhunter)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Tu destreza se potencia al amparo de la penumbra. Mientras estés envuelto en luz tenue u oscuridad, ganas un bono de +1 a tu Evasión y realizas tiradas de ataque con ventaja.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Carga de Conjuros (Spellcharge)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Cuando recibas daño mágico, coloca en esta carta fichas iguales al número de Puntos de Golpe que hayas marcado. Puedes acumular una cantidad de fichas igual a tu rasgo de Lanzamiento de Conjuros.\n\nCuando realices un ataque exitoso contra un objetivo, puedes gastar cualquier cantidad de fichas para añadir un d6 a tu tirada de daño por cada ficha gastada.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Terror Nocturno (Night Terror)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Una vez por descanso largo, elige a cualquier número de objetivos a alcance Muy Cercano para que te perciban como un horror de pesadilla. Los objetivos deben tener éxito en una Tirada de Reacción (16) o quedar temporalmente Aterrorizados. Mientras estén Aterrorizados, quedan Vulnerables.\n\nRoba al DJ una cantidad de Miedo igual al número de objetivos Aterrorizados (hasta la cantidad de Miedo disponible en su reserva). Tira una cantidad de d6s igual al Miedo robado e inflige el daño total resultante a cada objetivo Aterrorizado. Descarta el Miedo robado.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Tributo del Crepúsculo (Twilight Toll)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Elige a un objetivo a alcance Lejano. Cuando tengas éxito en una tirada de acción contra él que no involucre una tirada de daño, coloca una ficha en esta carta. Cuando le inflijas daño a este objetivo, gasta cualquier número de fichas para añadir un d12 a tu tirada de daño por cada ficha gastada. Solo puedes mantener Tributo del Crepúsculo en una criatura a la vez.\n\nCuando elijas un nuevo objetivo o tomes un descanso, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Eclipse (Eclipse)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (16). Una vez por descanso largo en un éxito, sume toda el área a alcance Lejano en una oscuridad total a través de la cual solo tú y tus aliados pueden ver. Las tiradas de ataque tienen desventaja al tener como objetivo a ti o a un aliado dentro de esta sombra.\n\nAdemás, cuando tú o un aliado tengan éxito con Esperanza contra un adversario dentro de esta sombra, el objetivo debe **marcar un Estrés**. Este conjuro dura hasta que el DJ gaste un Miedo en su turno para limpiar este efecto o hasta que recibas daño Grave.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Espectro de la Oscuridad (Specter of the Dark)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "**Marca un Estrés** para volverte Espectral hasta que hagas una tirada de acción dirigida a otra criatura. Mientras seas Espectral, eres inmune al daño físico, puedes flotar y atravesar objetos sólidos. Otras criaturas aún pueden verte mientras estás en esta forma.",
+    "metadata": {
+      "dominio": "Midnight",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  }
+]

@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Guarda Rúnica (Rune Ward)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Tienes una baratija profundamente personal que puede imbuirse de magia protectora y ser portada como una guarda por ti o un aliado. Describe qué es y por qué es importante para ti. Quien porte la guarda puede **gastar una Esperanza** para reducir el daño entrante en 1d8.\n\nSi el resultado del Dado de Guarda es 8, el poder de la guarda termina tras reducir el daño este turno. Puede recargarse gratis en tu próximo descanso.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Desatar el Caos (Unleash Chaos)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Al comienzo de una sesión, coloca en esta carta un número de fichas igual a tu rasgo de Lanzamiento de Conjuros.\n\nHaz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano y gasta cualquier cantidad de fichas para canalizar energía pura desde tu interior y desatarla contra él. En un éxito, tira una cantidad de d10s igual a las fichas que gastaste e inflige esa cantidad de daño mágico al objetivo. **Marca un Estrés** para reponer esta carta con fichas (hasta tu rasgo de Lanzamiento de Conjuros).\n\nAl final de cada sesión, limpia todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Caminar por Paredes (Wall Walk)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "**Gasta una Esperanza** para permitir que una criatura que puedas tocar trepe por paredes y techos tan fácilmente como caminar por el suelo. Esto dura hasta el final de la escena o hasta que lances Caminar por Paredes nuevamente.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Agarre de Ceniza (Cinder Grasp)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cuerpo a cuerpo. En un éxito, el objetivo estalla instantáneamente en llamas, recibe 1d20+3 de daño mágico y queda temporalmente En Llamas.\n\nCuando una criatura actúa mientras está En Llamas, debe recibir 2d6 de daño mágico extra si todavía está En Llamas al final de su acción.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Ojo Flotante (Floating Eye)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "**Gasta una Esperanza** para crear un único y pequeño orbe flotante que puedes mover a cualquier lugar a alcance Muy Lejano. Mientras este conjuro esté activo, puedes ver a través del orbe como si miraras desde su posición. Puedes alternar libremente entre usar tus propios sentidos y ver a través del orbe. Si el orbe recibe daño o sale del alcance, el conjuro termina.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Contrahechizo (Counterspell)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Puedes interrumpir un efecto mágico que se esté llevando a cabo haciendo una tirada de reacción usando tu rasgo de Lanzamiento de Conjuros. En un éxito, el efecto se detiene, se evita cualquier consecuencia y esta carta se coloca en tu bóveda.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Vuelo (Flight)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (15). En un éxito, coloca en esta carta una cantidad de fichas igual a tu Agilidad (mínimo 1). Cuando hagas una tirada de acción mientras vuelas, gasta una ficha de esta carta. Tras resolverse la acción en la que gastes la última ficha, desciendes al suelo directamente debajo de ti.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Parpadeo de Escape (Blink Out)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (12). En un éxito, **gasta una Esperanza** para teletransportarte a otro punto que puedas ver a alcance Lejano. Si hay criaturas dispuestas a alcance Muy Cercano, gasta una Esperanza adicional por cada criatura para llevarla contigo.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Explosión de Preservación (Preservation Blast)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra todos los objetivos a alcance Cuerpo a cuerpo. Los objetivos contra los que tengas éxito son empujados a alcance Lejano y reciben d8+3 de daño mágico usando tu rasgo de Lanzamiento de Conjuros.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Cadena de Relámpagos (Chain Lightning)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "**Marca 2 de Estrés** para hacer una Tirada de Lanzamiento de Conjuros, desatando relámpagos sobre todos los objetivos a alcance Cercano. Los objetivos contra los que tengas éxito deben hacer una tirada de reacción con Dificultad igual al resultado de tu Tirada de Lanzamiento de Conjuros. Los objetivos que fallen reciben 2d8+4 de daño mágico.\n\nLos adversarios adicionales no seleccionados previamente por Cadena de Relámpagos que estén a alcance Cercano de objetivos que hayan recibido daño también deben hacer la tirada de reacción; si fallan, reciben 2d8+4 de daño mágico. Esta cadena continúa hasta que no queden más adversarios dentro del alcance.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Premonición (Premonition)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Puedes canalizar energía arcana para tener visiones del futuro. Una vez por descanso largo, inmediatamente después de que el DJ comunique las consecuencias de una tirada que hayas hecho, puedes anular el movimiento y las consecuencias como si nunca hubieran ocurrido y hacer otro movimiento en su lugar.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Caminante de la Brecha (Rift Walker)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (15). En un éxito, colocas una marca arcana en el suelo donde estás parado. La próxima vez que lances con éxito Caminante de la Brecha, se abrirá una brecha en el espacio que proporcionará paso seguro de regreso al lugar exacto donde se colocó la marca. Esta brecha permanece abierta hasta que decidas cerrarla o lances otro conjuro.\n\nPuedes cancelar el conjuro en cualquier momento para lanzar Caminante de la Brecha nuevamente y colocar la marca en un sitio nuevo.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Telequinesis (Telekinesis)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, puedes usar tu mente para moverlo a cualquier lugar a alcance Lejano de su posición original. Puedes arrojar al objetivo levantado como un ataque haciendo una Tirada de Lanzamiento de Conjuros adicional contra el segundo objetivo que intentas atacar. En un éxito, inflige d12+4 de daño físico al segundo objetivo usando tu Competencia. Luego, este conjuro termina.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Tocado por lo Arcano (Arcana-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Arcana, obtienes los siguientes beneficios:\n- Bono de +1 a tus Tiradas de Lanzamiento de Conjuros.\n- Una vez por descanso, puedes intercambiar los resultados de tus Dados de Esperanza y Miedo.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Estallido Encapuchador (Cloaking Blast)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando hagas una Tirada de Lanzamiento de Conjuros exitosa para lanzar un conjuro diferente, puedes **gastar una Esperanza** para quedar Oculto. Mientras estés Oculto, permaneces invisible si estás quieto cuando un adversario se mueve a un lugar donde normalmente te vería. Cuando te mueves hacia o dentro de la línea de visión de un adversario o realizas un ataque, dejas de estar Oculto.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Reflejo Arcano (Arcane Reflection)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Cuando fueras a recibir daño mágico, puedes **gastar cualquier cantidad de Esperanza** para tirar esa misma cantidad de d6s. Si alguno obtiene un 6, el ataque se refleja de vuelta al lanzador, infligiéndole el daño a él en su lugar.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Aura Confusa (Confusing Aura)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (14). Una vez por descanso largo en un éxito, creas una capa de ilusión sobre tu cuerpo que hace difícil distinguir exactamente dónde estás. **Marca cualquier cantidad de Estrés** para crear esa misma cantidad de capas adicionales.\n\nCuando un adversario haga un ataque contra ti, tira una cantidad de d6s igual al número de capas activas actualmente. Si alguno obtiene un 5 o más, una capa del aura se destruye y el ataque falla. Si todos los resultados son 4 o menos, recibes el daño y este conjuro termina.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Terremoto (Earthquake)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (16). Una vez por descanso en un éxito, todos los objetivos a alcance Muy Lejano que no estén volando deben hacer una Tirada de Reacción (18). Los objetivos que fallen reciben 3d10+8 de daño físico y quedan temporalmente Vulnerables. Los objetivos que tengan éxito reciben la mitad del daño.\n\nAdemás, cuando tienes éxito en la Tirada de Lanzamiento de Conjuros, todo el terreno a alcance Muy Lejano se vuelve terreno difícil de transitar y las estructuras dentro de este alcance pueden sufrir daños o derrumbarse.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Proyección Sensorial (Sensory Projection)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Una vez por descanso, haz una Tirada de Lanzamiento de Conjuros (15). En un éxito, entras en una visión que te permite ver y escuchar claramente cualquier lugar en el que hayas estado antes como si estuvieras allí en este momento. Puedes moverte libremente dentro de esta visión sin las limitaciones físicas o impedimentos de un cuerpo. Este conjuro no puede ser detectado por medios mundanos ni mágicos. Sales de esta visión al recibir daño o lanzar otro conjuro.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Ajustar la Realidad (Adjust Reality)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Después de que tú o un aliado dispuesto hagan cualquier tirada, puedes **gastar 5 de Esperanza** para cambiar el resultado numérico de esa tirada por un resultado de tu elección. El resultado debe ser plausible dentro del rango posible de los dados utilizados.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Cielo Cayente (Falling Sky)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra todos los adversarios a alcance Lejano. **Marca cualquier cantidad de Estrés** para hacer llover fragmentos arcanos desde las alturas. Los objetivos contra los que tengas éxito reciben 1d20+2 de daño mágico por cada punto de Estrés marcado.",
+    "metadata": {
+      "dominio": "Arcana",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  }
+]

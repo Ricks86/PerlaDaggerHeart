@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Engañador Hábil (Deft Deceiver)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "**Gasta una Esperanza** para ganar ventaja en una tirada para engañar a alguien o hacerle creer una mentira que le digas.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Cautivar (Enrapture)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano. En un éxito, queda temporalmente Cautivado. Mientras esté Cautivado, la atención del objetivo se fija en ti, estrechando su campo de visión y acallando cualquier sonido que no sea tu voz. Una vez por descanso en un éxito, puedes **marcar un Estrés** para obligar al objetivo Cautivado a **marcar un Estrés** también.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Palabras Inspiradoras (Inspirational Words)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Tu discurso está impregnado de poder. Tras un descanso largo, coloca en esta carta un número de fichas igual a tu Presencia. Cuando hables con un aliado, puedes gastar una ficha de esta carta para otorgarle uno de los siguientes beneficios:\n• Tu aliado limpia un Estrés.\n• Tu aliado limpia un Punto de Golpe.\n• Tu aliado gana una Esperanza.\nAl tomar un descanso largo, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "No Digas Mentiras (Tell No Lies)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Cercano. En un éxito, no puede mentirte mientras permanezca a alcance Cercano, aunque no está obligado a hablar. Si le haces una pregunta y se niega a responder, debe **marcar un Estrés** y el efecto termina. El objetivo normalmente no es consciente de que este conjuro ha sido lanzado sobre él hasta que le hace pronunciar la verdad.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Alborotador (Troublemaker)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Cuando te burles o provoques a un objetivo a alcance Lejano, haz una Tirada de Presencia contra él. Una vez por descanso en un éxito, tira una cantidad de d4s igual a tu Competencia. El objetivo debe **marcar Estrés** igual al resultado más alto obtenido.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Brillo Hipnótico (Hypnotic Shimmer)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra todos los adversarios frente a ti a alcance Cercano. Una vez por descanso en un éxito, crea una ilusión de colores y luces intermitentes que aturde temporalmente a los objetivos contra los que tengas éxito y los obliga a **marcar un Estrés**. Mientras estén aturdidos, no pueden usar reacciones ni realizar ninguna otra acción hasta que limpien esta condición.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Invisibilidad (Invisibility)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (10). En un éxito, **marca un Estrés** y elígete a ti mismo o a un aliado a alcance Cuerpo a cuerpo para volverse Invisible. Una criatura Invisible no puede ser vista excepto por medios mágicos y las tiradas de ataque contra ella se hacen con desventaja. Coloca en esta carta una cantidad de fichas igual a tu rasgo de Lanzamiento de Conjuros. Cuando la criatura Invisible realice una acción, gasta una ficha de esta carta. Tras resolverse la acción en la que se gaste la última ficha, el efecto termina. Solo puedes mantener Invisibilidad en una criatura a la vez.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Discurso Reconfortante (Soothing Speech)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Durante un descanso corto, cuando te tomes el tiempo para consolar a otro personaje mientras usas la acción de descanso Atender Heridas en él, limpia un Punto de Golpe adicional en ese personaje. Cuando lo haces, tú también limpias 2 Puntos de Golpe.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "A Través de tus Ojos (Through Your Eyes)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Elige un objetivo a alcance Muy Lejano. Puedes ver a través de sus ojos y escuchar a través de sus oídos. Puedes alternar libremente entre usar tus propios sentidos o los del objetivo hasta que lances otro conjuro o hasta tu próximo descanso.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Sondeador de Pensamientos (Thought Delver)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Puedes asomarte a las mentes ajenas. **Gasta una Esperanza** para leer los pensamientos superficiales y vagos de un objetivo a alcance Lejano. Haz una Tirada de Lanzamiento de Conjuros contra el objetivo para indagar en pensamientos más profundos y ocultos. En una tirada con Miedo, el objetivo podría, a discreción del DJ, darse cuenta de que estás leyendo sus pensamientos.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Palabras de Discordia (Words of Discord)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Susurra palabras de discordia a un adversario a alcance Cuerpo a cuerpo y haz una Tirada de Lanzamiento de Conjuros (13). En un éxito, el objetivo debe **marcar un Estrés** y realizar un ataque contra otro adversario en lugar de contra ti o tus aliados. Una vez finalizado este ataque, el objetivo se da cuenta de lo sucedido. La próxima vez que lances Palabras de Discordia sobre él, recibes una penalización de -5 a la Tirada de Lanzamiento de Conjuros.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Nunca Eclipsado (Never Upstaged)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Cuando marques 1 o más Puntos de Golpe por un ataque, puedes **marcar un Estrés** para colocar en esta carta un número de fichas igual a la cantidad de Puntos de Golpe que hayas marcado. En tu siguiente ataque exitoso, gana un bono de +5 a tu tirada de daño por cada ficha en esta carta, luego retira todas las fichas.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Compartir la Carga (Share the Burden)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Una vez por descanso, asume el Estrés de una criatura dispuesta a alcance Cuerpo a cuerpo. El objetivo describe qué conocimientos íntimos o emociones se filtran telepáticamente de su mente en este momento entre ustedes. Transfiere cualquier cantidad de su Estrés marcado hacia ti, luego gana una Esperanza por cada Estrés transferido.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Carisma Inagotable (Endless Charisma)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Después de realizar una tirada de acción para persuadir, mentir o ganarte el favor de alguien, puedes **gastar una Esperanza** para volver a tirar el Dado de Esperanza o el Dado de Miedo.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por la Gracia (Grace-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Grace, obtienes los siguientes beneficios:\n• Puedes marcar un Espacio de Armadura en lugar de marcar un Estrés.\n• Cuando fueras a forzar a un objetivo a marcar una cantidad de Puntos de Golpe, puedes elegir forzarlo a marcar esa misma cantidad de Estrés en su lugar.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Proyección Astral (Astral Projection)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Una vez por descanso largo, **marca un Estrés** para crear una copia proyectada de ti mismo que puede aparecer en cualquier lugar en el que hayas estado antes. Puedes ver y escuchar a través de la proyección como si fueras tú y afectar el mundo como si estuvieras allí. Una criatura que investigue la proyección puede notar que es de origen mágico. Este efecto dura hasta tu próximo descanso o hasta que tu proyección reciba cualquier cantidad de daño.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Cautivar en Masa (Mass Enrapture)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra todos los objetivos a alcance Lejano. Los objetivos contra los que tengas éxito quedan temporalmente Cautivados. Mientras estén Cautivados, su atención se fija en ti, estrechando su campo de visión y acallando cualquier sonido que no sea tu voz. **Marca un Estrés** para forzar a todos los objetivos Cautivados a **marcar un Estrés**, terminando este conjuro.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Imitador (Copycat)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Una vez por descanso largo, esta carta puede imitar los rasgos de otra carta de dominio de nivel 8 o inferior que esté en el repertorio activo de otro jugador. Gasta una cantidad de Esperanza igual a la mitad del nivel de la carta para acceder a dicho rasgo. Dura hasta tu próximo descanso o hasta que ese jugador coloque la carta en su bóveda.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 3
+    }
+  },
+  {
+    "titulo": "Maestro del Oficio (Master of the Craft)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Gana un bono permanente de +2 a dos de tus Experiencias o un bono permanente de +3 a una de tus Experiencias. Luego, coloca esta carta en tu bóveda de forma permanente.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Repetición (Encore)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Cuando un aliado a alcance Cercano inflija daño a un adversario, puedes realizar una Tirada de Lanzamiento de Conjuros contra ese mismo objetivo. En un éxito, infliges el mismo daño al objetivo que el que infligió tu aliado. Si tu Tirada de Lanzamiento de Conjuros tiene éxito con Miedo, coloca esta carta en tu bóveda.",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Notorio (Notorious)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "La gente sabe quién eres y qué has hecho, y te tratan diferente por ello. Cuando aprovechas tu notoriedad para conseguir lo que quieres, puedes **marcar un Estrés** antes de tirar para ganar un bono de +10 al resultado. Tu comida y bebida son siempre gratis dondequiera que vayas, y cualquier otra cosa que compres se reduce en precio por una bolsa de oro (hasta un mínimo de un puñado).",
+    "metadata": {
+      "dominio": "Grace",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 0
+    }
+  }
+]

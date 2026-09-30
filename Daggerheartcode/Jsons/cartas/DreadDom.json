@@ -1,0 +1,233 @@
+[
+  {
+    "titulo": "Golpe Afligente (Blighting Strike)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito:\n• En una tirada con Esperanza, inflige d6+1 de daño mágico usando tu Competencia. En una tirada con Miedo, inflige d10+1 de daño mágico usando tu Competencia.\n• El siguiente ataque exitoso del objetivo inflige la mitad de daño.\nEn un fallo, debes **gastar una Esperanza** o **marcar un Estrés**.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Velo Umbrío (Umbral Veil)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Una vez por descanso, puedes **marcar un Estrés** para envolverte en energía sombría. Al hacerlo, coloca en esta carta un número de fichas igual a la cantidad de Miedo en la reserva del DJ. Después de que se realice una tirada de ataque contra ti, puedes gastar cualquier cantidad de fichas para aplicar una penalización de -1 al resultado por cada ficha gastada. Al final de la escena, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Voz del Terror (Voice of Dread)",
+    "tipo": "Dominio",
+    "nivel": 1,
+    "descripcion": "Puedes hablar mágicamente a una criatura que puedas ver, atormentándola con tus palabras. Haz una Tirada de Lanzamiento de Conjuros contra ella. En un éxito, debe **marcar un Estrés** y queda paralizada por el terror, quedando temporalmente Inmovilizada.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Retribución Espantosa (Hideous Retribution)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Cuando un aliado a alcance Cercano recibe daño de un objetivo que puedas ver, puedes hacer una tirada de reacción contra el objetivo usando tu rasgo de Lanzamiento de Conjuros. En un éxito, **marca un Estrés** para infligir d6 de daño mágico usando tu Competencia.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Drenar Esencia (Siphon Essence)",
+    "tipo": "Dominio",
+    "nivel": 2,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Muy Cercano. Una vez por descanso largo en un éxito, el objetivo recibe d12+4 de daño mágico usando tu Competencia. En un éxito con Miedo, ganas un bono de +1 a tu Competencia para este ataque. Limpias una cantidad de Puntos de Golpe igual a la cantidad de Puntos de Golpe que el objetivo haya marcado por este ataque.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Trauma Compartido (Shared Trauma)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Puedes transferir el sufrimiento de una criatura a otra. Una vez por descanso, marca cualquier cantidad de Puntos de Golpe en una criatura dispuesta a alcance Cuerpo a cuerpo para limpiar una cantidad igual de Puntos de Golpe en otra criatura dispuesta a alcance Cuerpo a cuerpo.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Aterrorizar (Terrify)",
+    "tipo": "Dominio",
+    "nivel": 3,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Cercano. En un éxito, el objetivo marca 1d4 de Estrés, y puedes hacer que huya una distancia de rango lejos de ti (como de Muy Cercano a Cercano, o de Cercano a Lejano). En un éxito con Miedo, el objetivo también queda temporalmente Vulnerable.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Cadenas de Aflicción (Chains of Affliction)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "**Marca 2 de Estrés** para Encadenar temporalmente a un objetivo a alcance Cercano. Cuando una criatura Encadenada inflige daño, el objetivo de su ataque marca un Punto de Golpe menos de lo que normalmente marcaría. No puedes tener a más de una criatura Encadenada a la vez.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Invocar Horror (Summon Horror)",
+    "tipo": "Dominio",
+    "nivel": 4,
+    "descripcion": "Una vez por escena, **marca un Estrés** para invocar una criatura de otro mundo que inflige d8+1 de daño mágico usando tu rasgo de Lanzamiento de Conjuros a un objetivo a alcance Lejano. Si el objetivo marca algún Punto de Golpe por este ataque, debe tener éxito en una Tirada de Reacción (12) para sobreponerse al horror o marcar una cantidad igual de Estrés. Después de realizar el ataque, la criatura se desvanece.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Golpe Funesto (Dire Strike)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "Cuando un objetivo marca cualquier cantidad de Puntos de Golpe por un ataque que realices, puedes **gastar una Esperanza** para drenar su poder. El DJ pierde un Miedo.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Niebla Espectral (Spectral Mist)",
+    "tipo": "Dominio",
+    "nivel": 5,
+    "descripcion": "**Gasta 2 de Esperanza** para conjurar una niebla inquietante que te vuelve a ti y a los aliados que elijas a alcance Cercano momentáneamente incorpóreos. Mientras una criatura sea incorpórea, puede moverse a través de objetos sólidos y es inmune al daño físico. Vuelve a ser corpórea tras atravesar un objeto sólido o hacer una tirada de acción. De lo contrario, este efecto dura hasta el final de la escena.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 0
+    }
+  },
+  {
+    "titulo": "Fuego Oscuro (Darkfire)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Una vez por escena, gasta cualquier cantidad de Esperanza para apuntar a un número igual de adversarios a alcance Cercano. Cada objetivo hace una Tirada de Reacción (15). Los objetivos que fallen reciben d8+6 de daño mágico usando tu rasgo de Lanzamiento de Conjuros mientras son envueltos en fuego oscuro. Los objetivos que tengan éxito reciben la mitad del daño.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Susto Repentino (Jump Scare)",
+    "tipo": "Dominio",
+    "nivel": 6,
+    "descripcion": "Cuando infliges daño mágico a un objetivo, puedes **marcar un Estrés** para teletransportarte a alcance Cuerpo a cuerpo con él. Al hacerlo, queda Vulnerable hasta que marque 1 o más Puntos de Golpe.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Tocado por el Terror (Dread-Touched)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Cuando 4 o más de las cartas de dominio en tu repertorio activo pertenezcan al dominio Dread, obtienes los siguientes beneficios:\n• Cuando tienes éxito con Miedo, puedes **marcar 2 de Estrés** para evitar que el DJ gane un Miedo.\n• Una vez por descanso, al hacer una tirada de acción, puedes ganar un bono a la tirada igual a la cantidad de Miedo en la reserva del DJ.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Muro de Hambre (Wall of Hunger)",
+    "tipo": "Dominio",
+    "nivel": 7,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (10). En un éxito, puedes **gastar una Esperanza** para crear un muro visible de energía necrótica retorcida entre dos puntos a alcance Lejano. El muro dura hasta que marques un Punto de Golpe o lances este conjuro de nuevo. Una criatura dentro del muro cuando aparece o que pase a través de él debe **marcar 2 de Estrés**.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Ejército Oscuro (Dark Army)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros (14). Una vez por descanso largo en un éxito, puedes invocar demonios que te rodean y se mueven contigo. Coloca 8 fichas en esta carta. Cuando infliges daño a un objetivo a alcance Muy Cercano, puedes gastar cualquier cantidad de fichas para añadir 1d8 por cada ficha gastada a tu tirada de daño. Además, cuando recibes daño, puedes gastar cualquier cantidad de fichas para reducir el daño en 1d8 por cada ficha gastada. Cada vez que gastas una ficha, un demonio actúa en tu favor y luego desaparece. Cuando tomes un descanso, retira todas las fichas no gastadas.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Carne Primigenia (Eldritch Flesh)",
+    "tipo": "Dominio",
+    "nivel": 8,
+    "descripcion": "Ganas un bono de +1 a tus umbrales de daño por cada punto de Estrés que tengas marcado. Además, cuando tiras con Miedo, puedes **gastar 2 de Esperanza** para limpiar un Espacio de Armadura.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Condenación (Damnation)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Haz una Tirada de Lanzamiento de Conjuros contra un objetivo a alcance Lejano. En un éxito, **marca cualquier cantidad de Estrés** para tirar una cantidad igual de d20s, infligiendo daño mágico igual al resultado total. Si este ataque derrota al objetivo, todos los adversarios a alcance Lejano del objetivo deben **marcar un Estrés**.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Saborear la Angustia (Savor the Anguish)",
+    "tipo": "Dominio",
+    "nivel": 9,
+    "descripcion": "Cuando un adversario a alcance Cercano recibe daño Grave, puedes limpiar un Estrés.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 1
+    }
+  },
+  {
+    "titulo": "Avatar del Terror (Avatar of Terror)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "**Marca un Estrés** para transformarte en una criatura alimentada por el miedo. Mientras estés en esta forma, ganas un bono de 1d6 a tus tiradas de daño por cada Miedo en la reserva del DJ. Además, ganas una Esperanza cuando el DJ gaste un Miedo para poner en el foco a un adversario a alcance Muy Cercano. Antes de hacer una tirada de acción, debes **gastar una Esperanza**; si no puedes, reviertes a tu forma normal.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Conjuro",
+      "coste_recuperacion": 2
+    }
+  },
+  {
+    "titulo": "Invocar Tormento (Invoke Torment)",
+    "tipo": "Dominio",
+    "nivel": 10,
+    "descripcion": "Infliges el doble de daño a los objetivos que tengan todo su Estrés marcado. Además, cuando un adversario a alcance Cercano es derrotado con todo su Estrés marcado, ganas una Esperanza.",
+    "metadata": {
+      "dominio": "Dread",
+      "subtipo": "Habilidad",
+      "coste_recuperacion": 2
+    }
+  }
+]
