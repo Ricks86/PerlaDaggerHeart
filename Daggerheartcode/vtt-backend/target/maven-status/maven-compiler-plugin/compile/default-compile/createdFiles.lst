@@ -7,8 +7,8 @@ com/daggerheart/vtt/seeder/JsonFolderSeeder$3.class
 com/daggerheart/vtt/model/Atributos.class
 com/daggerheart/vtt/controller/ItemController.class
 com/daggerheart/vtt/dto/LevelUpOptionType.class
-com/daggerheart/vtt/VttBackendApplication.class
 com/daggerheart/vtt/service/LevelUpService.class
+com/daggerheart/vtt/VttBackendApplication.class
 com/daggerheart/vtt/config/WebSocketConfig.class
 com/daggerheart/vtt/repository/ArmaRepository.class
 com/daggerheart/vtt/dto/LevelUpOptionSelection.class

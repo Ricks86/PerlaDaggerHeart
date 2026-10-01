@@ -110,6 +110,7 @@ export default function DiceRoller() {
   // Estado DUALITY
   // -------------------------------------------------------------------------
   const [modifier, setModifier]               = useState(0);
+  const [modLabel, setModLabel]               = useState('Modificador');
   const [advantageStatus, setAdvantageStatus] = useState('NONE'); // 'NONE'|'ADV'|'DISADV'
   const [dualityResult, setDualityResult]     = useState(null);
   const [isRolling, setIsRolling]             = useState(false);
@@ -122,11 +123,12 @@ export default function DiceRoller() {
   const [customResult, setCustomResult] = useState(null);
 
   // -------------------------------------------------------------------------
-  // Efecto: recibir modificador desde CharacterHeader (atributo clickeado)
+  // Efecto: recibir modificador desde CharacterHeader (atributo clickeado o experiencia)
   // -------------------------------------------------------------------------
   useEffect(() => {
     if (pendingModifier) {
       setModifier(pendingModifier.value);
+      setModLabel(pendingModifier.label ? `Modificador (${pendingModifier.label})` : 'Modificador');
       setActiveTab('DUALITY');
       setIsOpen(true);           // Abre el panel automáticamente
       setDualityResult(null);
@@ -310,7 +312,14 @@ export default function DiceRoller() {
             </p>
           )}
 
-          <ModifierInput value={modifier} onChange={setModifier} label="Modificador" />
+          <ModifierInput
+            value={modifier}
+            onChange={(val) => {
+              setModifier(val);
+              setModLabel('Modificador');
+            }}
+            label={modLabel}
+          />
 
           <button
             onClick={handleDualityRoll}

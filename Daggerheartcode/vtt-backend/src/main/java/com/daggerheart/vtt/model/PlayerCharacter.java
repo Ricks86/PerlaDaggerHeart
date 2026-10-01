@@ -53,6 +53,9 @@ public class PlayerCharacter {
     private int ranurasArmaduraMarcadas = 0;
     private boolean puedeSubirNivel = false;
 
+    @Column(columnDefinition = "TEXT")
+    private String notas = "";
+
     // -------------------------------------------------------------------------
     // Sub-estructuras embebidas
     // -------------------------------------------------------------------------
@@ -199,4 +202,7 @@ public class PlayerCharacter {
 
     public boolean isPuedeSubirNivel() { return puedeSubirNivel; }
     public void setPuedeSubirNivel(boolean puedeSubirNivel) { this.puedeSubirNivel = puedeSubirNivel; }
+
+    public String getNotas() { return notas != null ? notas : ""; }
+    public void setNotas(String notas) { this.notas = notas; }
 }

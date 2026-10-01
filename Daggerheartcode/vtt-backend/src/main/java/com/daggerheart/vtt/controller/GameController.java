@@ -306,6 +306,25 @@ public class GameController {
     }
 
     /**
+     * PATCH /api/characters/{id}/notes
+     * Actualiza las notas personales del aventurero (Sprint 22).
+     */
+    @PatchMapping("/characters/{id}/notes")
+    public ResponseEntity<?> updateNotes(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> payload) {
+        try {
+            String notas = payload != null ? payload.get("notas") : "";
+            PlayerCharacter updated = characterService.updateNotes(id, notas);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
      * POST /api/characters/{id}/level-up
      * Aplica la subida de nivel al personaje con validación estricta de reglas de Tier (Sprint 21).
      */

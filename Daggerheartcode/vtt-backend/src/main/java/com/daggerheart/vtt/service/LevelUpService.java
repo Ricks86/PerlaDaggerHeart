@@ -55,7 +55,10 @@ public class LevelUpService {
             Experiencia nuevaExp = new Experiencia(request.getNewExperience().getNombre().trim(), valorBase);
             character.getExperiencias().add(nuevaExp);
 
-            // Resetea la bolsa de opciones para el nuevo Tier
+            // 3. LIMPIAR LA BOLSA ANTES DE VALIDAR LAS 2 OPCIONES SELECCIONADAS
+            if (character.getTierProgression() == null) {
+                character.setTierProgression(new TierProgression());
+            }
             character.getTierProgression().resetForNewTier();
         }
 

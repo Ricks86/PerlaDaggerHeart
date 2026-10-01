@@ -1,0 +1,26 @@
+[
+  {
+    "nombre": "Puños de Peleador (Brawler Unarmed - 2 Manos)",
+    "tier": 1,
+    "categoria": "Arma Principal",
+    "rasgo": "Fuerza",
+    "dadoBase": "d8+d6",
+    "modificadorDano": 0,
+    "tipoDano": "físico",
+    "carga": 2,
+    "alcance": "Cuerpo a cuerpo",
+    "rasgoEspecial": "**Estilo Brawler:** Requiere tener ambas manos libres. Puedes usar Fuerza o Agilidad para tus tiradas."
+  },
+  {
+    "nombre": "Golpe sin Armas (Unarmed Strike - 1 Mano)",
+    "tier": 1,
+    "categoria": "Arma Principal",
+    "rasgo": "Fuerza",
+    "dadoBase": "d8",
+    "modificadorDano": 0,
+    "tipoDano": "físico",
+    "carga": 1,
+    "alcance": "Cuerpo a cuerpo",
+    "rasgoEspecial": "**Estilo Brawler:** Golpe con una sola mano desocupada."
+  }
+]

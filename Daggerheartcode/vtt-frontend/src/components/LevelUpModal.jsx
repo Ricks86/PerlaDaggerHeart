@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacter } from '../context/CharacterContext';
+import CardInspectorDrawer from './CardInspectorDrawer';
 
 const TRAIT_KEYS = [
   { key: 'agilidad', label: 'Agilidad', icon: '🏃' },
@@ -16,9 +17,23 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
   const currentLevel = character?.nivel || 1;
   const targetLevel = currentLevel + 1;
   const isTierMilestone = targetLevel === 2 || targetLevel === 5 || targetLevel === 8;
+  const isNewTier = isTierMilestone;
 
-  // Datos de progresión del Tier actual
-  const tp = character?.tierProgression || {};
+  // Si arranca un nuevo Tier (niveles 2, 5 u 8), la UI debe partir de una bolsa en cero
+  // para no heredar los contadores del Tier que el personaje está por abandonar.
+  const currentTierProgression = isNewTier
+    ? {
+        traitsCount: 0,
+        hpCount: 0,
+        stressCount: 0,
+        experiencesCount: 0,
+        extraDomainCardsCount: 0,
+        evasionCount: 0,
+        markedTraitsInTier: [],
+      }
+    : (character?.tierProgression || {});
+
+  const tp = currentTierProgression;
   const traitsCount = tp.traitsCount || 0;
   const hpCount = tp.hpCount || 0;
   const stressCount = tp.stressCount || 0;
@@ -50,6 +65,7 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
 
   // Filtros visuales para catálogo de cartas de dominio
   const [searchTerm, setSearchTerm] = useState('');
+  const [inspectedCard, setInspectedCard] = useState(null);
 
   // 1. Cargar cartas y deducir dominios permitidos de la clase
   useEffect(() => {
@@ -398,6 +414,17 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
                           {card.descripcion ? card.descripcion.slice(0, 110) + (card.descripcion.length > 110 ? '...' : '') : 'Sin descripción.'}
                         </p>
                         <div style={styles.cardBottomRow}>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setInspectedCard(card);
+                            }}
+                            style={styles.btnInspectCard}
+                            title="Ver detalles completos de la carta"
+                          >
+                            👁️ Ver completa
+                          </button>
                           {isAlreadyActive ? (
                             <span style={styles.alreadyActiveTag}>En tu ficha</span>
                           ) : isSelected ? (
@@ -727,6 +754,19 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
                             </option>
                           ))}
                         </select>
+                        {extraCardId && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const chosen = secondaryDomainCards.find((c) => c.id === extraCardId);
+                              if (chosen) setInspectedCard(chosen);
+                            }}
+                            style={styles.btnInspectSecondary}
+                            title="Ver detalles completos de la carta seleccionada"
+                          >
+                            👁️ Ver completa
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -808,6 +848,23 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
             </button>
           </div>
         </div>
+
+        {/* Panel Lateral Desplegable (CardInspectorDrawer - Sprint 22.5) */}
+        {inspectedCard && (
+          <CardInspectorDrawer
+            card={inspectedCard}
+            onClose={() => setInspectedCard(null)}
+            onSelect={(card) => {
+              const isAlreadyActive = character?.cartasActivasIds?.includes(card.id);
+              if (!isAlreadyActive) {
+                setMandatoryCardId(card.id);
+              }
+              setInspectedCard(null);
+            }}
+            isSelected={mandatoryCardId === inspectedCard.id}
+            isAlreadyActive={character?.cartasActivasIds?.includes(inspectedCard.id)}
+          />
+        )}
       </div>
     </div>
   );
@@ -842,6 +899,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    position: 'relative',
     color: '#e0d0b8',
     fontFamily: '"Cinzel", "Georgia", serif',
   },
@@ -1088,11 +1146,45 @@ const styles = {
     color: '#b09d89',
     lineHeight: '1.25',
     flex: 1,
+    overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: 'vertical',
   },
   cardBottomRow: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: '4px',
+    gap: '6px',
+  },
+  btnInspectCard: {
+    background: 'none',
+    border: 'none',
+    color: '#ffc83b',
+    fontSize: '0.68rem',
+    cursor: 'pointer',
+    padding: '2px 4px',
+    borderRadius: '3px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '3px',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  btnInspectSecondary: {
+    marginTop: '6px',
+    background: 'none',
+    border: 'none',
+    color: '#ffc83b',
+    fontSize: '0.72rem',
+    cursor: 'pointer',
+    padding: '2px 4px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
+    fontFamily: 'inherit',
+    textDecoration: 'underline',
   },
   selectedTag: {
     fontSize: '0.68rem',

@@ -95,4 +95,21 @@ public class CharacterLevelUpPermissionTest {
         verify(characterRepo).save(pc);
         verify(messagingTemplate).convertAndSend(eq("/topic/table"), any(Object.class));
     }
+
+    @Test
+    public void testUpdateNotesPersistsAndBroadcasts() {
+        PlayerCharacter pc = new PlayerCharacter();
+        pc.setId(10L);
+        pc.setNombre("TestHero");
+        pc.setNotas("Notas anteriores");
+
+        when(characterRepo.findById(10L)).thenReturn(Optional.of(pc));
+        when(characterRepo.save(any(PlayerCharacter.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        PlayerCharacter result = characterService.updateNotes(10L, "Nuevas notas de combate y bendiciones");
+
+        assertEquals("Nuevas notas de combate y bendiciones", result.getNotas());
+        verify(characterRepo).save(pc);
+        verify(messagingTemplate).convertAndSend(eq("/topic/table"), any(Object.class));
+    }
 }

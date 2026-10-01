@@ -136,6 +136,20 @@ public class CharacterService {
     }
 
     /**
+     * Actualiza las notas personales del aventurero (Sprint 22).
+     */
+    public PlayerCharacter updateNotes(Long id, String notas) {
+        PlayerCharacter character = characterRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Personaje no encontrado con id: " + id));
+
+        character.setNotas(notas != null ? notas : "");
+        PlayerCharacter saved = characterRepo.save(character);
+
+        broadcastCharacterUpdate(saved);
+        return saved;
+    }
+
+    /**
      * Emite un evento WebSocket CHARACTER_UPDATE a /topic/table con el estado completo del personaje.
      */
     public void broadcastCharacterUpdate(PlayerCharacter character) {
@@ -144,6 +158,7 @@ public class CharacterService {
             payload.put("characterId", character.getId());
             payload.put("character", character);
             payload.put("puedeSubirNivel", character.isPuedeSubirNivel());
+            payload.put("notas", character.getNotas());
             payload.put("nivel", character.getNivel());
             payload.put("competencia", character.getCompetencia());
             payload.put("evasion", character.getEvasion());

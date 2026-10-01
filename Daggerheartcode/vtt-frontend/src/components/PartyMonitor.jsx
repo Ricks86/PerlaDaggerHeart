@@ -215,43 +215,66 @@ export default function PartyMonitor() {
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* CUADRÍCULA DE HÉROES MONITOREADOS (Mini-Hojas)                */}
+      {/* CUADRÍCULA DE HÉROES MONITOREADOS (Mini-Hojas) Y NOTAS DJ     */}
       {/* ------------------------------------------------------------- */}
+      <style>{`
+        .party-monitor-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+        }
+        @media (max-width: 1100px) {
+          .party-monitor-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 700px) {
+          .party-monitor-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+
       {loading && monitoredCharacters.length === 0 ? (
         <div style={styles.emptyContainer}>
           <p style={styles.emptyText}>⏳ Cargando datos del grupo...</p>
         </div>
-      ) : monitoredCharacters.length === 0 ? (
-        <div style={styles.emptyContainer}>
-          <span style={styles.emptyIcon}>🛡️</span>
-          <h4 style={styles.emptyTitle}>No hay héroes en el monitor</h4>
-          <p style={styles.emptyDesc}>
-            Selecciona hasta 5 personajes en la barra superior para fijar sus mini-hojas y seguir sus
-            recursos durante el combate.
-          </p>
-          {allCharacters.length > 0 && selectedIds.length === 0 && (
-            <button
-              onClick={() => {
-                const autoIds = allCharacters.slice(0, MAX_MONITORED).map((c) => c.id);
-                setSelectedIds(autoIds);
-              }}
-              style={styles.btnAutoPin}
-            >
-              👥 Anclar primeros {Math.min(allCharacters.length, MAX_MONITORED)} héroes
-            </button>
-          )}
-        </div>
       ) : (
-        <div style={styles.partyGrid}>
-          {monitoredCharacters.map((hero) => (
-            <MiniCharacterSheet
-              key={hero.id}
-              character={hero}
-              onRemove={handleUnpin}
-              onGift={(heroToGift) => setGiftingHero(heroToGift)}
-              onToggleLevelUp={handleToggleLevelUp}
-            />
-          ))}
+        <div className="party-monitor-grid" style={styles.partyGrid}>
+          {monitoredCharacters.length === 0 ? (
+            <div style={styles.emptyInGrid}>
+              <span style={styles.emptyIcon}>🛡️</span>
+              <h4 style={styles.emptyTitle}>No hay héroes en el monitor</h4>
+              <p style={styles.emptyDesc}>
+                Selecciona hasta 5 personajes en la barra superior para fijar sus mini-hojas y seguir sus
+                recursos durante el combate.
+              </p>
+              {allCharacters.length > 0 && selectedIds.length === 0 && (
+                <button
+                  onClick={() => {
+                    const autoIds = allCharacters.slice(0, MAX_MONITORED).map((c) => c.id);
+                    setSelectedIds(autoIds);
+                  }}
+                  style={styles.btnAutoPin}
+                >
+                  👥 Anclar primeros {Math.min(allCharacters.length, MAX_MONITORED)} héroes
+                </button>
+              )}
+            </div>
+          ) : (
+            monitoredCharacters.map((hero) => (
+              <MiniCharacterSheet
+                key={hero.id}
+                character={hero}
+                onRemove={handleUnpin}
+                onGift={(heroToGift) => setGiftingHero(heroToGift)}
+                onToggleLevelUp={handleToggleLevelUp}
+              />
+            ))
+          )}
+
+          {/* Tarjeta fija de Notas del DJ / Scratchpad de Sesión (Sprint 22) */}
+          <DjNotesCard />
         </div>
       )}
 
@@ -267,6 +290,73 @@ export default function PartyMonitor() {
           }}
         />
       )}
+    </div>
+  );
+}
+
+// =============================================================================
+// DjNotesCard: Bloc de notas rápido para el DJ con persistencia local (Sprint 22)
+// =============================================================================
+const DJ_NOTES_KEY = 'daggerheart_dj_notes';
+
+function DjNotesCard() {
+  const [notes, setNotes] = useState(() => {
+    try {
+      return localStorage.getItem(DJ_NOTES_KEY) || '';
+    } catch {
+      return '';
+    }
+  });
+  const [saveStatus, setSaveStatus] = useState('saved'); // 'saved' | 'saving'
+  const debounceRef = useRef(null);
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setNotes(val);
+    setSaveStatus('saving');
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      try {
+        localStorage.setItem(DJ_NOTES_KEY, val);
+        setSaveStatus('saved');
+      } catch (err) {
+        console.warn('Error guardando notas del DJ en localStorage:', err);
+      }
+    }, 500);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div style={styles.djNotesCard}>
+      <div style={styles.djNotesHeader}>
+        <div style={styles.djNotesTitleGroup}>
+          <span style={styles.djNotesIcon}>📝</span>
+          <strong style={styles.djNotesTitle}>Notas del DJ / Scratchpad de Sesión</strong>
+        </div>
+        <span
+          style={saveStatus === 'saved' ? styles.djNotesStatusSaved : styles.djNotesStatusSaving}
+        >
+          {saveStatus === 'saved' ? '✓ Guardado' : '⏳ Guardando...'}
+        </span>
+      </div>
+
+      <textarea
+        value={notes}
+        onChange={handleChange}
+        placeholder="Escribe aquí notas rápidas de combate, orden de iniciativa, recordatorios de PNJ, condiciones o pistas..."
+        style={styles.djNotesTextarea}
+      />
     </div>
   );
 }
@@ -407,8 +497,83 @@ const styles = {
   // Grid
   partyGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '14px',
+  },
+  djNotesCard: {
+    backgroundColor: '#150e06',
+    border: '1px solid #4a3728',
+    borderRadius: '8px',
+    padding: '12px 14px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    minHeight: '380px',
+    boxSizing: 'border-box',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4)',
+  },
+  djNotesHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid #2e1f13',
+    paddingBottom: '8px',
+    flexWrap: 'wrap',
+    gap: '6px',
+  },
+  djNotesTitleGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  djNotesIcon: {
+    fontSize: '1rem',
+  },
+  djNotesTitle: {
+    color: '#d4af37',
+    fontSize: '0.86rem',
+    letterSpacing: '0.4px',
+  },
+  djNotesStatusSaved: {
+    color: '#7cd37c',
+    fontSize: '0.68rem',
+    fontWeight: 'bold',
+  },
+  djNotesStatusSaving: {
+    color: '#d4af37',
+    fontSize: '0.68rem',
+    fontStyle: 'italic',
+  },
+  djNotesTextarea: {
+    flex: 1,
+    width: '100%',
+    minHeight: '280px',
+    backgroundColor: 'rgba(10, 7, 4, 0.5)',
+    border: '1px solid rgba(74, 55, 40, 0.35)',
+    borderRadius: '6px',
+    padding: '10px 12px',
+    color: '#e8dcc8',
+    fontSize: '0.82rem',
+    fontFamily: 'inherit',
+    lineHeight: '1.45',
+    resize: 'none',
+    outline: 'none',
+    boxSizing: 'border-box',
+  },
+  emptyInGrid: {
+    gridColumn: 'span 2',
+    backgroundColor: '#150f07',
+    border: '1px dashed #4a3728',
+    borderRadius: '8px',
+    padding: '36px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    gap: '8px',
+    minHeight: '380px',
+    boxSizing: 'border-box',
   },
   emptyContainer: {
     backgroundColor: '#150f07',

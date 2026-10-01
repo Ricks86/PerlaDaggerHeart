@@ -12,6 +12,7 @@ import CardVault from './components/CardVault';
 import SharedRollLog from './components/SharedRollLog';
 import PlayerDashboard from './components/PlayerDashboard';
 import CharacterCreator from './components/CharacterCreator';
+import PlayerNotes from './components/PlayerNotes';
 
 // Componentes del Dungeon Master
 import DmPanel from './components/DmPanel';
@@ -119,6 +120,7 @@ function AppContent() {
 
                 <div style={styles.centerColumn}>
                   <DiceRoller />
+                  <PlayerNotes />
                 </div>
 
                 <aside style={styles.rightColumn}>

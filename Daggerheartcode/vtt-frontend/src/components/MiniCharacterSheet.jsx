@@ -203,6 +203,23 @@ export default function MiniCharacterSheet({ character, onRemove, onGift, onTogg
       </div>
 
       {/* ------------------------------------------------------------- */}
+      {/* EXPERIENCIAS DEL HÉROE (Sprint 22)                            */}
+      {/* ------------------------------------------------------------- */}
+      {character.experiencias && character.experiencias.length > 0 && (
+        <div style={styles.expSection}>
+          <div style={styles.expChipsRow}>
+            {character.experiencias.map((exp, idx) => (
+              <span key={idx} style={styles.expChip} title={`Experiencia: ${exp.nombre} (+${exp.valor})`}>
+                <span style={styles.expIcon}>🏷️</span>
+                <span style={styles.expName}>{exp.nombre}</span>
+                <strong style={styles.expBadge}>+{exp.valor}</strong>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------- */}
       {/* UMBRALES DE DAÑO CALCULADOS (Menor, Mayor, Grave)             */}
       {/* ------------------------------------------------------------- */}
       <div style={styles.thresholdsBlock}>
@@ -553,6 +570,42 @@ const styles = {
     height: '100%',
     backgroundColor: '#27ae60',
     transition: 'width 0.3s ease',
+  },
+
+  // Experiencias (Sprint 22)
+  expSection: {
+    padding: '2px 0',
+  },
+  expChipsRow: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '5px',
+    alignItems: 'center',
+  },
+  expChip: {
+    backgroundColor: 'rgba(38, 27, 12, 0.75)',
+    border: '1px solid rgba(184, 134, 11, 0.45)',
+    borderRadius: '12px',
+    padding: '2px 7px',
+    fontSize: '0.68rem',
+    color: '#e8dcc8',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
+  },
+  expIcon: {
+    fontSize: '0.64rem',
+  },
+  expName: {
+    color: '#d4af37',
+    fontWeight: '500',
+  },
+  expBadge: {
+    color: '#ffd700',
+    backgroundColor: '#1b1207',
+    padding: '0 3px',
+    borderRadius: '6px',
+    fontSize: '0.64rem',
   },
 
   // Umbrales de Daño
