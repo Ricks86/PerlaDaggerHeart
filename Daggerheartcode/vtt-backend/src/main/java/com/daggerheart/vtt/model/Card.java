@@ -31,7 +31,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String titulo;
 
     /** Tipo de carta: Dominio, Clase, Subclase, Linaje, Comunidad, Homebrew */
@@ -40,10 +40,11 @@ public class Card {
 
     private int nivel;
 
+    private boolean esHomebrew = false;
+
     /**
      * Descripción en Markdown para renderizar visualmente costes y habilidades.
      */
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
@@ -52,7 +53,6 @@ public class Card {
      * Crucial para Clases (ej: evasión base, hp inicial, dominios permitidos)
      * u otras configuraciones especiales.
      */
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String metadata;
 
@@ -80,6 +80,7 @@ public class Card {
     // Getters y Setters
     // -------------------------------------------------------------------------
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -96,6 +97,9 @@ public class Card {
     public String getMetadata() { return metadata; }
     public void setMetadata(String metadata) { this.metadata = metadata; }
 
+    public boolean isEsHomebrew() { return esHomebrew; }
+    public void setEsHomebrew(boolean esHomebrew) { this.esHomebrew = esHomebrew; }
+
     @com.fasterxml.jackson.annotation.JsonSetter("metadata")
     public void setMetadataFromJson(com.fasterxml.jackson.databind.JsonNode node) {
         if (node == null || node.isNull()) {
@@ -105,5 +109,21 @@ public class Card {
         } else {
             this.metadata = node.toString();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        if (id != null && card.id != null) {
+            return id.equals(card.id);
+        }
+        return titulo != null && titulo.equals(card.titulo);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : (titulo != null ? titulo.hashCode() : 0);
     }
 }

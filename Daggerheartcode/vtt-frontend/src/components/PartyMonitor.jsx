@@ -40,6 +40,19 @@ export default function PartyMonitor() {
     }
   }, [selectedIds]);
 
+  // Sincronizar y purgar automáticamente IDs huérfanos o inexistentes de selectedIds
+  useEffect(() => {
+    if (!loading) {
+      setSelectedIds((prev) => {
+        const validIds = prev.filter((id) => allCharacters.some((c) => c.id === id));
+        if (validIds.length !== prev.length) {
+          return validIds;
+        }
+        return prev;
+      });
+    }
+  }, [allCharacters, loading]);
+
   // Carga o recarga de la lista de todos los personajes
   const fetchCharacters = useCallback(async (isSilent = false) => {
     if (!isSilent) setLoading(true);
@@ -94,12 +107,23 @@ export default function PartyMonitor() {
     return () => clearInterval(timer);
   }, [fetchCharacters]);
 
+  // Filtrar los objetos de los personajes anclados válidos (solo existentes)
+  const monitoredCharacters = selectedIds
+    .map((id) => allCharacters.find((c) => c.id === id))
+    .filter(Boolean);
+
+  const monitoredIdSet = new Set(monitoredCharacters.map((c) => c.id));
+
+  // Personajes disponibles que aún no han sido anclados
+  const unpinnedCharacters = allCharacters.filter((c) => !monitoredIdSet.has(c.id));
+
   // Anclar un héroe al monitor (máximo 5)
   const handlePin = () => {
     if (!selectedToPin) return;
     const idNum = parseInt(selectedToPin, 10);
-    if (!selectedIds.includes(idNum) && selectedIds.length < MAX_MONITORED) {
-      setSelectedIds((prev) => [...prev, idNum]);
+    if (!monitoredIdSet.has(idNum) && monitoredCharacters.length < MAX_MONITORED) {
+      const activeValidIds = monitoredCharacters.map((c) => c.id);
+      setSelectedIds([...activeValidIds, idNum]);
       setSelectedToPin('');
     }
   };
@@ -107,6 +131,22 @@ export default function PartyMonitor() {
   // Desanclar un héroe
   const handleUnpin = (idToRemove) => {
     setSelectedIds((prev) => prev.filter((id) => id !== idToRemove));
+  };
+
+  // Reiniciar / desanclar todos los héroes activos del monitor
+  const handleResetParty = () => {
+    if (monitoredCharacters.length === 0 && selectedIds.length === 0) return;
+    if (window.confirm('¿Deseas reiniciar los jugadores activos y desanclar a todos los héroes del monitor de grupo?')) {
+      setSelectedIds([]);
+      setSelectedToPin('');
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (err) {
+        console.warn('[PartyMonitor] Error limpiando localStorage:', err);
+      }
+      setFeedbackToast('Grupo reiniciado: todos los héroes han sido desanclados');
+      setTimeout(() => setFeedbackToast(null), 3000);
+    }
   };
 
   // Conmutar permiso de subida de nivel (Sprint 22)
@@ -132,14 +172,6 @@ export default function PartyMonitor() {
     }
   };
 
-  // Filtrar los objetos de los personajes anclados
-  const monitoredCharacters = selectedIds
-    .map((id) => allCharacters.find((c) => c.id === id))
-    .filter(Boolean);
-
-  // Personajes disponibles que aún no han sido anclados
-  const unpinnedCharacters = allCharacters.filter((c) => !selectedIds.includes(c.id));
-
   return (
     <div style={styles.container}>
       {/* ------------------------------------------------------------- */}
@@ -159,20 +191,20 @@ export default function PartyMonitor() {
           </p>
         </div>
 
-        {/* Selector dinámico de héroes */}
+        {/* Selector dinámico de héroes y acciones del grupo */}
         <div style={styles.pickerControls}>
           <select
             value={selectedToPin}
             onChange={(e) => setSelectedToPin(e.target.value)}
-            disabled={selectedIds.length >= MAX_MONITORED || unpinnedCharacters.length === 0}
+            disabled={monitoredCharacters.length >= MAX_MONITORED || unpinnedCharacters.length === 0}
             style={
-              selectedIds.length >= MAX_MONITORED || unpinnedCharacters.length === 0
+              monitoredCharacters.length >= MAX_MONITORED || unpinnedCharacters.length === 0
                 ? styles.selectDisabled
                 : styles.select
             }
           >
             <option value="">
-              {selectedIds.length >= MAX_MONITORED
+              {monitoredCharacters.length >= MAX_MONITORED
                 ? '— Máximo 5 héroes anclados —'
                 : unpinnedCharacters.length === 0
                 ? '— Todos los héroes anclados —'
@@ -187,14 +219,27 @@ export default function PartyMonitor() {
 
           <button
             onClick={handlePin}
-            disabled={!selectedToPin || selectedIds.length >= MAX_MONITORED}
+            disabled={!selectedToPin || monitoredCharacters.length >= MAX_MONITORED}
             style={
-              !selectedToPin || selectedIds.length >= MAX_MONITORED
+              !selectedToPin || monitoredCharacters.length >= MAX_MONITORED
                 ? styles.btnPinDisabled
                 : styles.btnPin
             }
           >
-            + Anclar ({selectedIds.length}/{MAX_MONITORED})
+            + Anclar ({monitoredCharacters.length}/{MAX_MONITORED})
+          </button>
+
+          <button
+            onClick={handleResetParty}
+            disabled={monitoredCharacters.length === 0 && selectedIds.length === 0}
+            style={
+              monitoredCharacters.length === 0 && selectedIds.length === 0
+                ? styles.btnResetDisabled
+                : styles.btnReset
+            }
+            title="Reiniciar y desanclar todos los héroes del monitor de grupo"
+          >
+            🧹 Reiniciar Grupo
           </button>
 
           <button
@@ -249,7 +294,7 @@ export default function PartyMonitor() {
                 Selecciona hasta 5 personajes en la barra superior para fijar sus mini-hojas y seguir sus
                 recursos durante el combate.
               </p>
-              {allCharacters.length > 0 && selectedIds.length === 0 && (
+              {allCharacters.length > 0 && monitoredCharacters.length === 0 && (
                 <button
                   onClick={() => {
                     const autoIds = allCharacters.slice(0, MAX_MONITORED).map((c) => c.id);
@@ -477,6 +522,28 @@ const styles = {
     backgroundColor: '#2e1919',
     color: '#6a4a4a',
     border: '1px solid #4a2828',
+    borderRadius: '4px',
+    padding: '7px 12px',
+    fontSize: '0.8rem',
+    cursor: 'not-allowed',
+    fontFamily: 'inherit',
+  },
+  btnReset: {
+    backgroundColor: '#3a1313',
+    color: '#ffb3b3',
+    border: '1px solid #8b2b2b',
+    borderRadius: '4px',
+    padding: '7px 12px',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    transition: 'all 0.15s ease',
+  },
+  btnResetDisabled: {
+    backgroundColor: '#1a0e0e',
+    color: '#553535',
+    border: '1px solid #2e1a1a',
     borderRadius: '4px',
     padding: '7px 12px',
     fontSize: '0.8rem',

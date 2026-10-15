@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useItems } from '../context/CompendiumContext';
 
 /**
  * Calcula el Tier máximo permitido según las reglas de nivel de Daggerheart:
@@ -20,44 +21,17 @@ function getMaxAllowedTier(level) {
  * Filtra automáticamente el compendio de objetos por el Tier permitido según el nivel.
  */
 export default function GiftItemModal({ character, onClose, onSuccess }) {
-  const [allItems, setAllItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { items: allItems, loading, error: compendiumError } = useItems();
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL'); // 'ALL' | 'Arma' | 'Armadura' | 'Consumible'
   const [selectedItem, setSelectedItem] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(compendiumError || null);
 
   const characterLevel = character?.nivel || 1;
   const maxTier = getMaxAllowedTier(characterLevel);
-
-  // Cargar catálogo completo de objetos desde /api/items
-  useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-    fetch('/api/items')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted) {
-          setAllItems(Array.isArray(data) ? data : []);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (isMounted) {
-          console.error('[GiftItemModal] Error cargando items:', err);
-          setErrorMsg('No se pudo cargar el compendio de objetos.');
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const currentInventoryCount = Array.isArray(character?.inventario) ? character.inventario.length : 0;
+  const isInventoryFull = currentInventoryCount >= 20;
 
   // Filtrado reactivo: primero por Tier <= maxTier, luego por categoría y búsqueda
   const filteredItems = useMemo(() => {
@@ -133,6 +107,9 @@ export default function GiftItemModal({ character, onClose, onSuccess }) {
                 <span style={styles.levelBadge}>Nivel {characterLevel}</span>
                 <span style={styles.tierLimitBadge}>
                   Tier Permitido: <strong>Tier 1 al {maxTier}</strong>
+                </span>
+                <span style={isInventoryFull ? styles.inventoryFullBadge : styles.tierLimitBadge}>
+                  Mochila: <strong>{currentInventoryCount}/20</strong>
                 </span>
               </div>
             </div>
@@ -291,10 +268,15 @@ export default function GiftItemModal({ character, onClose, onSuccess }) {
             </button>
             <button
               onClick={handleGiftSubmit}
-              disabled={!selectedItem || isSubmitting}
-              style={!selectedItem || isSubmitting ? styles.btnGiftDisabled : styles.btnGift}
+              disabled={!selectedItem || isSubmitting || isInventoryFull}
+              style={!selectedItem || isSubmitting || isInventoryFull ? styles.btnGiftDisabled : styles.btnGift}
+              title={isInventoryFull ? 'El inventario del personaje está lleno (máximo 20 objetos)' : 'Entregar objeto'}
             >
-              {isSubmitting ? '⏳ Entregando...' : `🎁 Entregar a ${character.nombre}`}
+              {isSubmitting
+                ? '⏳ Entregando...'
+                : isInventoryFull
+                ? '⚠️ Mochila Llena (20/20)'
+                : `🎁 Entregar a ${character.nombre}`}
             </button>
           </div>
         </div>
@@ -373,6 +355,11 @@ const styles = {
   tierLimitBadge: {
     color: '#a08c75',
     fontSize: '0.72rem',
+  },
+  inventoryFullBadge: {
+    color: '#ff6b6b',
+    fontSize: '0.72rem',
+    fontWeight: 'bold',
   },
   btnClose: {
     backgroundColor: 'transparent',

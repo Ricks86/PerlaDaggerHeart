@@ -26,10 +26,12 @@ public abstract class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
 
     private int tier = 1;
+
+    private boolean esHomebrew = false;
 
     public Item() {}
 
@@ -46,6 +48,9 @@ public abstract class Item {
 
     public int getTier() { return tier; }
     public void setTier(int tier) { this.tier = tier; }
+
+    public boolean isEsHomebrew() { return esHomebrew; }
+    public void setEsHomebrew(boolean esHomebrew) { this.esHomebrew = esHomebrew; }
 
     public abstract String getTipo();
 

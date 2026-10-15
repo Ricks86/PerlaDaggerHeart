@@ -1,6 +1,9 @@
 package com.daggerheart.vtt.seeder;
 
+import com.daggerheart.vtt.model.Arma;
+import com.daggerheart.vtt.model.Armadura;
 import com.daggerheart.vtt.model.Card;
+import com.daggerheart.vtt.model.Consumible;
 import com.daggerheart.vtt.model.Item;
 import com.daggerheart.vtt.model.PlayerCharacter;
 import com.daggerheart.vtt.repository.CardRepository;
@@ -15,10 +18,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * JsonFolderSeeder: Semillero automático al arrancar Spring Boot.
@@ -40,6 +50,7 @@ public class JsonFolderSeeder implements CommandLineRunner {
     private final CardRepository cardRepository;
     private final ItemRepository itemRepository;
     private final PlayerCharacterRepository characterRepository;
+    private final com.daggerheart.vtt.repository.AdversaryTemplateRepository adversaryTemplateRepository;
     private final ObjectMapper objectMapper;
     private final String jsonFolderPath;
 
@@ -47,11 +58,13 @@ public class JsonFolderSeeder implements CommandLineRunner {
             CardRepository cardRepository,
             ItemRepository itemRepository,
             PlayerCharacterRepository characterRepository,
+            com.daggerheart.vtt.repository.AdversaryTemplateRepository adversaryTemplateRepository,
             ObjectMapper objectMapper,
             @Value("${daggerheart.data.folder:../Jsons}") String jsonFolderPath) {
         this.cardRepository = cardRepository;
         this.itemRepository = itemRepository;
         this.characterRepository = characterRepository;
+        this.adversaryTemplateRepository = adversaryTemplateRepository;
         this.objectMapper = objectMapper;
         this.jsonFolderPath = jsonFolderPath;
     }
@@ -69,31 +82,48 @@ public class JsonFolderSeeder implements CommandLineRunner {
         seedCardsFromFolder(new File(rootDir, "cartas"));
         seedItemsFromFolder(new File(rootDir, "items"));
         seedCharactersFromFolder(new File(rootDir, "personajes"));
+        seedAdversariesFromFolder(new File(rootDir, "adversarios"));
 
         logger.info("[JsonFolderSeeder] ✓ Proceso de semillero externo finalizado.");
     }
 
-    private void seedCardsFromFolder(File cartasDir) {
-        if (!cartasDir.exists() || !cartasDir.isDirectory()) {
-            logger.info("[JsonFolderSeeder] Carpeta 'cartas' no encontrada en '{}'. Omitiendo.", cartasDir.getAbsolutePath());
+    private List<Path> findJsonFilesRecursively(File directory) {
+        if (!directory.exists() || !directory.isDirectory()) {
+            return List.of();
+        }
+        try (Stream<Path> stream = Files.walk(directory.toPath())) {
+            return stream
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
+                    .sorted()
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            logger.error("[JsonFolderSeeder] Error al escanear directorio '{}': {}", directory.getAbsolutePath(), e.getMessage());
+            return List.of();
+        }
+    }
+
+    private boolean isHomebrewPath(Path path) {
+        String normalized = path.toString().replace('\\', '/').toLowerCase();
+        return normalized.contains("/homebrew/") || normalized.contains("homebrew");
+    }
+
+    @Transactional
+    public void seedCardsFromFolder(File cartasDir) {
+        List<Path> jsonFiles = findJsonFilesRecursively(cartasDir);
+        if (jsonFiles.isEmpty()) {
+            logger.info("[JsonFolderSeeder] No se encontraron archivos JSON en carpeta 'cartas' ('{}').", cartasDir.getAbsolutePath());
             return;
         }
 
-        if (cardRepository.count() > 0) {
-            logger.info("[JsonFolderSeeder] La base de datos ya contiene cartas (count={}). Omitiendo siembra de cartas.", cardRepository.count());
-            return;
-        }
+        int totalLeidos = 0;
+        int insertados = 0;
+        int actualizados = 0;
 
-        File[] jsonFiles = cartasDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
-        if (jsonFiles == null || jsonFiles.length == 0) {
-            logger.info("[JsonFolderSeeder] Carpeta cartas vacía, omitiendo siembra.");
-            return;
-        }
-
-        List<Card> allCards = new ArrayList<>();
-        for (File file : jsonFiles) {
+        for (Path path : jsonFiles) {
+            boolean isHomebrew = isHomebrewPath(path);
             try {
-                JsonNode root = objectMapper.readTree(file);
+                JsonNode root = objectMapper.readTree(path.toFile());
                 List<Card> cardsFromFile = new ArrayList<>();
                 if (root.isArray()) {
                     cardsFromFile = objectMapper.convertValue(root, new TypeReference<List<Card>>() {});
@@ -103,40 +133,58 @@ public class JsonFolderSeeder implements CommandLineRunner {
                     Card single = objectMapper.treeToValue(root, Card.class);
                     if (single != null) cardsFromFile.add(single);
                 }
-                allCards.addAll(cardsFromFile);
-                logger.info("[JsonFolderSeeder] Leído archivo '{}' -> {} carta(s).", file.getName(), cardsFromFile.size());
+
+                totalLeidos += cardsFromFile.size();
+
+                for (Card card : cardsFromFile) {
+                    if (card.getTitulo() == null || card.getTitulo().isBlank()) {
+                        continue;
+                    }
+                    if (isHomebrew) {
+                        card.setEsHomebrew(true);
+                    }
+
+                    Optional<Card> existingOpt = cardRepository.findByTitulo(card.getTitulo());
+                    if (existingOpt.isPresent()) {
+                        Card existing = existingOpt.get();
+                        existing.setTipo(card.getTipo());
+                        existing.setNivel(card.getNivel());
+                        existing.setDescripcion(card.getDescripcion());
+                        existing.setMetadata(card.getMetadata());
+                        existing.setEsHomebrew(card.isEsHomebrew());
+                        cardRepository.save(existing);
+                        actualizados++;
+                    } else {
+                        card.setId(null);
+                        cardRepository.save(card);
+                        insertados++;
+                    }
+                }
+                logger.debug("[JsonFolderSeeder] Leído archivo de cartas '{}' -> {} carta(s).", path.getFileName(), cardsFromFile.size());
             } catch (Exception e) {
-                logger.error("[JsonFolderSeeder] Error al leer archivo de cartas '{}': {}", file.getName(), e.getMessage());
+                logger.error("[JsonFolderSeeder] Error al procesar archivo de cartas '{}': {}", path.getFileName(), e.getMessage());
             }
         }
 
-        if (!allCards.isEmpty()) {
-            cardRepository.saveAll(allCards);
-            logger.info("[JsonFolderSeeder] ✓ {} cartas sembradas exitosamente en la base de datos.", allCards.size());
-        }
+        logger.info("[JSON Ingestion] Proceso completado: {} leídos, {} insertados, {} actualizados/omitidos.", totalLeidos, insertados, actualizados);
     }
 
-    private void seedItemsFromFolder(File itemsDir) {
-        if (!itemsDir.exists() || !itemsDir.isDirectory()) {
-            logger.info("[JsonFolderSeeder] Carpeta items no encontrada en '{}', omitiendo siembra.", itemsDir.getAbsolutePath());
+    @Transactional
+    public void seedItemsFromFolder(File itemsDir) {
+        List<Path> jsonFiles = findJsonFilesRecursively(itemsDir);
+        if (jsonFiles.isEmpty()) {
+            logger.info("[JsonFolderSeeder] No se encontraron archivos JSON en carpeta 'items' ('{}').", itemsDir.getAbsolutePath());
             return;
         }
 
-        File[] jsonFiles = itemsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
-        if (jsonFiles == null || jsonFiles.length == 0) {
-            logger.info("[JsonFolderSeeder] Carpeta items vacía, omitiendo siembra.");
-            return;
-        }
+        int totalLeidos = 0;
+        int insertados = 0;
+        int actualizados = 0;
 
-        if (itemRepository.count() > 0) {
-            logger.info("[JsonFolderSeeder] La base de datos ya contiene ítems (count={}). Omitiendo siembra de ítems.", itemRepository.count());
-            return;
-        }
-
-        List<Item> allItems = new ArrayList<>();
-        for (File file : jsonFiles) {
+        for (Path path : jsonFiles) {
+            boolean isHomebrew = isHomebrewPath(path);
             try {
-                JsonNode root = objectMapper.readTree(file);
+                JsonNode root = objectMapper.readTree(path.toFile());
                 List<Item> itemsFromFile = new ArrayList<>();
                 if (root.isArray()) {
                     itemsFromFile = objectMapper.convertValue(root, new TypeReference<List<Item>>() {});
@@ -146,62 +194,174 @@ public class JsonFolderSeeder implements CommandLineRunner {
                     Item single = objectMapper.treeToValue(root, Item.class);
                     if (single != null) itemsFromFile.add(single);
                 }
-                allItems.addAll(itemsFromFile);
-                logger.info("[JsonFolderSeeder] Leído archivo '{}' -> {} ítem(s).", file.getName(), itemsFromFile.size());
-            } catch (Exception e) {
-                logger.error("[JsonFolderSeeder] Error al leer archivo de ítems '{}': {}", file.getName(), e.getMessage());
-            }
-        }
 
-        if (!allItems.isEmpty()) {
-            itemRepository.saveAll(allItems);
-            logger.info("[JsonFolderSeeder] ✓ {} ítems sembrados exitosamente en la base de datos.", allItems.size());
-        }
-    }
+                totalLeidos += itemsFromFile.size();
 
-    private void seedCharactersFromFolder(File personajesDir) {
-        if (!personajesDir.exists() || !personajesDir.isDirectory()) {
-            logger.info("[JsonFolderSeeder] Carpeta personajes no encontrada en '{}', omitiendo siembra.", personajesDir.getAbsolutePath());
-            return;
-        }
-
-        File[] jsonFiles = personajesDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
-        if (jsonFiles == null || jsonFiles.length == 0) {
-            logger.info("[JsonFolderSeeder] Carpeta personajes vacía, omitiendo siembra.");
-            return;
-        }
-
-        if (characterRepository.count() > 0) {
-            logger.info("[JsonFolderSeeder] La base de datos ya contiene personajes (count={}). Omitiendo siembra de personajes.", characterRepository.count());
-            return;
-        }
-
-        List<PlayerCharacter> allCharacters = new ArrayList<>();
-        for (File file : jsonFiles) {
-            try {
-                JsonNode root = objectMapper.readTree(file);
-                if (root.isArray()) {
-                    List<PlayerCharacter> list = objectMapper.convertValue(root, new TypeReference<List<PlayerCharacter>>() {});
-                    for (PlayerCharacter pc : list) {
-                        pc.setId(null);
-                        allCharacters.add(pc);
+                for (Item item : itemsFromFile) {
+                    if (item.getNombre() == null || item.getNombre().isBlank()) {
+                        continue;
                     }
-                } else {
-                    PlayerCharacter single = objectMapper.treeToValue(root, PlayerCharacter.class);
-                    if (single != null) {
-                        single.setId(null);
-                        allCharacters.add(single);
+                    if (isHomebrew) {
+                        item.setEsHomebrew(true);
+                    }
+
+                    Optional<Item> existingOpt = itemRepository.findByNombre(item.getNombre());
+                    if (existingOpt.isPresent()) {
+                        Item existing = existingOpt.get();
+                        if (existing instanceof Arma existingArma && item instanceof Arma newArma) {
+                            existingArma.setTier(newArma.getTier());
+                            existingArma.setEsHomebrew(newArma.isEsHomebrew());
+                            existingArma.setCategoria(newArma.getCategoria());
+                            existingArma.setRasgo(newArma.getRasgo());
+                            existingArma.setDadoBase(newArma.getDadoBase());
+                            existingArma.setModificadorDano(newArma.getModificadorDano());
+                            existingArma.setTipoDano(newArma.getTipoDano());
+                            existingArma.setCarga(newArma.getCarga());
+                            existingArma.setAlcance(newArma.getAlcance());
+                            existingArma.setRasgoEspecial(newArma.getRasgoEspecial());
+                            itemRepository.save(existingArma);
+                        } else if (existing instanceof Armadura existingArmadura && item instanceof Armadura newArmadura) {
+                            existingArmadura.setTier(newArmadura.getTier());
+                            existingArmadura.setEsHomebrew(newArmadura.isEsHomebrew());
+                            existingArmadura.setPuntuacionBase(newArmadura.getPuntuacionBase());
+                            existingArmadura.setUmbralMayorBase(newArmadura.getUmbralMayorBase());
+                            existingArmadura.setUmbralGraveBase(newArmadura.getUmbralGraveBase());
+                            existingArmadura.setRasgoEspecial(newArmadura.getRasgoEspecial());
+                            itemRepository.save(existingArmadura);
+                        } else if (existing instanceof Consumible existingConsumible && item instanceof Consumible newConsumible) {
+                            existingConsumible.setTier(newConsumible.getTier());
+                            existingConsumible.setEsHomebrew(newConsumible.isEsHomebrew());
+                            existingConsumible.setDescripcion(newConsumible.getDescripcion());
+                            itemRepository.save(existingConsumible);
+                        } else {
+                            item.setId(existing.getId());
+                            itemRepository.save(item);
+                        }
+                        actualizados++;
+                    } else {
+                        item.setId(null);
+                        itemRepository.save(item);
+                        insertados++;
                     }
                 }
-                logger.info("[JsonFolderSeeder] Leído archivo de personaje '{}'.", file.getName());
+                logger.debug("[JsonFolderSeeder] Leído archivo de ítems '{}' -> {} ítem(s).", path.getFileName(), itemsFromFile.size());
             } catch (Exception e) {
-                logger.error("[JsonFolderSeeder] Error al leer archivo de personaje '{}': {}", file.getName(), e.getMessage());
+                logger.error("[JsonFolderSeeder] Error al procesar archivo de ítems '{}': {}", path.getFileName(), e.getMessage());
             }
         }
 
-        if (!allCharacters.isEmpty()) {
-            characterRepository.saveAll(allCharacters);
-            logger.info("[JsonFolderSeeder] ✓ {} personajes sembrados exitosamente en la base de datos.", allCharacters.size());
+        logger.info("[JSON Ingestion] Proceso completado: {} leídos, {} insertados, {} actualizados/omitidos.", totalLeidos, insertados, actualizados);
+    }
+
+    @Transactional
+    public void seedCharactersFromFolder(File personajesDir) {
+        List<Path> jsonFiles = findJsonFilesRecursively(personajesDir);
+        if (jsonFiles.isEmpty()) {
+            logger.info("[JsonFolderSeeder] No se encontraron archivos JSON en carpeta 'personajes' ('{}').", personajesDir.getAbsolutePath());
+            return;
         }
+
+        int totalLeidos = 0;
+        int insertados = 0;
+        int actualizados = 0;
+
+        for (Path path : jsonFiles) {
+            boolean isHomebrew = isHomebrewPath(path);
+            try {
+                JsonNode root = objectMapper.readTree(path.toFile());
+                List<PlayerCharacter> charactersFromFile = new ArrayList<>();
+                if (root.isArray()) {
+                    charactersFromFile = objectMapper.convertValue(root, new TypeReference<List<PlayerCharacter>>() {});
+                } else if (root.has("characters") && root.get("characters").isArray()) {
+                    charactersFromFile = objectMapper.convertValue(root.get("characters"), new TypeReference<List<PlayerCharacter>>() {});
+                } else {
+                    PlayerCharacter single = objectMapper.treeToValue(root, PlayerCharacter.class);
+                    if (single != null) charactersFromFile.add(single);
+                }
+
+                totalLeidos += charactersFromFile.size();
+
+                for (PlayerCharacter pc : charactersFromFile) {
+                    if (pc.getNombre() == null || pc.getNombre().isBlank()) {
+                        continue;
+                    }
+                    if (isHomebrew) {
+                        pc.setEsHomebrew(true);
+                    }
+
+                    Optional<PlayerCharacter> existingOpt = characterRepository.findByNombre(pc.getNombre());
+                    if (existingOpt.isPresent()) {
+                        PlayerCharacter existing = existingOpt.get();
+                        pc.setId(existing.getId());
+                        characterRepository.save(pc);
+                        actualizados++;
+                    } else {
+                        pc.setId(null);
+                        characterRepository.save(pc);
+                        insertados++;
+                    }
+                }
+                logger.debug("[JsonFolderSeeder] Leído archivo de personajes '{}' -> {} personaje(s).", path.getFileName(), charactersFromFile.size());
+            } catch (Exception e) {
+                logger.error("[JsonFolderSeeder] Error al procesar archivo de personaje '{}': {}", path.getFileName(), e.getMessage());
+            }
+        }
+
+        logger.info("[JSON Ingestion] Proceso completado: {} leídos, {} insertados, {} actualizados/omitidos.", totalLeidos, insertados, actualizados);
+    }
+
+    @Transactional
+    public void seedAdversariesFromFolder(File adversariosDir) {
+        List<Path> jsonFiles = findJsonFilesRecursively(adversariosDir);
+        if (jsonFiles.isEmpty()) {
+            logger.info("[JsonFolderSeeder] No se encontraron archivos JSON en carpeta 'adversarios' ('{}').", adversariosDir.getAbsolutePath());
+            return;
+        }
+
+        int totalLeidos = 0;
+        int insertados = 0;
+        int actualizados = 0;
+
+        for (Path path : jsonFiles) {
+            try {
+                JsonNode root = objectMapper.readTree(path.toFile());
+                List<com.daggerheart.vtt.model.AdversaryTemplate> adversariesFromFile = new ArrayList<>();
+                if (root.isArray()) {
+                    adversariesFromFile = objectMapper.convertValue(root, new TypeReference<List<com.daggerheart.vtt.model.AdversaryTemplate>>() {});
+                } else if (root.has("adversaries") && root.get("adversaries").isArray()) {
+                    adversariesFromFile = objectMapper.convertValue(root.get("adversaries"), new TypeReference<List<com.daggerheart.vtt.model.AdversaryTemplate>>() {});
+                } else if (root.has("monstruos") && root.get("monstruos").isArray()) {
+                    adversariesFromFile = objectMapper.convertValue(root.get("monstruos"), new TypeReference<List<com.daggerheart.vtt.model.AdversaryTemplate>>() {});
+                } else {
+                    com.daggerheart.vtt.model.AdversaryTemplate single = objectMapper.treeToValue(root, com.daggerheart.vtt.model.AdversaryTemplate.class);
+                    if (single != null) adversariesFromFile.add(single);
+                }
+
+                totalLeidos += adversariesFromFile.size();
+
+                for (com.daggerheart.vtt.model.AdversaryTemplate adv : adversariesFromFile) {
+                    if (adv.getNombre() == null || adv.getNombre().isBlank()) {
+                        continue;
+                    }
+
+                    Optional<com.daggerheart.vtt.model.AdversaryTemplate> existingOpt = adversaryTemplateRepository.findByNombre(adv.getNombre());
+                    if (existingOpt.isPresent()) {
+                        com.daggerheart.vtt.model.AdversaryTemplate existing = existingOpt.get();
+                        adv.setId(existing.getId());
+                        adversaryTemplateRepository.save(adv);
+                        actualizados++;
+                    } else {
+                        adv.setId(null);
+                        adversaryTemplateRepository.save(adv);
+                        insertados++;
+                    }
+                }
+                logger.debug("[JsonFolderSeeder] Leído archivo de adversarios '{}' -> {} adversario(s).", path.getFileName(), adversariesFromFile.size());
+            } catch (Exception e) {
+                logger.error("[JsonFolderSeeder] Error al procesar archivo de adversarios '{}': {}", path.getFileName(), e.getMessage());
+            }
+        }
+
+        logger.info("[JSON Ingestion] Proceso de adversarios completado: {} leídos, {} insertados, {} actualizados/omitidos.", totalLeidos, insertados, actualizados);
     }
 }

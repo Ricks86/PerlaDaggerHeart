@@ -4,6 +4,7 @@ import com.daggerheart.vtt.dto.LevelUpRequest;
 import com.daggerheart.vtt.model.*;
 import com.daggerheart.vtt.repository.*;
 import com.daggerheart.vtt.service.CharacterService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,13 +58,20 @@ public class GameController {
 
     @GetMapping("/characters")
     public List<PlayerCharacter> getAllCharacters() {
-        return characterRepo.findAll();
+        List<PlayerCharacter> list = characterRepo.findAll();
+        for (PlayerCharacter pc : list) {
+            characterService.ensureLoadoutInitialized(pc);
+        }
+        return list;
     }
 
     @GetMapping("/characters/{id}")
     public ResponseEntity<PlayerCharacter> getCharacter(@PathVariable Long id) {
         return characterRepo.findById(id)
-                .map(ResponseEntity::ok)
+                .map(pc -> {
+                    characterService.ensureLoadoutInitialized(pc);
+                    return ResponseEntity.ok(pc);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -94,8 +102,39 @@ public class GameController {
                     itemRepo.findById(invItem.getId()).ifPresent(resolvedInv::add);
                 }
             }
+            if (character.getNivel() <= 1) {
+                long nonWeaponsCount = resolvedInv.stream().filter(it -> !(it instanceof Arma)).count();
+                if (nonWeaponsCount > 5) {
+                    throw new IllegalArgumentException("Un personaje de nivel 1 solo puede comenzar con un máximo de 5 consumibles u objetos en su mochila.");
+                }
+                if (resolvedInv.size() > 6) {
+                    throw new IllegalArgumentException("El inventario inicial de nivel 1 no puede superar los 6 objetos (hasta 5 consumibles + 1 arma no equipada).");
+                }
+            }
+            if (resolvedInv.size() > 20) {
+                throw new IllegalArgumentException("El inventario no puede superar los 20 objetos.");
+            }
             character.setInventario(resolvedInv);
         }
+        if (character.getLoadout() != null && !character.getLoadout().isEmpty()) {
+            Set<Card> resolvedLoadout = new LinkedHashSet<>();
+            for (Card c : character.getLoadout()) {
+                if (c != null && c.getId() != null) {
+                    cardRepo.findById(c.getId()).ifPresent(resolvedLoadout::add);
+                }
+            }
+            character.setLoadout(resolvedLoadout);
+        }
+        if (character.getBoveda() != null && !character.getBoveda().isEmpty()) {
+            Set<Card> resolvedBoveda = new LinkedHashSet<>();
+            for (Card c : character.getBoveda()) {
+                if (c != null && c.getId() != null) {
+                    cardRepo.findById(c.getId()).ifPresent(resolvedBoveda::add);
+                }
+            }
+            character.setBoveda(resolvedBoveda);
+        }
+        characterService.ensureLoadoutInitialized(character);
 
         PlayerCharacter saved = characterRepo.save(character);
         return ResponseEntity.ok(saved);
@@ -130,6 +169,15 @@ public class GameController {
                 pc.getCartasActivasIds().clear();
                 pc.getCartasActivasIds().addAll(details.getCartasActivasIds());
             }
+            if (details.getLoadout() != null && !details.getLoadout().isEmpty()) {
+                pc.getLoadout().clear();
+                pc.getLoadout().addAll(details.getLoadout());
+            }
+            if (details.getBoveda() != null && !details.getBoveda().isEmpty()) {
+                pc.getBoveda().clear();
+                pc.getBoveda().addAll(details.getBoveda());
+            }
+            characterService.ensureLoadoutInitialized(pc);
 
             // Sprint 11: Equipamiento e inventario
             pc.setArmaPrincipal(details.getArmaPrincipal());
@@ -344,6 +392,26 @@ public class GameController {
         }
     }
 
+    /**
+     * POST /api/characters/{id}/domain-cards/swap
+     * Gestiona el intercambio de cartas entre la Bóveda y el Loadout (Sprint 26).
+     */
+    @PostMapping("/characters/{id}/domain-cards/swap")
+    public ResponseEntity<?> swapDomainCard(
+            @PathVariable Long id,
+            @RequestBody com.daggerheart.vtt.dto.CardSwapRequest request) {
+        try {
+            PlayerCharacter updated = characterService.swapDomainCard(id, request);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Cartas
     // -------------------------------------------------------------------------
@@ -406,5 +474,19 @@ public class GameController {
     @GetMapping("/adversaries")
     public List<Adversary> getAllAdversaries() {
         return adversaryRepo.findAll();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(NoSuchElementException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import NpcManager from './NpcManager';
-import DmRoller from './DmRoller';
+import React, { useState, Suspense } from 'react';
 import SharedRollLog from './SharedRollLog';
-import SystemCompendium from './SystemCompendium';
-import DataImporter from './DataImporter';
-import ItemForge from './ItemForge';
-import PartyMonitor from './PartyMonitor';
-import PlayerCompendium from './PlayerCompendium';
+import LoadingFallback from './LoadingFallback';
+
+// Submódulos del DJ con carga bajo demanda (Code-Splitting)
+const EncounterManager = React.lazy(() => import('./EncounterManager'));
+const DmRoller = React.lazy(() => import('./DmRoller'));
+const SystemCompendium = React.lazy(() => import('./SystemCompendium'));
+const DataImporter = React.lazy(() => import('./DataImporter'));
+const ItemForge = React.lazy(() => import('./ItemForge'));
+const PartyMonitor = React.lazy(() => import('./PartyMonitor'));
+const PlayerCompendium = React.lazy(() => import('./PlayerCompendium'));
 
 /**
  * DmPanel: Vista central y exclusiva del Dungeon Master (DJ).
  *
  * Pestañas:
- *  - 'ENCOUNTER': Gestión de monstruos en combate (NpcManager + DmRoller)
+ *  - 'ENCOUNTER': Gestión de monstruos en combate (EncounterManager + DmRoller)
  *  - 'COMPENDIUM': Creación y mantenimiento de cartas fundacionales
  *  - 'IMPORTER': Motor de importación masiva mediante archivo .json o texto
  *  - 'FORGE': Forja de armas, armaduras y consumibles
@@ -83,19 +86,23 @@ export default function DmPanel() {
       <div style={styles.mainGrid}>
         {/* Contenido Principal según la pestaña seleccionada */}
         <section style={styles.leftColumn}>
-          {activeTab === 'ENCOUNTER' && <NpcManager />}
-          {activeTab === 'COMPENDIUM' && <SystemCompendium />}
-          {activeTab === 'IMPORTER' && (
-            <DataImporter onImportSuccess={() => setActiveTab('COMPENDIUM')} />
-          )}
-          {activeTab === 'FORGE' && <ItemForge />}
-          {activeTab === 'PARTY_MONITOR' && <PartyMonitor />}
-          {activeTab === 'HERO_COMPENDIUM' && <PlayerCompendium />}
+          <Suspense fallback={<LoadingFallback message="Cargando herramienta del DJ..." />}>
+            {activeTab === 'ENCOUNTER' && <EncounterManager />}
+            {activeTab === 'COMPENDIUM' && <SystemCompendium />}
+            {activeTab === 'IMPORTER' && (
+              <DataImporter onImportSuccess={() => setActiveTab('COMPENDIUM')} />
+            )}
+            {activeTab === 'FORGE' && <ItemForge />}
+            {activeTab === 'PARTY_MONITOR' && <PartyMonitor />}
+            {activeTab === 'HERO_COMPENDIUM' && <PlayerCompendium />}
+          </Suspense>
         </section>
 
         {/* Columna Derecha: Dados del DJ (en modo combate) + Chat en tiempo real */}
         <section style={styles.rightColumn}>
-          {activeTab === 'ENCOUNTER' && <DmRoller />}
+          <Suspense fallback={<LoadingFallback message="Cargando panel de dados..." />}>
+            {activeTab === 'ENCOUNTER' && <DmRoller />}
+          </Suspense>
 
           <SharedRollLog />
         </section>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacter } from '../context/CharacterContext';
+import { useCards } from '../context/CompendiumContext';
 import CardInspectorDrawer from './CardInspectorDrawer';
 
 const TRAIT_KEYS = [
@@ -10,6 +11,30 @@ const TRAIT_KEYS = [
   { key: 'presencia', label: 'Presencia', icon: '👑' },
   { key: 'conocimiento', label: 'Conocimiento', icon: '📖' },
 ];
+
+const DOMAIN_SYNONYMS = {
+  arcana: ['arcana', 'arcano'],
+  blade: ['blade', 'cuchilla', 'filo'],
+  bone: ['bone', 'hueso'],
+  codex: ['codex', 'códice', 'codice'],
+  grace: ['grace', 'gracia'],
+  midnight: ['midnight', 'medianoche'],
+  sage: ['sage', 'sabiduría', 'sabiduria', 'sabio'],
+  splendor: ['splendor', 'esplendor'],
+  valor: ['valor'],
+  dread: ['dread', 'pavor'],
+};
+
+function matchesDomain(cardDomain, allowedDomain) {
+  if (!cardDomain || !allowedDomain) return false;
+  const c = cardDomain.trim().toLowerCase();
+  const a = allowedDomain.trim().toLowerCase();
+  if (c === a) return true;
+  for (const list of Object.values(DOMAIN_SYNONYMS)) {
+    if (list.includes(c) && list.includes(a)) return true;
+  }
+  return false;
+}
 
 export default function LevelUpModal({ character, onClose, onSuccess }) {
   const { setCharacter } = useCharacter();
@@ -45,10 +70,9 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
     return new Set((tp.markedTraitsInTier || []).map((t) => t.toLowerCase()));
   }, [tp.markedTraitsInTier]);
 
-  // Estados de carga de datos
-  const [allCards, setAllCards] = useState([]);
-  const [allowedDomains, setAllowedDomains] = useState([]);
-  const [loadingCards, setLoadingCards] = useState(true);
+  // Catálogo de cartas en caché
+  const { cards: allCards, loading: loadingCards } = useCards();
+  const [allowedDomains, setAllowedDomains] = useState(['Gracia', 'Medianoche']);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
@@ -67,54 +91,26 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [inspectedCard, setInspectedCard] = useState(null);
 
-  // 1. Cargar cartas y deducir dominios permitidos de la clase
+  // 1. Deducir dominios permitidos de la clase desde el compendio en caché
   useEffect(() => {
-    let isMounted = true;
-    fetch('/api/cards')
-      .then((res) => {
-        if (!res.ok) throw new Error('Error al consultar cartas del compendio');
-        return res.json();
-      })
-      .then((data) => {
-        if (!isMounted) return;
-        setAllCards(data);
+    if (!character?.clase || allCards.length === 0) return;
 
-        // Buscar dominios permitidos en la carta de Clase
-        if (character?.clase) {
-          const classCard = data.find(
-            (c) => c.tipo === 'Clase' && c.titulo?.toLowerCase() === character.clase.toLowerCase()
-          );
-          if (classCard?.metadata) {
-            try {
-              const meta = typeof classCard.metadata === 'string'
-                ? JSON.parse(classCard.metadata)
-                : classCard.metadata;
-              if (Array.isArray(meta.dominios) && meta.dominios.length > 0) {
-                setAllowedDomains(meta.dominios);
-                setLoadingCards(false);
-                return;
-              }
-            } catch (e) {
-              console.warn('Error al parsear dominios de clase:', e);
-            }
-          }
+    const classCard = allCards.find(
+      (c) => c.tipo === 'Clase' && c.titulo?.toLowerCase() === character.clase.toLowerCase()
+    );
+    if (classCard?.metadata) {
+      try {
+        const meta = typeof classCard.metadata === 'string'
+          ? JSON.parse(classCard.metadata)
+          : classCard.metadata;
+        if (Array.isArray(meta.dominios) && meta.dominios.length > 0) {
+          setAllowedDomains(meta.dominios);
         }
-        // Fallback predeterminado
-        setAllowedDomains(['Gracia', 'Medianoche']);
-        setLoadingCards(false);
-      })
-      .catch((err) => {
-        console.error('Error cargando cartas para subida de nivel:', err);
-        if (isMounted) {
-          setLoadingCards(false);
-          setErrorMsg('No se pudieron cargar las cartas de dominio.');
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [character?.clase]);
+      } catch (e) {
+        console.warn('Error al parsear dominios de clase:', e);
+      }
+    }
+  }, [character?.clase, allCards]);
 
   // Filtrado de cartas de dominio elegibles para el nivel objetivo
   const eligibleDomainCards = useMemo(() => {
@@ -128,7 +124,7 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
         if (card.metadata) {
           try {
             const meta = typeof card.metadata === 'string' ? JSON.parse(card.metadata) : card.metadata;
-            if (meta.dominio && allowedDomains.some((d) => d.toLowerCase() === meta.dominio.toLowerCase())) {
+            if (meta.dominio && allowedDomains.some((d) => matchesDomain(meta.dominio, d))) {
               return true;
             }
           } catch {}
@@ -141,13 +137,20 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
     });
   }, [allCards, targetLevel, allowedDomains]);
 
-  // Catálogo secundario disponible para la opción EXTRA_DOMAIN_CARD (excluye la ya elegida en Paso 1)
-  const secondaryDomainCards = useMemo(() => {
+  // IDs de cartas que el personaje ya posee (Mazo Activo, Bóveda o Activas)
+  const ownedCardIds = useMemo(() => {
     const activeIds = character?.cartasActivasIds || [];
+    const loadoutIds = (character?.loadout || []).map((c) => c.id);
+    const bovedaIds = (character?.boveda || []).map((c) => c.id);
+    return new Set([...activeIds, ...loadoutIds, ...bovedaIds]);
+  }, [character?.cartasActivasIds, character?.loadout, character?.boveda]);
+
+  // Catálogo secundario disponible para la opción EXTRA_DOMAIN_CARD (excluye la ya elegida en Paso 1 y las ya poseídas)
+  const secondaryDomainCards = useMemo(() => {
     return eligibleDomainCards.filter(
-      (c) => c.id !== mandatoryCardId && !activeIds.includes(c.id)
+      (c) => c.id !== mandatoryCardId && !ownedCardIds.has(c.id)
     );
-  }, [eligibleDomainCards, mandatoryCardId, character?.cartasActivasIds]);
+  }, [eligibleDomainCards, mandatoryCardId, ownedCardIds]);
 
   // Cartas filtradas por buscador en Paso 1
   const displayedDomainCards = useMemo(() => {
@@ -394,7 +397,7 @@ export default function LevelUpModal({ character, onClose, onSuccess }) {
                 <div style={styles.cardsGrid}>
                   {displayedDomainCards.map((card) => {
                     const isSelected = mandatoryCardId === card.id;
-                    const isAlreadyActive = character?.cartasActivasIds?.includes(card.id);
+                    const isAlreadyActive = ownedCardIds.has(card.id);
                     return (
                       <div
                         key={card.id}

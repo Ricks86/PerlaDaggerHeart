@@ -1,0 +1,602 @@
+[
+  {
+    "nombre": "Poción de Paso Firme",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Agilidad."
+  },
+  {
+    "nombre": "Poción de Vigor",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Fuerza."
+  },
+  {
+    "nombre": "Poción de Control",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Destreza."
+  },
+  {
+    "nombre": "Poción de Sintonía",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Instinto."
+  },
+  {
+    "nombre": "Poción de Encanto",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Presencia."
+  },
+  {
+    "nombre": "Poción de Iluminación",
+    "tier": 1,
+    "descripcion": "Obtienes un bonificador de +1 a tu siguiente tirada de Conocimiento."
+  },
+  {
+    "nombre": "Poción de Curación Menor",
+    "tier": 1,
+    "descripcion": "Despeja 1d4 Puntos de Golpe (HP)."
+  },
+  {
+    "nombre": "Poción de Resistencia Menor",
+    "tier": 1,
+    "descripcion": "Despeja 1d4 de Estrés."
+  },
+  {
+    "nombre": "Veneno de Dientemuela",
+    "tier": 1,
+    "descripcion": "Puedes aplicar este veneno a un arma que inflija daño físico para añadir un d6 a tu siguiente tirada de daño con esa arma."
+  },
+  {
+    "nombre": "Hojas de Varik",
+    "tier": 1,
+    "descripcion": "Puedes comer este par de hojas para obtener inmediatamente 2 de Esperanza."
+  },
+  {
+    "nombre": "Vial de Gota Lunar",
+    "tier": 1,
+    "descripcion": "Al beber el contenido de este vial, puedes ver en la oscuridad total hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Fragmento Arcano Inestable",
+    "tier": 1,
+    "descripcion": "Puedes hacer una tirada de Destreza para arrojar este fragmento a un grupo de adversarios a distancia Lejana. Los objetivos contra los que tengas éxito sufren 1d20 de daño mágico."
+  },
+  {
+    "nombre": "Poción de Estabilidad",
+    "tier": 1,
+    "descripcion": "Puedes beber esta poción para elegir un movimiento de descanso adicional durante tu tiempo de inactividad."
+  },
+  {
+    "nombre": "Veneno de Dientemuela Mejorado",
+    "tier": 1,
+    "descripcion": "Puedes aplicar este veneno a un arma que inflija daño físico para añadir un d8 a tu siguiente tirada de daño con esa arma."
+  },
+  {
+    "nombre": "Arcilla Moldeable",
+    "tier": 1,
+    "descripcion": "Puedes gastar 1 de Esperanza para usar esta arcilla, alterando tu rostro lo suficiente como para volverte irreconocible hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Vial de Humo Oscuro",
+    "tier": 2,
+    "descripcion": "Cuando un adversario te ataque, usa este vial y tira una cantidad de dados d6 igual a tu Agilidad. Añade el resultado más alto a tu Evasión contra ese ataque."
+  },
+  {
+    "nombre": "Raíz de Salto",
+    "tier": 2,
+    "descripcion": "Come esta raíz para saltar hasta distancia Lejana una vez sin necesidad de realizar tirada."
+  },
+  {
+    "nombre": "Polvo Fulminante",
+    "tier": 2,
+    "descripcion": "Marca 1 de Estrés y despeja 1 Punto de Golpe (HP)."
+  },
+  {
+    "nombre": "Poción de Curación",
+    "tier": 2,
+    "descripcion": "Despeja 1d4+1 Puntos de Golpe (HP)."
+  },
+  {
+    "nombre": "Poción de Resistencia",
+    "tier": 2,
+    "descripcion": "Despeja 1d4+1 de Estrés."
+  },
+  {
+    "nombre": "Costurero de Armadura",
+    "tier": 2,
+    "descripcion": "Puedes usar este costurero para gastar cualquier cantidad de Esperanza y despejar esa misma cantidad de ranuras de Armadura."
+  },
+  {
+    "nombre": "Ungüento de Branquias",
+    "tier": 2,
+    "descripcion": "Puedes aplicar este ungüento en tu cuello para respirar bajo el agua durante una cantidad de minutos igual a tu nivel."
+  },
+  {
+    "nombre": "Pergamino de Replicación",
+    "tier": 2,
+    "descripcion": "Al tocar otro pergamino con este, puedes copiar a la perfección todo su contenido. Tras usarse, este pergamino se convierte en papel común."
+  },
+  {
+    "nombre": "Fragmento Arcano Mejorado",
+    "tier": 2,
+    "descripcion": "Puedes hacer una tirada de Destreza para arrojar este fragmento a un grupo de adversarios a distancia Lejana. Los objetivos contra los que tengas éxito sufren 2d20 de daño mágico."
+  },
+  {
+    "nombre": "Poción de Paso Firme Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Agilidad hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Poción de Vigor Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Fuerza hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Poción de Control Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Destreza hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Poción de Sintonía Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Instinto hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Poción de Encanto Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Presencia hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Poción de Iluminación Mayor",
+    "tier": 2,
+    "descripcion": "Obtienes un bonificador de +1 a tu Conocimiento hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Sangre de Yorgi",
+    "tier": 3,
+    "descripcion": "Puedes beber esta sangre para desaparecer de tu posición y reaparecer instantáneamente en un punto visible a distancia Muy Lejana."
+  },
+  {
+    "nombre": "Poción Secreta de Homet",
+    "tier": 3,
+    "descripcion": "Tras beber esta poción, el siguiente ataque exitoso que realices se convierte automáticamente en un éxito crítico."
+  },
+  {
+    "nombre": "Saliva de Espinarroja",
+    "tier": 3,
+    "descripcion": "Puedes aplicar esta saliva a un arma que inflija daño físico para añadir un d12 a tu siguiente tirada de daño con esa arma."
+  },
+  {
+    "nombre": "Piedra de Canalización",
+    "tier": 3,
+    "descripcion": "Puedes usar esta piedra para tomar un hechizo o grimorio de tu bóveda, usarlo una vez y devolverlo a tu bóveda."
+  },
+  {
+    "nombre": "Polvo Mítico",
+    "tier": 3,
+    "descripcion": "Puedes aplicar este polvo a un arma que inflija daño mágico para añadir un d12 a tu siguiente tirada de daño con esa arma."
+  },
+  {
+    "nombre": "Pasta Ácida",
+    "tier": 3,
+    "descripcion": "Esta pasta corroe y perfora muros y otras superficies sólidas entre destellos brillantes."
+  },
+  {
+    "nombre": "Bengala del Baluarte de la Esperanza",
+    "tier": 3,
+    "descripcion": "Al usar esta bengala, los aliados a distancia Cercana tiran un d6 cuando gastan Esperanza. Con un 6, obtienen el beneficio sin gastar la Esperanza. Dura hasta el final de la escena."
+  },
+  {
+    "nombre": "Fragmento Arcano Mayor",
+    "tier": 3,
+    "descripcion": "Puedes hacer una tirada de Destreza para arrojar este fragmento a un grupo de adversarios a distancia Lejana. Los objetivos contra los que tengas éxito sufren 4d20 de daño mágico."
+  },
+  {
+    "nombre": "Huesopluma",
+    "tier": 3,
+    "descripcion": "Puedes usar este hueso para controlar tu velocidad de caída y descender suavemente durante una cantidad de minutos igual a tu nivel."
+  },
+  {
+    "nombre": "Círculo del Vacío",
+    "tier": 3,
+    "descripcion": "Marca 1 de Estrés para crear un vacío que se extiende hasta distancia Lejana. No se puede lanzar magia dentro del vacío y las criaturas dentro son inmunes al daño mágico."
+  },
+  {
+    "nombre": "Savia del Árbol Solar",
+    "tier": 3,
+    "descripcion": "Consume esta savia y tira 1d6. Con 5–6, despeja 2 HP. Con 2–4, despeja 3 de Estrés. Con 1, vislumbras más allá del velo de la muerte y regresas cambiado, obteniendo una cicatriz."
+  },
+  {
+    "nombre": "Veneno de Colmillo Goteante",
+    "tier": 3,
+    "descripcion": "Una criatura que ingiera este veneno sufre 8d10 de daño mágico directo."
+  },
+  {
+    "nombre": "Poción de Curación Mayor",
+    "tier": 3,
+    "descripcion": "Despeja 1d4+2 Puntos de Golpe (HP)."
+  },
+  {
+    "nombre": "Poción de Resistencia Mayor",
+    "tier": 3,
+    "descripcion": "Despeja 1d4+2 de Estrés."
+  },
+  {
+    "nombre": "Almizcle de Ogro",
+    "tier": 3,
+    "descripcion": "Puedes usar este almizcle para evitar que nadie pueda rastrearte por medios mundanos o mágicos hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Brote de Alas",
+    "tier": 4,
+    "descripcion": "Obtienes alas mágicas que te permiten volar durante una cantidad de minutos igual a tu nivel."
+  },
+  {
+    "nombre": "Frasco de Voces Perdidas",
+    "tier": 4,
+    "descripcion": "Puedes abrir este frasco para desatar un eco ensordecedor de voces durante una cantidad de minutos igual a tu Instinto. Las criaturas a distancia Lejana no preparadas para el sonido sufren 6d8 de daño mágico."
+  },
+  {
+    "nombre": "Té de Flor de Dragón",
+    "tier": 4,
+    "descripcion": "Puedes beber este té para desatar un aliento de fuego abrasador. Haz una tirada de Instinto contra todos los adversarios frente a ti a distancia Cercana. Los objetivos impactados sufren 1d20 de daño físico multiplicado por tu Competencia."
+  },
+  {
+    "nombre": "Semilla Puente",
+    "tier": 4,
+    "descripcion": "Gruesas enredaderas brotan desde tu ubicación hasta un punto a tu elección a distancia Lejana, permitiéndote escalar o cruzarlas. Las enredaderas se disipan en tu próximo descanso corto."
+  },
+  {
+    "nombre": "Savia del Sueño Reparador",
+    "tier": 4,
+    "descripcion": "Puedes beber esta poción para sumirte en un sueño reparador equivalente a una noche completa. Despejas todo tu Estrés al despertar."
+  },
+  {
+    "nombre": "Banquete de Xuria",
+    "tier": 4,
+    "descripcion": "Puedes comer este manjar para despejar todos tus Puntos de Golpe (HP) y todo tu Estrés, y ganar 1d4 de Esperanza."
+  },
+  {
+    "nombre": "Miel de Unión Eterna",
+    "tier": 4,
+    "descripcion": "Esta miel se puede usar para adherir permanentemente dos objetos entre sí de forma indestructible."
+  },
+  {
+    "nombre": "Poción de Encogimiento",
+    "tier": 4,
+    "descripcion": "Puedes beber esta poción para reducir tu tamaño a la mitad hasta que decidas cancelar la forma o hasta tu próximo descanso. En esta forma tienes +2 a Agilidad y una penalización de −1 a tu Competencia."
+  },
+  {
+    "nombre": "Poción de Crecimiento",
+    "tier": 4,
+    "descripcion": "Puedes beber esta poción para duplicar tu tamaño hasta que decidas cancelar la forma o hasta tu próximo descanso. En esta forma tienes +2 a Fuerza y un bonificador de +1 a tu Competencia."
+  },
+  {
+    "nombre": "Piedra del Conocimiento",
+    "tier": 4,
+    "descripcion": "Si mueres sosteniendo esta piedra, un aliado puede tomar una carta de tu mazo activo y colocarla en su propio mazo activo o bóveda. Tras transferir este conocimiento, la piedra se desmorona."
+  },
+  {
+    "nombre": "Musgo Dulce",
+    "tier": 4,
+    "descripcion": "Puedes consumir este musgo durante un descanso para despejar 1d10 Puntos de Golpe (HP) o 1d10 de Estrés."
+  },
+  {
+    "nombre": "Orbe Cegador",
+    "tier": 4,
+    "descripcion": "Puedes activar este orbe para emitir un fogonazo de luz enceguecedora. Todos los objetivos a distancia Cercana quedan Vulnerables hasta que marquen algún Punto de Golpe (HP)."
+  },
+  {
+    "nombre": "Té de la Muerte",
+    "tier": 4,
+    "descripcion": "Tras beber este té, aniquilas instantáneamente a tu objetivo cuando logres un éxito crítico en un ataque. Si no consigues un éxito crítico antes de tu próximo descanso largo, mueres."
+  },
+  {
+    "nombre": "Espejo de Caléndula",
+    "tier": 4,
+    "descripcion": "Cuando vayas a sufrir daño, puedes gastar 1 de Esperanza para anular ese daño por completo; tras esto, el espejo se hace añicos."
+  },
+  {
+    "nombre": "Gota Estelar",
+    "tier": 4,
+    "descripcion": "Puedes usar esta gota estelar para invocar una lluvia de cometas que inflige 8d20 de daño físico a todos los objetivos a distancia Muy Lejana."
+  },
+  {
+    "nombre": "Vela de Protección",
+    "tier": 1,
+    "descripcion": "Puedes encender esta vela para llenar una zona a distancia Cercana con un halo de luz. Ninguna criatura exterior puede entrar si alberga malas intenciones hacia los que están dentro. Arde durante una hora."
+  },
+  {
+    "nombre": "Polvo Iridiscente",
+    "tier": 1,
+    "descripcion": "Este polvo multicolor se adhiere a todo e impide que las criaturas cubiertas por él puedan quedar Ocultas."
+  },
+  {
+    "nombre": "Semilla Verglasiana",
+    "tier": 1,
+    "descripcion": "Puedes usar este fragmento de hielo para congelar instantáneamente una superficie de agua hasta distancia Cercana."
+  },
+  {
+    "nombre": "Bezoar del Copero",
+    "tier": 1,
+    "descripcion": "Puedes tragar este bezoar para volverte inmune a los venenos hasta tu próximo descanso largo."
+  },
+  {
+    "nombre": "Poción del Manto de Musgo",
+    "tier": 1,
+    "descripcion": "Puedes beber este té para mimetizarte a la perfección con entornos naturales hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Pastilla del Ave Lira",
+    "tier": 1,
+    "descripcion": "Puedes disolver esta pastilla en tu boca para imitar con exactitud cualquier voz que hayas escuchado hasta el final de la escena."
+  },
+  {
+    "nombre": "Vial de Caída de Pluma",
+    "tier": 1,
+    "descripcion": "Puedes beber esta poción para ignorar todo el daño por caída durante los siguientes 10 minutos."
+  },
+  {
+    "nombre": "Saliva Quimérica",
+    "tier": 1,
+    "descripcion": "Puedes aplicar esta saliva a un arma que inflija daño físico para transformar su tipo de daño a mágico hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Paquete de Polvo Cósmico",
+    "tier": 1,
+    "descripcion": "Este polvo hace que cualquier objeto que cubra se vuelva más ligero que el aire. Contiene suficiente polvo para cubrir el contenido de una canasta y sus efectos duran una hora."
+  },
+  {
+    "nombre": "Hierba de Pipa",
+    "tier": 1,
+    "descripcion": "Cuando elijas el movimiento de Despejar Estrés durante un descanso corto, puedes fumar esta hoja no intoxicante para despejar 1 de Estrés adicional. Cualquier otro PJ que también elija ese movimiento recibe este beneficio."
+  },
+  {
+    "nombre": "Polvo del Vidente de la Muerte",
+    "tier": 1,
+    "descripcion": "Puedes esparcir este polvo sobre un cadáver reciente para conjurar una recreación espectral de su último minuto de vida."
+  },
+  {
+    "nombre": "Sal del Cazador",
+    "tier": 1,
+    "descripcion": "Puedes trazar una línea con esta sal en umbrales o alféizares para crear una barrera mágica que los no-muertos no pueden cruzar hasta que la línea se rompa."
+  },
+  {
+    "nombre": "Leche de Yakamello",
+    "tier": 1,
+    "descripcion": "Tras consumir esta leche, la próxima vez que despejes 1 o más Puntos de Golpe (HP), despejas 1 Punto de Golpe adicional."
+  },
+  {
+    "nombre": "Hongo Musgo Brillante",
+    "tier": 1,
+    "descripcion": "Puedes partir este hongo en trozos para que emita una intensa luz azul brillante hasta tu próximo descanso largo."
+  },
+  {
+    "nombre": "Aceite de Cieno Rojo",
+    "tier": 1,
+    "descripcion": "Puedes ungir tu arma en este aceite. El siguiente ataque exitoso con ella inflige 1d8 de daño mágico adicional e Incendia temporalmente al objetivo. Mientras arda, el objetivo sufre 1d4 de daño mágico cada vez que tome el foco de acción."
+  },
+  {
+    "nombre": "Campamento Instantáneo",
+    "tier": 2,
+    "descripcion": "Puedes desplegar esta pequeña caja mecánica en una tienda de campaña espaciosa y segura para seis personas. La tienda se pliega sola al concluir tu próximo descanso largo."
+  },
+  {
+    "nombre": "Manojo de Patas de Araña",
+    "tier": 2,
+    "descripcion": "Puedes comer estas patas de araña para caminar por paredes y techos con total soltura hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Botella de Niebla Ciscana",
+    "tier": 2,
+    "descripcion": "Puedes romper esta botella para llenar una zona a distancia Cercana con neblina mágica. Una criatura que penetre en la niebla despeja 1 de Estrés y queda Oculta."
+  },
+  {
+    "nombre": "Semilla de Espinarrápida",
+    "tier": 2,
+    "descripcion": "Puedes arrojar esta semilla a un punto visible. Estalla en una maraña de enredaderas que Inmoviliza temporalmente a todas las criaturas a distancia Cercana de ese punto."
+  },
+  {
+    "nombre": "Frasco del Duendecillo",
+    "tier": 2,
+    "descripcion": "Al marcar tu último Punto de Golpe (HP), el frasco estalla liberando al duendecillo de su interior. Este despeja todos tus Puntos de Golpe antes de desvanecerse del Reino Mortal."
+  },
+  {
+    "nombre": "Bomba de Gravedad",
+    "tier": 2,
+    "descripcion": "Puedes arrojar este orbe mecánico a un punto a distancia Lejana. Implosiona arrastrando a todas las criaturas y objetos a distancia Cercana hacia el punto central a distancia Cuerpo a cuerpo."
+  },
+  {
+    "nombre": "Flor Chismosa",
+    "tier": 2,
+    "descripcion": "Puedes plantar esta semilla en tierra. Brota al instante en una pequeña flor que graba todo lo que escucha hasta por una semana. Al arrancarla, recita lo grabado en tiempo real y luego se marchita."
+  },
+  {
+    "nombre": "Ficha de Desplazamiento",
+    "tier": 2,
+    "descripcion": "Puedes tragar esta ficha para conjurar dos copias ilusorias de ti mismo que puedes controlar. Cada ilusión perdura hasta que reciba daño o hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Polvo de la Bruja Nocturna",
+    "tier": 2,
+    "descripcion": "Puedes soplar este polvo al rostro de un adversario para impedir que despeje Estrés hasta tu próximo descanso largo."
+  },
+  {
+    "nombre": "Hilo Autocosedor",
+    "tier": 2,
+    "descripcion": "Puedes usar este hilo mágico para despejar 1 Punto de Golpe (HP) o 2 ranuras de Armadura."
+  },
+  {
+    "nombre": "Fortuna del Cantero",
+    "tier": 2,
+    "descripcion": "Al arrojar este ladrillo gris al suelo, crece al instante formando un muro de piedra sólida de 1,8 m de alto, 3 m de ancho y 60 cm de grosor."
+  },
+  {
+    "nombre": "Poción Mnemónica",
+    "tier": 2,
+    "descripcion": "Puedes beber esta poción para Utilizar una Experiencia sin tener que gastar Esperanza."
+  },
+  {
+    "nombre": "Ungüento de Salamandra",
+    "tier": 2,
+    "descripcion": "Puedes untar este ungüento en tu piel para volverte inmune al calor y fuego común hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Aceite de Cieno Verde",
+    "tier": 2,
+    "descripcion": "Puedes ungir tu arma en este aceite. El siguiente ataque exitoso inflige 1d8 de daño mágico adicional y Corroe temporalmente al objetivo, aplicándole una penalización de −2 a sus umbrales de daño."
+  },
+  {
+    "nombre": "Orbe de Luz Solar",
+    "tier": 2,
+    "descripcion": "Puedes romper este orbe para que un área a distancia Muy Lejana se ilumine como si fuera pleno día soleado durante las siguientes 24 horas."
+  },
+  {
+    "nombre": "Orbe de Luz Lunar",
+    "tier": 3,
+    "descripcion": "Puedes romper este orbe para que un área a distancia Muy Lejana se oscurezca como si fuera una noche de luna llena durante las siguientes 24 horas."
+  },
+  {
+    "nombre": "Frasco de Midas",
+    "tier": 3,
+    "descripcion": "Puedes verter este líquido alquímico sobre un objeto mundano para transmutarlo al instante en un puñado de oro."
+  },
+  {
+    "nombre": "Báculo de Reversión",
+    "tier": 3,
+    "descripcion": "Puedes quebrar este báculo contra el suelo para revertir una transformación o efecto mágico a distancia Lejana."
+  },
+  {
+    "nombre": "Brebaje del Bersérker",
+    "tier": 3,
+    "descripcion": "Al beber este trago, obtienes un bonificador a tu Fuerza y una penalización a tu Destreza y Conocimiento igual a tu Instinto (mínimo 1). Dura hasta tu próximo descanso o hasta que hagas un movimiento de muerte."
+  },
+  {
+    "nombre": "Fragmento de Ascuasol",
+    "tier": 3,
+    "descripcion": "Elige un punto a distancia Lejana. Todos los objetivos a distancia Cercana de ese punto deben superar una Tirada de Reacción (16) o sufrir 3d6 de daño mágico y quedar En Llamas. Mientras arda, una criatura debe tirar 1d4 con cada tirada de acción: con 1 marca 1 HP, con 4 extingue el fuego."
+  },
+  {
+    "nombre": "Fragmento de Criocita",
+    "tier": 3,
+    "descripcion": "Elige un punto a distancia Lejana. Todos los objetivos a distancia Cercana de ese punto deben superar una Tirada de Reacción (16) o sufrir 3d6 de daño mágico y quedar temporalmente Inmovilizados por el hielo."
+  },
+  {
+    "nombre": "Fragmento de Fulgurita",
+    "tier": 3,
+    "descripcion": "Elige un punto a distancia Lejana. Todos los objetivos a distancia Cercana de ese punto deben superar una Tirada de Reacción (16) o sufrir 3d6 de daño mágico y marcar 1d4 de Estrés por los relámpagos que azotan la zona."
+  },
+  {
+    "nombre": "Trago del Demiurgo",
+    "tier": 3,
+    "descripcion": "Puedes beber este trago para ganar un bonificador de +1 a tu Competencia en tu siguiente tirada de ataque exitosa."
+  },
+  {
+    "nombre": "Té de Garra de Gallo",
+    "tier": 3,
+    "descripcion": "Puedes beber este té para renovar y reactivar todas tus habilidades y características como si hubieses tomado un descanso largo."
+  },
+  {
+    "nombre": "Poción de Vigilancia",
+    "tier": 3,
+    "descripcion": "Puedes beber esta poción para ganar un bonificador de +1 a tu Evasión hasta que marques algún Punto de Golpe (HP)."
+  },
+  {
+    "nombre": "Mezcla Cacofónica",
+    "tier": 3,
+    "descripcion": "Al beber esta poción, cualquier cosa que digas o hagas durante la siguiente hora resultará imposible de relatar para cualquier testigo. Sus intentos de comunicarlo saldrán como balbuceos incoherentes."
+  },
+  {
+    "nombre": "Hidromiel de Pesadillas",
+    "tier": 3,
+    "descripcion": "Puedes beber este hidromiel para descubrir el miedo más profundo de la siguiente persona con la que cruces miradas. Al hacerlo, el DJ gana 1 de Miedo."
+  },
+  {
+    "nombre": "Estaca de Abjuración",
+    "tier": 3,
+    "descripcion": "Puedes clavar esta estaca en el suelo y proclamar un mandato. Hasta tu próximo descanso, cualquier criatura a distancia Lejana que infrinja la proclama debe marcar 1 de Estrés. La estaca se quiebra en tu siguiente descanso."
+  },
+  {
+    "nombre": "Sudario del Psicopompo",
+    "tier": 3,
+    "descripcion": "Puedes colocar este sudario sobre el cadáver de una criatura recién fallecida. Su espíritu entra en el sudario y se convierte en tu sirviente espectral hasta el siguiente amanecer, momento en que cruza el velo de la muerte llevándose el sudario."
+  },
+  {
+    "nombre": "Redoma de Tinta Abisal",
+    "tier": 3,
+    "descripcion": "Puedes beber esta tinta para transformarte en un cefalópodo de tu tamaño durante una hora. Adquieres piel elástica, huesos blandos, respiración acuática y extremidades adicionales hasta tener ocho tentáculos."
+  },
+  {
+    "nombre": "Tónico del Hipnotista",
+    "tier": 4,
+    "descripcion": "Al beber este tónico, lo único que puedes oír hasta tu próximo descanso son los pensamientos superficiales de las criaturas a distancia Muy Cercana."
+  },
+  {
+    "nombre": "Poción de Invisibilidad",
+    "tier": 4,
+    "descripcion": "Quedas Oculto hasta que inflijas daño a otra criatura o hasta tu próximo descanso."
+  },
+  {
+    "nombre": "Suero Formoide",
+    "tier": 4,
+    "descripcion": "Puedes beber esta poción para transformarte en un enjambre de 16 millones de hormigas hasta el final de la escena. Conservas y tienes acceso a todo tu equipo, botín y habilidades."
+  },
+  {
+    "nombre": "Ungüento de Piel de Acero",
+    "tier": 4,
+    "descripcion": "Puedes aplicar este ungüento a tu piel para obtener un bonificador a tus umbrales de daño igual a tu Tier hasta el final de la escena."
+  },
+  {
+    "nombre": "Pomelo de la Divinidad Menor",
+    "tier": 4,
+    "descripcion": "Puedes comer este fruto cítrico para despejar todos tus Puntos de Golpe (HP) y todo tu Estrés."
+  },
+  {
+    "nombre": "Licor de Piel de Serpiente",
+    "tier": 4,
+    "descripcion": "Puedes beber este licor para mudar completamente tu capa externa de piel y sanar una cicatriz."
+  },
+  {
+    "nombre": "Maldición del Taumaturgo",
+    "tier": 4,
+    "descripcion": "Al liberar el alma atrapada de este hechicero, puedes lanzar un hechizo de una carta en tu bóveda como si estuviese en tu mazo activo (no funciona para cartas en bóveda permanente)."
+  },
+  {
+    "nombre": "Filo de Corte Primordial",
+    "tier": 4,
+    "descripcion": "Puedes usar esta hoja mágica para cortar un vínculo mágico o metafísico (encantamiento, contrato, lazo arcano o juramento divino). Tras cortar el lazo, la hoja se quiebra."
+  },
+  {
+    "nombre": "Máscara del Yo Espectral",
+    "tier": 4,
+    "descripcion": "Puedes usar esta máscara durante tu siguiente subida de nivel para intercambiar los valores de cualquiera de tus atributos. Al hacerlo, la máscara se funde y se convierte en tu rostro definitivo."
+  },
+  {
+    "nombre": "Campana del Nigromante Galopante",
+    "tier": 4,
+    "descripcion": "Puedes quebrar esta campana oxidada contra el suelo para invocar un corcel esquelético que surge de la tierra y te sirve fielmente hasta el próximo amanecer."
+  },
+  {
+    "nombre": "Manto del Dragón Antiguo",
+    "tier": 4,
+    "descripcion": "Puedes usar este cuero de dragón ancestral para adoptar rasgos dracónicos hasta el final de la escena, momento en que el cuero se deshace en harapos. Hasta entonces, puedes volar, ganas +5 a tus umbrales de daño y +1 a tu Competencia."
+  },
+  {
+    "nombre": "Falacia del Jugador",
+    "tier": 4,
+    "descripcion": "Introduce cualquier cantidad de puñados de oro en esta alcancía de cerámica con forma de cerdo. Al arrojarla a un punto a distancia Lejana, estalla e inflige 1d20 de daño mágico por cada puñado de oro gastado a todas las criaturas a distancia Cercana. Todo el oro se destruye."
+  },
+  {
+    "nombre": "Tónico del Corazón de León",
+    "tier": 4,
+    "descripcion": "Puedes beber este tónico para obtener un bonificador de +1 a tu Competencia hasta que realices una tirada con Miedo."
+  },
+  {
+    "nombre": "Lágrimas del Héroe Inmortal",
+    "tier": 4,
+    "descripcion": "Al beber esta poción, la muerte no puede tocarte hasta tu próximo descanso largo. Cuando fueses a marcar tu último HP, en lugar de una tirada de muerte, haces una tirada de acción final antes de caer en un sueño profundo hasta que un aliado elija el movimiento Atender Heridas para despejar tus Puntos de Golpe."
+  },
+  {
+    "nombre": "Poción de Paso Plumífero",
+    "tier": 4,
+    "descripcion": "Puedes beber esta poción para que broten pequeñas alas en tus tobillos que te otorgan una bonificación a tu Evasión igual a tu Tier hasta tu próximo descanso."
+  }
+]

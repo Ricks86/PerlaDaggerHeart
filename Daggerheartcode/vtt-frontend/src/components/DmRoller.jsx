@@ -63,6 +63,8 @@ export default function DmRoller() {
     );
   }
 
+  const adversaryName = selectedAdversary.nombreInstancia || selectedAdversary.nombre || 'Adversario';
+  const adversaryMod = selectedAdversary.modAtaque ?? selectedAdversary.modificadorAtaque ?? 0;
   const parsedFormula = parseDamageFormula(selectedAdversary.danoEstandar);
   const maxDiceBonus = parsedFormula.numDice * parsedFormula.dieSides;
 
@@ -73,7 +75,7 @@ export default function DmRoller() {
     if (!connected) return;
 
     const naturalD20 = randomInt(1, 20);
-    const mod = selectedAdversary.modificadorAtaque || 0;
+    const mod = adversaryMod;
     const total = naturalD20 + mod;
     const isCritical = naturalD20 === 20;
 
@@ -85,7 +87,7 @@ export default function DmRoller() {
     const modSign = mod >= 0 ? `+${mod}` : `${mod}`;
     const critText = isCritical ? ' ¡Éxito Crítico!' : '';
 
-    const resultMessage = `${selectedAdversary.nombre} ataca: d20(${naturalD20}) + Mod(${modSign}) = ${total}${critText}`;
+    const resultMessage = `${adversaryName} ataca: d20(${naturalD20}) + Mod(${modSign}) = ${total}${critText}`;
 
     setLastAttackResult({
       naturalD20,
@@ -98,7 +100,7 @@ export default function DmRoller() {
 
     sendTableAction('ROLL', 'Dungeon Master', {
       result: resultMessage,
-      adversary: selectedAdversary.nombre,
+      adversary: adversaryName,
       type: 'ATTACK',
       naturalD20,
       total,
@@ -129,7 +131,7 @@ export default function DmRoller() {
       ? ` + Crítico Máx(${maxDiceBonus})`
       : '';
 
-    const resultMessage = `${selectedAdversary.nombre} inflige daño${isCritManual ? ' CRÍTICO' : ''}: [${rolls.join(', ')}]${critText} + Mod(${modSign}) = ${total} de daño`;
+    const resultMessage = `${adversaryName} inflige daño${isCritManual ? ' CRÍTICO' : ''}: [${rolls.join(', ')}]${critText} + Mod(${modSign}) = ${total} de daño`;
 
     setLastDamageResult({
       rolls,
@@ -143,7 +145,7 @@ export default function DmRoller() {
 
     sendTableAction('ROLL', 'Dungeon Master', {
       result: resultMessage,
-      adversary: selectedAdversary.nombre,
+      adversary: adversaryName,
       type: 'DAMAGE',
       rolls,
       total,
@@ -163,10 +165,10 @@ export default function DmRoller() {
       <div style={styles.adversaryHeader}>
         <div style={styles.adversaryInfo}>
           <span style={styles.adversaryPreTitle}>Adversario Activo</span>
-          <h3 style={styles.adversaryTitle}>{selectedAdversary.nombre}</h3>
+          <h3 style={styles.adversaryTitle}>{adversaryName}</h3>
         </div>
         <div style={styles.statTags}>
-          <span style={styles.tag}>Mod. Ataque: <strong>+{selectedAdversary.modificadorAtaque}</strong></span>
+          <span style={styles.tag}>Mod. Ataque: <strong>+{adversaryMod}</strong></span>
           <span style={styles.tag}>Fórmula Daño: <strong>{selectedAdversary.danoEstandar}</strong></span>
         </div>
       </div>
@@ -180,7 +182,7 @@ export default function DmRoller() {
         >
           <span style={styles.btnIcon}>⚔️</span>
           <span style={styles.btnText}>TIRADA DE ATAQUE</span>
-          <span style={styles.btnSubtext}>1d20 + {selectedAdversary.modificadorAtaque}</span>
+          <span style={styles.btnSubtext}>1d20 + {adversaryMod}</span>
         </button>
 
         <button

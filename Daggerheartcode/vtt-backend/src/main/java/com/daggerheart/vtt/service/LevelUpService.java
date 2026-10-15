@@ -62,14 +62,12 @@ public class LevelUpService {
             character.getTierProgression().resetForNewTier();
         }
 
-        // 2. Carta de Dominio Obligatoria por nivel
+        // 2. Carta de Dominio Obligatoria por nivel (Sprint 26: Loadout límite 5, de lo contrario Bóveda)
         Long domainCardId = resolveCardId(request.getDomainCard(), request.getDomainCardId());
         if (domainCardId == null) {
             throw new IllegalArgumentException("Debe seleccionar una carta de dominio obligatoria al subir de nivel.");
         }
-        if (!character.getCartasActivasIds().contains(domainCardId)) {
-            character.getCartasActivasIds().add(domainCardId);
-        }
+        addDomainCardToCharacter(character, domainCardId);
 
         // 3. Validación de exactamente 2 selecciones de la bolsa
         List<LevelUpOptionSelection> options = request.getOptions();
@@ -174,9 +172,7 @@ public class LevelUpService {
                 if (extraId == null) {
                     throw new IllegalArgumentException("Debe especificar la carta de dominio extra para EXTRA_DOMAIN_CARD.");
                 }
-                if (!character.getCartasActivasIds().contains(extraId)) {
-                    character.getCartasActivasIds().add(extraId);
-                }
+                addDomainCardToCharacter(character, extraId);
                 tp.setExtraDomainCardsCount(tp.getExtraDomainCardsCount() + 1);
             }
             case INCREASE_EVASION -> {
@@ -219,5 +215,27 @@ public class LevelUpService {
             return saved.getId();
         }
         return null;
+    }
+
+    private void addDomainCardToCharacter(PlayerCharacter character, Long cardId) {
+        if (cardId == null) return;
+        Card card = null;
+        if (cardRepo != null) {
+            card = cardRepo.findById(cardId).orElse(null);
+        }
+        if (card == null) {
+            card = new Card();
+            card.setId(cardId);
+            card.setTitulo("Carta " + cardId);
+            card.setTipo("Dominio");
+        }
+        if (character.getLoadout().size() < 5) {
+            character.getLoadout().add(card);
+            if (!character.getCartasActivasIds().contains(cardId)) {
+                character.getCartasActivasIds().add(cardId);
+            }
+        } else {
+            character.getBoveda().add(card);
+        }
     }
 }

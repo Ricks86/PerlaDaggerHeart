@@ -1,75 +1,47 @@
-# Daggerheart VTT — Sprint 1: Infraestructura Base
+# Daggerheart VTT — Versión 1.0
 
-## Estructura del Proyecto
+Plataforma Virtual Tabletop (VTT) diseñada específicamente para el sistema de rol **Daggerheart** (Darrington Press). Cuenta con sincronización bidireccional en tiempo real vía WebSocket, persistencia de base de datos relacional (PostgreSQL / H2) y una interfaz React optimizada con estética de fantasía oscura y pergamino antiguo.
 
-```
-Daggerheartcode/
-├── vtt-backend/                   # Spring Boot (Puerto 8080)
-│   ├── pom.xml
-│   └── src/main/java/com/daggerheart/vtt/
-│       ├── VttBackendApplication.java
-│       ├── config/
-│       │   └── WebSocketConfig.java    # STOMP + SockJS
-│       ├── controller/
-│       │   └── TableController.java    # Relay WebSocket
-│       └── dto/
-│           └── TableAction.java        # DTO genérico
-│
-└── vtt-frontend/                  # React JSX (Puerto 3000)
-    └── src/
-        ├── App.jsx                     # Raíz con Provider
-        ├── context/
-        │   └── WebSocketContext.jsx    # Estado global WS
-        └── components/
-            ├── SharedRollLog.jsx       # Historial de mesa
-            └── TestRoller.jsx          # Panel de prueba
-```
+> 🗺️ **Mapa Maestro del Código**: Consulta el archivo [**`CODEBASE_MAP.md`**](./CODEBASE_MAP.md) para un inventario completo de archivos, guías de búsqueda rápida («si quieres cambiar X, ve a Y»), flujo de canales WebSocket y reglas de negocio implementadas.
 
-## Levantar el Proyecto
+---
 
-### 1. Backend
+## 🚀 Cómo Levantar la Aplicación
+
+### Opción 1: Ejecutar el JAR autónomo unificado (Recomendado)
+El archivo JAR autoejecutable ya incluye el frontend compilado con Vite y empaquetado en el servidor Spring Boot:
+
 ```bash
 cd vtt-backend
-./mvnw spring-boot:run
-# → Servidor en http://localhost:8080
-# → H2 Console en http://localhost:8080/h2-console
+java -jar target/vtt-backend-0.0.1-SNAPSHOT.jar
+```
+- La aplicación completa estará disponible de inmediato en **`http://localhost:8080`**.
+
+---
+
+### Opción 2: Modo Desarrollo (Hot-Reload)
+
+#### 1. Backend (Spring Boot en Puerto 8080)
+```bash
+cd vtt-backend
+mvn spring-boot:run
 ```
 
-### 2. Frontend
+#### 2. Frontend (Vite en Puerto 3000 con proxy a 8080)
 ```bash
 cd vtt-frontend
 npm install
-npm start
-# → App en http://localhost:3000
+npm run dev
 ```
 
-## Flujo de Mensajes WebSocket
+---
 
-```
-[Cliente] → SEND /app/action → [TableController] → BROADCAST /topic/table → [Todos los Clientes]
-```
+## ⚔️ Características Principales (v1.0)
 
-## Cómo Probar la Sincronización
-
-1. Abre **2 o más pestañas** en `http://localhost:3000`
-2. En cada pestaña escribe un nombre de jugador diferente
-3. Haz clic en **"Tirar D20 de Prueba"** desde cualquier pestaña
-4. Observa el resultado aparecer en **todas las pestañas simultáneamente**
-
-## Stack
-
-| Capa | Tecnología |
-|---|---|
-| Backend | Java 21 + Spring Boot 3.3.4 |
-| WebSocket | Spring WebSocket + STOMP |
-| Base de Datos | H2 (embebida, en memoria) |
-| Frontend | React 18 (JSX puro) |
-| WS Client | SockJS + @stomp/stompjs |
-| Estado Global | Context API + useReducer |
-
-## Próximos Sprints
-
-- **Sprint 2**: Entidades de datos (Character, Card, Item, Adversary) + persistencia H2
-- **Sprint 3**: Motor Duality Roll (2d12 + mod) + Custom Roll (dados apilables)
-- **Sprint 4**: Fichas de personaje con rastreadores visuales (HP, Estrés, Esperanza)
-- **Sprint 5**: Herramientas asimétricas del DJ + creador de NPCs
+1. **Motor Duality Roll**: Tiradas con dados de Esperanza y Miedo (2d12 + mod) con cálculo automático de éxitos con esperanza o fallos/éxitos con miedo.
+2. **Reserva de Miedo Global (Fear Pool)**: Conexión reactiva en tiempo real; las tiradas con Miedo incrementan automáticamente la reserva del DJ, con soporte para gasto regular, modo silencioso y purga.
+3. **Relojes de Cuenta Atrás (Countdowns)**: Temporizadores narrativos de peligro sincronizados en tiempo real y persistidos en la base de datos.
+4. **Deck de Pergamino Antiguo & Bóveda**: Panel de cartas con estética medieval, límite estricto de 5 cartas de dominio en Loadout, y exención de ranuras para cartas Homebrew.
+5. **Forja de Héroes Guiada (Nivel 1)**: Asistente modular de 5 pasos para crear personajes respetando matriz estándar, dominios de clase y auto-equipado inteligente con regla de armas a 2 manos.
+6. **Panel Asimétrico del DJ & Bestiario**: Grid táctico de hasta 15 adversarios simultáneos, catálogo de criaturas con invocación de 1 a 5 copias y creación de monstruos.
+7. **Compendio de Reglas & Forja de Ítems**: Catálogos oficiales de cartas, armas, armaduras y consumibles con caché centralizada en memoria (0 ms de latencia).

@@ -35,8 +35,19 @@ export function useWebSocket() {
  */
 export function WebSocketProvider({ children }) {
   const [tableLog, setTableLog] = useState([]);
+  const [tableState, setTableState] = useState({ id: 1, fearPool: 0, countdowns: [] });
   const [connected, setConnected] = useState(false);
   const clientRef = useRef(null);
+
+  // Carga inicial del estado de la mesa vía REST
+  useEffect(() => {
+    fetch('/api/table-state')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setTableState(data);
+      })
+      .catch((err) => console.warn('[VTT] No se pudo cargar table-state inicial:', err));
+  }, []);
 
   useEffect(() => {
     // -------------------------------------------------------------------------
@@ -59,7 +70,7 @@ export function WebSocketProvider({ children }) {
         console.log('[VTT] WebSocket conectado ✓');
         setConnected(true);
 
-        // Suscripción al canal compartido de la mesa
+        // Suscripción al canal compartido de la mesa (logs, tiradas, eventos)
         stompClient.subscribe('/topic/table', (message) => {
           try {
             const action = JSON.parse(message.body);
@@ -72,6 +83,16 @@ export function WebSocketProvider({ children }) {
             setTableLog((prev) => [...prev, actionWithTimestamp]);
           } catch (err) {
             console.error('[VTT] Error al parsear mensaje:', err);
+          }
+        });
+
+        // Suscripción al estado de la mesa en tiempo real (Fear Pool y Countdowns)
+        stompClient.subscribe('/topic/table-state', (message) => {
+          try {
+            const state = JSON.parse(message.body);
+            if (state) setTableState(state);
+          } catch (err) {
+            console.error('[VTT] Error al parsear table-state:', err);
           }
         });
       },
@@ -133,6 +154,8 @@ export function WebSocketProvider({ children }) {
     tableLog,
     sendTableAction,
     connected,
+    tableState,
+    setTableState,
   };
 
   return (

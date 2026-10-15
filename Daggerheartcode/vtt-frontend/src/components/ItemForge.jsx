@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useItems } from '../context/CompendiumContext';
 
 /**
  * ItemForge: Herramienta del Dungeon Master para crear y catalogar
@@ -27,30 +28,10 @@ export default function ItemForge() {
   // Campos específicos de Consumible
   const [descripcion, setDescripcion] = useState('');
 
-  // Estado del catálogo y feedback
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // Estado del catálogo en caché y feedback
+  const { items, loading, refresh: refreshItems } = useItems();
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(null);
-
-  // Cargar catálogo existente
-  const loadItems = () => {
-    setLoading(true);
-    fetch('/api/items')
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => {
-        setItems(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('[ItemForge] Error al cargar ítems:', err);
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    loadItems();
-  }, []);
 
   const resetForm = () => {
     setNombre('');
@@ -130,7 +111,7 @@ export default function ItemForge() {
         message: `✓ ¡"${saved.nombre}" forjado con éxito como ${saved.tipo}!`,
       });
       resetForm();
-      loadItems();
+      refreshItems();
     } catch (err) {
       console.error('[ItemForge] Error al crear ítem:', err);
       setFeedback({
@@ -148,7 +129,7 @@ export default function ItemForge() {
     try {
       const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
       if (res.ok) {
-        setItems((prev) => prev.filter((it) => it.id !== id));
+        refreshItems();
         setFeedback({ type: 'success', message: `✓ "${itemNombre}" eliminado.` });
         setTimeout(() => setFeedback(null), 3000);
       }

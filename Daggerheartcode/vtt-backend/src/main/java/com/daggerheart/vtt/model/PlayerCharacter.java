@@ -29,8 +29,10 @@ public class PlayerCharacter {
     // -------------------------------------------------------------------------
     // Identidad narrativa
     // -------------------------------------------------------------------------
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
+
+    private boolean esHomebrew = false;
 
     private int nivel;
     private String clase;
@@ -85,6 +87,28 @@ public class PlayerCharacter {
     )
     @Column(name = "card_id")
     private List<Long> cartasActivasIds = new ArrayList<>();
+
+    /**
+     * Mazo Activo de cartas de dominio equipadas (Sprint 26: máximo 5 cartas).
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "character_loadout",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
+    private Set<Card> loadout = new LinkedHashSet<>();
+
+    /**
+     * Bóveda de reserva de cartas de dominio (Sprint 26: sin límite).
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "character_vault",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
+    private Set<Card> boveda = new LinkedHashSet<>();
 
     // -------------------------------------------------------------------------
     // Equipamiento activo y polimorfismo de inventario (Sprint 11)
@@ -175,6 +199,26 @@ public class PlayerCharacter {
     public List<Long> getCartasActivasIds() { return cartasActivasIds; }
     public void setCartasActivasIds(List<Long> cartasActivasIds) { this.cartasActivasIds = cartasActivasIds; }
 
+    public Set<Card> getLoadout() {
+        if (loadout == null) {
+            loadout = new LinkedHashSet<>();
+        }
+        return loadout;
+    }
+    public void setLoadout(Set<Card> loadout) {
+        this.loadout = loadout != null ? loadout : new LinkedHashSet<>();
+    }
+
+    public Set<Card> getBoveda() {
+        if (boveda == null) {
+            boveda = new LinkedHashSet<>();
+        }
+        return boveda;
+    }
+    public void setBoveda(Set<Card> boveda) {
+        this.boveda = boveda != null ? boveda : new LinkedHashSet<>();
+    }
+
     public Arma getArmaPrincipal() { return armaPrincipal; }
     public void setArmaPrincipal(Arma armaPrincipal) { this.armaPrincipal = armaPrincipal; }
 
@@ -205,4 +249,7 @@ public class PlayerCharacter {
 
     public String getNotas() { return notas != null ? notas : ""; }
     public void setNotas(String notas) { this.notas = notas; }
+
+    public boolean isEsHomebrew() { return esHomebrew; }
+    public void setEsHomebrew(boolean esHomebrew) { this.esHomebrew = esHomebrew; }
 }

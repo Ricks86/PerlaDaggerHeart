@@ -136,6 +136,17 @@ export default function EquipmentManager() {
         });
       }
 
+      // Si fue consumido/usado, emitir acción al WebSocket (Historial de Mesa)
+      if (isConsumable && sendTableAction) {
+        sendTableAction('ITEM_USED', character.nombre || 'Jugador', {
+          id: item.id,
+          nombre: item.nombre,
+          tipo: item.tipo || 'Consumible',
+          tier: item.tier || 1,
+          descripcion: item.descripcion || item.rasgoEspecial || '',
+        });
+      }
+
       setFeedbackMsg(isConsumable ? `✓ "${item.nombre}" consumido` : `✓ "${item.nombre}" descartado`);
       setTimeout(() => setFeedbackMsg(null), 2500);
     } catch (err) {
@@ -402,7 +413,7 @@ export default function EquipmentManager() {
         <div style={styles.quickInventoryColumn}>
           <div style={styles.inventoryHeaderRow}>
             <span style={styles.inventoryTitle}>🎒 Inventario</span>
-            <span style={styles.inventoryCountBadge}>{inventario.length}</span>
+            <span style={styles.inventoryCountBadge}>{inventario.length}/20</span>
           </div>
 
           <div style={styles.inventoryScrollList}>
@@ -495,7 +506,7 @@ export default function EquipmentManager() {
                       )}
 
                       <button
-                        onClick={() => handleDiscard(item, isConsumible)}
+                        onClick={() => handleDiscard(item, false)}
                         disabled={isPatching}
                         style={styles.btnDiscardAction}
                         title={isConsumible ? 'Descartar sin consumir' : 'Descartar del inventario'}

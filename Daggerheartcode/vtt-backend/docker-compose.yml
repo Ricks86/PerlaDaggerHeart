@@ -1,0 +1,17 @@
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: daggerheart-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: daggerheart_db
+      POSTGRES_USER: dagger_admin
+      POSTGRES_PASSWORD: dagger_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - daggerheart_pgdata:/var/lib/postgresql/data
+
+volumes:
+  daggerheart_pgdata:
+    driver: local

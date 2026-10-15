@@ -3,20 +3,27 @@ import { WebSocketProvider } from './context/WebSocketContext';
 import { CharacterProvider, useCharacter } from './context/CharacterContext';
 import { DiceProvider } from './context/DiceContext';
 import { DmProvider } from './context/DmContext';
+import { CompendiumProvider } from './context/CompendiumContext';
 
 // Componentes del Jugador
 import CharacterHeader from './components/CharacterHeader';
 import DiceRoller from './components/DiceRoller';
 import ResourceTracker from './components/ResourceTracker';
-import CardVault from './components/CardVault';
+import DomainCardsPanel from './components/DomainCardsPanel';
 import SharedRollLog from './components/SharedRollLog';
 import PlayerDashboard from './components/PlayerDashboard';
-import CharacterCreator from './components/CharacterCreator';
 import PlayerNotes from './components/PlayerNotes';
+import LoadingFallback from './components/LoadingFallback';
+
+// Carga diferida (Code-Splitting) para vistas y módulos pesados
+const CharacterCreator = React.lazy(() => import('./components/CharacterCreator'));
+const DmPanel = React.lazy(() => import('./components/DmPanel'));
 
 // Componentes del Dungeon Master
-import DmPanel from './components/DmPanel';
 import DmLogin from './components/DmLogin';
+
+// Barra Global de Miedo y Relojes (Sprint 28)
+import GlobalFearAndCountdownsBar from './components/GlobalFearAndCountdownsBar';
 
 /**
  * AppContent: Maneja la navegación global entre el Lobby del Jugador,
@@ -81,6 +88,11 @@ function AppContent() {
       </header>
 
       {/* ------------------------------------------------------------ */}
+      {/* Barra Global: Reserva de Miedo y Relojes (Sprint 28)         */}
+      {/* ------------------------------------------------------------ */}
+      <GlobalFearAndCountdownsBar isDm={viewMode === 'DM' && isAuthenticatedAsDm} />
+
+      {/* ------------------------------------------------------------ */}
       {/* VISTA DEL JUGADOR: DASHBOARD vs GAME vs CREATOR             */}
       {/* ------------------------------------------------------------ */}
       {viewMode === 'PLAYER' && (
@@ -95,13 +107,15 @@ function AppContent() {
 
           {/* Subvista 2: Forja de Héroes (Wizard) */}
           {playerSubView === 'CREATOR' && (
-            <CharacterCreator
-              onComplete={(newHero) => {
-                selectCharacter(newHero);
-                setPlayerSubView('GAME');
-              }}
-              onCancel={() => setPlayerSubView('DASHBOARD')}
-            />
+            <React.Suspense fallback={<LoadingFallback message="Cargando Forja de Héroes..." />}>
+              <CharacterCreator
+                onComplete={(newHero) => {
+                  selectCharacter(newHero);
+                  setPlayerSubView('GAME');
+                }}
+                onCancel={() => setPlayerSubView('DASHBOARD')}
+              />
+            </React.Suspense>
           )}
 
           {/* Subvista 3: Mesa de Juego Principal */}
@@ -129,9 +143,9 @@ function AppContent() {
               </div>
 
 
-              {/* Bóveda y Mano Activa de cartas */}
+              {/* Mazo Activo (Loadout) y Bóveda de Dominio (Sprint 26) */}
               <section style={styles.cardSection}>
-                <CardVault />
+                <DomainCardsPanel />
               </section>
             </>
           )}
@@ -144,7 +158,9 @@ function AppContent() {
       {viewMode === 'DM' && (
         <main style={styles.dmMain}>
           {isAuthenticatedAsDm ? (
-            <DmPanel />
+            <React.Suspense fallback={<LoadingFallback message="Iniciando Pantalla del Dungeon Master..." />}>
+              <DmPanel />
+            </React.Suspense>
           ) : (
             <DmLogin
               onLoginSuccess={() => setIsAuthenticatedAsDm(true)}
@@ -173,7 +189,9 @@ export default function App() {
       <DmProvider>
         <DiceProvider>
           <CharacterProvider initialCharacterId={1}>
-            <AppContent />
+            <CompendiumProvider>
+              <AppContent />
+            </CompendiumProvider>
           </CharacterProvider>
         </DiceProvider>
       </DmProvider>

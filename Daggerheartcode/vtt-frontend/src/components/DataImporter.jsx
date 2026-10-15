@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCompendium } from '../context/CompendiumContext';
 
 /**
  * DataImporter: Motor de Ingesta Masiva (Bulk / Batch Import) para el Dungeon Master.
@@ -10,14 +11,15 @@ import React, { useState } from 'react';
  * @param {Function} onImportSuccess - Callback para refrescar vistas o compendios tras el éxito.
  */
 export default function DataImporter({ onImportSuccess }) {
-  const [importTarget, setImportTarget] = useState('CARDS'); // 'CARDS' | 'ITEMS'
+  const { refreshCards, refreshItems } = useCompendium();
+  const [importTarget, setImportTarget] = useState('CARDS'); // 'CARDS' | 'ITEMS' | 'ADVERSARIES'
   const [jsonText, setJsonText] = useState('');
   const [fileName, setFileName] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [alertInfo, setAlertInfo] = useState(null); // { type: 'success' | 'error', message: string, count?: number }
   const [previewCount, setPreviewCount] = useState(null);
 
-  // Manejar cambio de tipo de ingesta (Cartas vs Objetos)
+  // Manejar cambio de tipo de ingesta (Cartas vs Objetos vs Adversarios)
   function handleSwitchTarget(target) {
     setImportTarget(target);
     setAlertInfo(null);
@@ -66,11 +68,20 @@ export default function DataImporter({ onImportSuccess }) {
           ? parsed.cards
           : [parsed];
         setPreviewCount(list.length);
-      } else {
+      } else if (target === 'ITEMS') {
         const list = Array.isArray(parsed)
           ? parsed
           : Array.isArray(parsed.items)
           ? parsed.items
+          : [parsed];
+        setPreviewCount(list.length);
+      } else {
+        const list = Array.isArray(parsed)
+          ? parsed
+          : Array.isArray(parsed.adversaries)
+          ? parsed.adversaries
+          : Array.isArray(parsed.monstruos)
+          ? parsed.monstruos
           : [parsed];
         setPreviewCount(list.length);
       }
@@ -87,7 +98,7 @@ export default function DataImporter({ onImportSuccess }) {
     tryPreParse(val, importTarget);
   }
 
-  // Enviar el lote a /api/cards/batch o /api/items/batch
+  // Enviar el lote a /api/cards/batch, /api/items/batch o /api/encounters/templates/batch
   function handleImportSubmit(e) {
     e.preventDefault();
     if (!jsonText.trim()) {
@@ -115,8 +126,10 @@ export default function DataImporter({ onImportSuccess }) {
 
     if (importTarget === 'CARDS') {
       importCards(parsed);
-    } else {
+    } else if (importTarget === 'ITEMS') {
       importItems(parsed);
+    } else {
+      importAdversaries(parsed);
     }
   }
 
@@ -185,6 +198,7 @@ export default function DataImporter({ onImportSuccess }) {
         setFileName('');
         setPreviewCount(null);
 
+        refreshCards();
         if (onImportSuccess) onImportSuccess();
       })
       .catch((err) => {
@@ -254,10 +268,87 @@ export default function DataImporter({ onImportSuccess }) {
         setFileName('');
         setPreviewCount(null);
 
+        refreshItems();
         if (onImportSuccess) onImportSuccess();
       })
       .catch((err) => {
         console.error('[BatchImport Items] Error:', err);
+        setAlertInfo({
+          type: 'error',
+          message: `Error al comunicar con el servidor: ${err.message}`,
+        });
+      })
+      .finally(() => {
+        setIsProcessing(false);
+      });
+  }
+
+  // Lógica de importación para Adversarios (Bestiario)
+  function importAdversaries(parsed) {
+    let adversariesArray = [];
+    if (Array.isArray(parsed)) {
+      adversariesArray = parsed;
+    } else if (Array.isArray(parsed.adversaries)) {
+      adversariesArray = parsed.adversaries;
+    } else if (Array.isArray(parsed.monstruos)) {
+      adversariesArray = parsed.monstruos;
+    } else if (typeof parsed === 'object' && parsed !== null) {
+      adversariesArray = [parsed];
+    } else {
+      setIsProcessing(false);
+      setAlertInfo({
+        type: 'error',
+        message: 'El formato del JSON debe ser una lista de adversarios o un objeto con propiedad "adversaries" o "monstruos".',
+      });
+      return;
+    }
+
+    if (adversariesArray.length === 0) {
+      setIsProcessing(false);
+      setAlertInfo({
+        type: 'error',
+        message: 'No se encontraron adversarios para importar en el JSON proporcionado.',
+      });
+      return;
+    }
+
+    const sanitized = adversariesArray.map((adv) => ({
+      nombre: adv.nombre || 'Monstruo Sin Nombre',
+      tier: parseInt(adv.tier || 1, 10),
+      rango: adv.rango || 'Estándar',
+      dificultad: adv.dificultad || 'Moderado',
+      hpMaximo: parseInt(adv.hpMaximo ?? adv.hpMax ?? adv.hp ?? 4, 10),
+      estresMaximo: parseInt(adv.estresMaximo ?? adv.estresMax ?? adv.estres ?? 3, 10),
+      umbralMayor: parseInt(adv.umbralMayor || 8, 10),
+      umbralGrave: parseInt(adv.umbralGrave || 15, 10),
+      modAtaque: parseInt(adv.modAtaque ?? adv.modificadorAtaque ?? 2, 10),
+      danoEstandar: adv.danoEstandar || '1d8+2',
+      rasgosEspeciales: adv.rasgosEspeciales || null,
+    }));
+
+    fetch('/api/encounters/templates/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sanitized),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        const count = Array.isArray(data) ? data.length : sanitized.length;
+        setAlertInfo({
+          type: 'success',
+          message: `✓ ¡Ingesta Masiva Exitosa! Se han insertado ${count} molde(s) de monstruos en el Bestiario.`,
+          count,
+        });
+        setJsonText('');
+        setFileName('');
+        setPreviewCount(null);
+        if (onImportSuccess) onImportSuccess();
+      })
+      .catch((err) => {
+        console.error('[BulkImport Adversaries] Error:', err);
         setAlertInfo({
           type: 'error',
           message: `Error al comunicar con el servidor: ${err.message}`,
@@ -294,7 +385,7 @@ export default function DataImporter({ onImportSuccess }) {
       const str = JSON.stringify(template, null, 2);
       setJsonText(str);
       tryPreParse(str, 'CARDS');
-    } else {
+    } else if (importTarget === 'ITEMS') {
       const template = [
         {
           nombre: "Espada de Acero Templado",
@@ -324,6 +415,38 @@ export default function DataImporter({ onImportSuccess }) {
       const str = JSON.stringify(template, null, 2);
       setJsonText(str);
       tryPreParse(str, 'ITEMS');
+    } else {
+      const template = [
+        {
+          nombre: "Bandido del Páramo",
+          tier: 1,
+          rango: "Estándar",
+          dificultad: "Moderado",
+          hpMaximo: 4,
+          estresMaximo: 3,
+          umbralMayor: 8,
+          umbralGrave: 15,
+          modAtaque: 2,
+          danoEstandar: "1d8+2",
+          rasgosEspeciales: "Ataque en Manada: +1 al ataque si otro bandido está adyacente."
+        },
+        {
+          nombre: "Líder Asaltante",
+          tier: 1,
+          rango: "Líder",
+          dificultad: "Difícil",
+          hpMaximo: 7,
+          estresMaximo: 5,
+          umbralMayor: 10,
+          umbralGrave: 18,
+          modAtaque: 3,
+          danoEstandar: "1d10+3",
+          rasgosEspeciales: "[Miedo] Gasta 1 de Miedo para otorgar una acción libre a un aliado."
+        }
+      ];
+      const str = JSON.stringify(template, null, 2);
+      setJsonText(str);
+      tryPreParse(str, 'ADVERSARIES');
     }
     setAlertInfo(null);
   }
@@ -337,7 +460,7 @@ export default function DataImporter({ onImportSuccess }) {
           <div>
             <h3 style={styles.title}>Motor de Ingesta Masiva (Bulk / Batch Import)</h3>
             <p style={styles.subtitle}>
-              Carga masivamente cartas fundacionales o catálogo de objetos polimórficos en la base de datos.
+              Carga masivamente cartas fundacionales, catálogo de objetos o bestiario de adversarios en PostgreSQL.
             </p>
           </div>
         </div>
@@ -347,11 +470,11 @@ export default function DataImporter({ onImportSuccess }) {
           style={styles.btnTemplate}
           title="Carga una estructura de ejemplo en el área de texto"
         >
-          📋 Cargar Plantilla JSON ({importTarget === 'CARDS' ? 'Cartas' : 'Objetos'})
+          📋 Cargar Plantilla JSON ({importTarget === 'CARDS' ? 'Cartas' : importTarget === 'ITEMS' ? 'Objetos' : 'Monstruos'})
         </button>
       </div>
 
-      {/* Selector de Destino de Ingesta (Sprint 16) */}
+      {/* Selector de Destino de Ingesta (Sprint 16 & Sprint 27) */}
       <div style={styles.targetSelectorRow}>
         <span style={styles.selectorLabel}>Destino de Ingesta:</span>
         <div style={styles.radioGroup}>
@@ -368,6 +491,13 @@ export default function DataImporter({ onImportSuccess }) {
             style={importTarget === 'ITEMS' ? styles.tabChoiceActive : styles.tabChoice}
           >
             ⚔️ Catálogo de Objetos (/api/items/batch)
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSwitchTarget('ADVERSARIES')}
+            style={importTarget === 'ADVERSARIES' ? styles.tabChoiceActive : styles.tabChoice}
+          >
+            💀 Bestiario de Monstruos (/api/encounters/templates/batch)
           </button>
         </div>
       </div>

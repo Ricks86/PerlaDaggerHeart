@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useCharacter } from '../context/CharacterContext';
 import { useDice } from '../context/DiceContext';
 import EquipmentManager from './EquipmentManager';
-import LevelUpModal from './LevelUpModal';
+import LoadingFallback from './LoadingFallback';
+
+// Carga perezosa del asistente modal de subida de nivel (1.400 líneas)
+const LevelUpModal = React.lazy(() => import('./LevelUpModal'));
 
 /**
  * Cabecera visual del personaje activo (Sprint 11.5).
@@ -175,10 +178,12 @@ export default function CharacterHeader() {
 
       {/* Asistente interactivo de subida de nivel (Sprint 22) */}
       {isLevelUpOpen && (
-        <LevelUpModal
-          character={character}
-          onClose={() => setIsLevelUpOpen(false)}
-        />
+        <React.Suspense fallback={<LoadingFallback message="Abriendo asistente de subida de nivel..." />}>
+          <LevelUpModal
+            character={character}
+            onClose={() => setIsLevelUpOpen(false)}
+          />
+        </React.Suspense>
       )}
     </div>
   );
